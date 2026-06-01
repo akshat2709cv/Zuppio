@@ -1,0 +1,123 @@
+<%- include("partials/header") %>
+
+<section class="contact-hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Contact</span>
+  </nav>
+
+  <p class="eyebrow">Contact Center</p>
+  <h1>Let&apos;s talk crunch.</h1>
+</section>
+
+<section class="section contact-details-section">
+  <div class="contact-info-panel scroll-reveal">
+    <p class="eyebrow">Company Information</p>
+    <h2>ZUPPIO Snacks Private Limited</h2>
+
+    <div class="contact-info-list">
+      <article>
+        <i data-lucide="map-pin"></i>
+        <span>Office Address</span>
+        <p>A433, Sudamapuri, Vijay Nagar, Ghaziabad, Uttar Pradesh - 201001</p>
+      </article>
+      <article>
+        <i data-lucide="phone"></i>
+        <span>Phone Number</span>
+        <p><a href="tel:+917011992634">+91 7011992634</a></p>
+      </article>
+      <article>
+        <i data-lucide="mail"></i>
+        <span>Email Address</span>
+        <p><a href="mailto:zuppiosnacks.pvt.ltd@gmail.com">zuppiosnacks.pvt.ltd@gmail.com</a></p>
+      </article>
+    </div>
+  </div>
+
+  <div class="contact-action-panel">
+    <div class="whatsapp-card scroll-reveal" style="--delay: 120ms">
+      <p class="eyebrow">WhatsApp Contact</p>
+      <h2>Chat with ZUPPIO Team</h2>
+      
+      <a class="button primary" href="https://wa.me/917011992634?text=Hello%20ZUPPIO%20Team%2C%20I%20want%20to%20know%20more%20about%20your%20products%20and%20dealership" target="_blank" rel="noopener noreferrer">
+        Open WhatsApp
+        <i data-lucide="message-circle"></i>
+      </a>
+    </div>
+
+    <div class="contact-social-card scroll-reveal" style="--delay: 200ms">
+      <p class="eyebrow">Social Media</p>
+      <div class="contact-social-links">
+        <a href="https://www.instagram.com/zuppiosnacks?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO Instagram">
+          <img src="/images/insta.png" alt="" />
+          <span>Instagram</span>
+        </a>
+        <a href="https://www.youtube.com/@ZUPPIOsnacks" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO YouTube">
+          <img src="/images/yt.png" alt="" />
+          <span>YouTube</span>
+        </a>
+        <a href="https://www.facebook.com/profile.php?id=61589926595273&mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO Facebook">
+          <img src="/images/facebook.png" alt="" />
+          <span>Facebook</span>
+        </a>
+        <a href="https://x.com/ZUPPIOSnacks" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO Twitter X">
+          <img src="/images/twitter.png" alt="" />
+          <span>Twitter/X</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section qr-section">
+  <div class="section-kicker">
+    <p class="eyebrow">QR Access</p>
+    <h2>Scan and connect instantly.</h2>
+  </div>
+
+  <div class="qr-grid">
+    <article class="qr-card scroll-reveal">
+      <h3>Scan to Visit Our Location</h3>
+      <img src="/images/address-qr.png" alt="QR code for ZUPPIO Google Maps location" />
+      <a href="https://www.google.com/maps/search/?api=1&query=A433%2C%20Sudamapuri%2C%20Vijay%20Nagar%2C%20Ghaziabad%2C%20Uttar%20Pradesh%20201001" target="_blank" rel="noopener noreferrer">Open Google Maps</a>
+    </article>
+
+    <article class="qr-card scroll-reveal" style="--delay: 100ms">
+      <h3>Scan to Chat on WhatsApp</h3>
+      <img src="/images/whatsapp-qr.png" alt="QR code for ZUPPIO WhatsApp chat" />
+      <a href="https://wa.me/917011992634?text=Hello%20ZUPPIO%20Team%2C%20I%20want%20to%20know%20more%20about%20your%20products%20and%20dealership" target="_blank" rel="noopener noreferrer">Open WhatsApp</a>
+    </article>
+  </div>
+</section>
+
+<section class="section contact-form-section">
+  <div class="contact-form-heading">
+    <p class="eyebrow">Message Portal</p>
+    <h2>Send a crunch signal.</h2>
+  </div>
+
+  <form class="form-card wide contact-message-form scroll-reveal">
+    <div class="form-field">
+      <label for="contact-name">Name</label>
+      <input id="contact-name" name="name" type="text" placeholder="Your name" autocomplete="name" />
+    </div>
+
+    <div class="form-field">
+      <label for="contact-email">Email</label>
+      <input id="contact-email" name="email" type="email" placeholder="you@crunch.in" autocomplete="email" />
+    </div>
+
+    <div class="form-field full">
+      <label for="contact-message">Message</label>
+      <textarea id="contact-message" name="message" placeholder="Tell us what you want to know..."></textarea>
+    </div>
+
+    <button class="button primary" type="submit">
+      Send Message
+      <i data-lucide="send"></i>
+    </button>
+  </form>
+</section>
+
+<%- include("partials/footer") %>

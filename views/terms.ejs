@@ -1,0 +1,28 @@
+<%- include("partials/header") %>
+
+<section class="terms-hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <span>Terms & Conditions</span>
+  </nav>
+
+  <p class="eyebrow">Legal Command Center</p>
+  <h1>Terms & Conditions</h1>
+  
+</section>
+
+<section class="terms-section" aria-label="Terms policy categories">
+  <div class="policy-grid">
+    <% policies.forEach(function(policy, index) { %>
+      <a class="policy-card scroll-reveal" href="/terms/<%= policy.slug %>" style="--delay: <%= index * 60 %>ms">
+        
+        <h2><%= policy.title %></h2>
+        <p><%= policy.preview %></p>
+        <span class="policy-open">Open policy</span>
+      </a>
+  <% }) %>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

@@ -1,0 +1,64 @@
+<%- include("partials/header") %>
+
+<section class="page-hero">
+  <p class="eyebrow">Flavor Universe</p>
+  <h1>Choose your crunch mood.</h1>
+  <p>Three bold ZUPPIO packs, tuned for classic cravings, cafe energy, and spicy party mode.</p>
+</section>
+
+<section class="section">
+  <div class="flavor-grid">
+    <% flavors.forEach(function(flavor) { %>
+      <% const imageName = flavor.id === "seedha" ? "yellow" : flavor.id === "italian" ? "green" : "purple"; %>
+      <% const crunch = flavor.id === "seedha" ? 74 : flavor.id === "italian" ? 82 : 96; %>
+      <article class="flavor-card flavor-<%= flavor.color %> scroll-reveal">
+        <% if (flavor.id === "masaledar") { %>
+          <span class="badge">Most Loved</span>
+        <% } %>
+        <div class="chips-pattern" aria-hidden="true"></div>
+        <img class="flavor-pack" src="/images/<%= imageName %>.png" alt="<%= flavor.name %> chips packet" />
+        <div class="flavor-card-copy">
+          <p class="eyebrow"><%= flavor.theme %></p>
+          <h2><%= flavor.name %></h2>
+          <p><%= flavor.description %></p>
+        </div>
+        <div class="meter-stack">
+          <div class="meter">
+            <span>Spice</span>
+            <div><i style="width: <%= flavor.spice %>%"></i></div>
+          </div>
+          <div class="meter crunch">
+            <span>Crunch</span>
+            <div><i style="width: <%= crunch %>%"></i></div>
+          </div>
+        </div>
+        <a class="button primary" href="/contact">
+          Buy Now
+          <i data-lucide="shopping-bag"></i>
+        </a>
+      </article>
+    <% }) %>
+  </div>
+</section>
+
+<section class="section">
+  <div class="section-kicker">
+    <p class="eyebrow">Front / Back Pack</p>
+    <h2>See the pack from every angle.</h2>
+  </div>
+  <div class="pack-switcher">
+    <div class="pack-image pack-center" id="switchPack"></div>
+    <div>
+      <button class="button primary" data-pack-side="front" type="button">
+        Front
+        <i data-lucide="rotate-ccw"></i>
+      </button>
+      <button class="button secondary" data-pack-side="back" type="button">
+        Back
+        <i data-lucide="rotate-cw"></i>
+      </button>
+    </div>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

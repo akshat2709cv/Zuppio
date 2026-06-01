@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="ZUPPIO is a premium modern snack brand with bold chips flavors and fresh snack drops." />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@12.2.0/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+  </head>
+  <body class="loading">
+    <div class="loader-screen" id="loaderScreen" aria-hidden="true">
+      <div class="loader-pack">
+        <img src="/images/logo1.png" alt="" />
+      </div>
+      
+    </div>
+
+    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
+    <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
+
+    <header class="site-header">
+      <a class="logo" href="/">
+        <span></span>
+        ZUPPIO
+      </a>
+
+      <button class="menu-button" id="menuButton" type="button" aria-label="Open menu" aria-controls="navbar" aria-expanded="false">
+        <i data-lucide="menu"></i>
+      </button>
+
+      <nav class="navbar" id="navbar">
+        <button class="drawer-close" type="button" data-drawer-close aria-label="Close menu">
+          <i data-lucide="x"></i>
+        </button>
+        <% (typeof pages !== "undefined" ? pages : []).forEach(function(page) { %>
+          <a class="<%= activePage === page.label ? 'active' : '' %>" href="<%= page.href %>"><%= page.label %></a>
+        <% }) %>
+      </nav>
+    </header>
+    <div class="drawer-scrim" id="drawerScrim" data-drawer-close aria-hidden="true"></div>
+
+    <main>

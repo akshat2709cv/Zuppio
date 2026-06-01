@@ -1,0 +1,45 @@
+<%- include("../partials/header") %>
+
+<section class="policy-detail-hero">
+  <nav class="breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/terms">Terms & Conditions</a>
+    <span>/</span>
+    <span><%= policy.title %></span>
+  </nav>
+
+  
+  <p class="eyebrow">Policy Protocol</p>
+  <h1><%= policy.title %></h1>
+  <p><%= policy.preview %></p>
+</section>
+
+<section class="policy-detail-section">
+  <article class="policy-detail-card">
+    <div>
+      <p class="eyebrow">Overview</p>
+      
+      <div class="policy-copy">
+        <% policy.detail.split(/\n\s*\n/).forEach(function(paragraph) { %>
+          <p><%= paragraph.trim() %></p>
+        <% }) %>
+      </div>
+    </div>
+
+    <div class="policy-highlight-panel">
+      <h3>Key Signals</h3>
+      <ul>
+        <% policy.highlights.forEach(function(item) { %>
+          <li><%= item %></li>
+        <% }) %>
+      </ul>
+    </div>
+  </article>
+
+  <div class="policy-actions">
+    <a class="back-to-terms" href="/terms">Back to Terms</a>
+  </div>
+</section>
+
+<%- include("../partials/footer") %>
