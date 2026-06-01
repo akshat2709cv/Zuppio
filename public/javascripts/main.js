@@ -99,6 +99,26 @@ if (window.lucide) {
 }
 
 if (window.Swiper) {
+  new Swiper(".product-suggestion-swiper", {
+    slidesPerView: 1,
+    spaceBetween: 0,
+    speed: 720,
+    loop: true,
+    grabCursor: true,
+    autoplay: {
+      delay: 3800,
+      disableOnInteraction: false
+    },
+    pagination: {
+      el: ".suggestion-pagination",
+      clickable: true
+    },
+    navigation: {
+      nextEl: ".suggestion-next",
+      prevEl: ".suggestion-prev"
+    }
+  });
+
   new Swiper(".flavor-swiper", {
     slidesPerView: 1,
     spaceBetween: 18,
@@ -142,6 +162,83 @@ if (window.Swiper) {
     }
   });
 }
+
+document.querySelectorAll(".product-suggestion-swiper:not(.swiper-initialized)").forEach(function (slider) {
+  const wrapper = slider.querySelector(".swiper-wrapper");
+  const slides = Array.from(slider.querySelectorAll(".product-suggestion-slide"));
+  const prevButton = slider.querySelector(".suggestion-prev");
+  const nextButton = slider.querySelector(".suggestion-next");
+  const pagination = slider.querySelector(".suggestion-pagination");
+
+  if (!wrapper || slides.length < 2) return;
+
+  let activeIndex = 0;
+  let autoplayTimer;
+
+  slider.classList.add("product-slider-ready");
+
+  const bullets = slides.map(function (_slide, index) {
+    const bullet = document.createElement("button");
+    bullet.className = "swiper-pagination-bullet";
+    bullet.type = "button";
+    bullet.setAttribute("aria-label", `Go to suggestion ${index + 1}`);
+    bullet.addEventListener("click", function () {
+      goToSlide(index);
+      restartAutoplay();
+    });
+    if (pagination) pagination.appendChild(bullet);
+    return bullet;
+  });
+
+  function render() {
+    wrapper.style.transform = `translateX(-${activeIndex * 100}%)`;
+    slides.forEach(function (slide, index) {
+      slide.classList.toggle("swiper-slide-active", index === activeIndex);
+      slide.setAttribute("aria-hidden", String(index !== activeIndex));
+    });
+    bullets.forEach(function (bullet, index) {
+      bullet.classList.toggle("swiper-pagination-bullet-active", index === activeIndex);
+      bullet.setAttribute("aria-current", index === activeIndex ? "true" : "false");
+    });
+  }
+
+  function goToSlide(index) {
+    activeIndex = (index + slides.length) % slides.length;
+    render();
+  }
+
+  function nextSlide() {
+    goToSlide(activeIndex + 1);
+  }
+
+  function restartAutoplay() {
+    window.clearInterval(autoplayTimer);
+    autoplayTimer = window.setInterval(nextSlide, 3800);
+  }
+
+  if (prevButton) {
+    prevButton.addEventListener("click", function () {
+      goToSlide(activeIndex - 1);
+      restartAutoplay();
+    });
+  }
+
+  if (nextButton) {
+    nextButton.addEventListener("click", function () {
+      nextSlide();
+      restartAutoplay();
+    });
+  }
+
+  slider.addEventListener("pointerenter", function () {
+    window.clearInterval(autoplayTimer);
+  });
+
+  slider.addEventListener("pointerleave", restartAutoplay);
+
+  render();
+  restartAutoplay();
+});
 
 document.querySelectorAll("[data-pack-side]").forEach(function (button) {
   button.addEventListener("click", function () {

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Banana chips category</title>
+  <desc id="desc">Banana chips and banana slices.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#403200"/>
+      <stop offset="1" stop-color="#07010f"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="46" fill="url(#bg)"/>
+  <circle cx="158" cy="98" r="94" fill="#ffcc00" opacity=".18"/>
+  <path d="M176 278c96-8 175-80 201-188 34 56 20 151-48 214-60 56-138 72-199 43 14-40 28-60 46-69z" fill="#ffcc00"/>
+  <path d="M210 286c71-20 126-74 151-151 10 52-16 117-72 156-36 25-76 33-115 28 9-15 20-26 36-33z" fill="#ffe981"/>
+  <g fill="#ffe88c" stroke="#9b6c00" stroke-width="5">
+    <ellipse cx="160" cy="312" rx="58" ry="25" transform="rotate(-12 160 312)"/>
+    <ellipse cx="310" cy="330" rx="64" ry="28" transform="rotate(8 310 330)"/>
+    <ellipse cx="472" cy="298" rx="60" ry="26" transform="rotate(-15 472 298)"/>
+  </g>
+  <path d="M486 104c-32 12-66 36-84 70" stroke="#22c55e" stroke-width="16" stroke-linecap="round" opacity=".9"/>
+</svg>

@@ -1,0 +1,47 @@
+<%- include("partials/header") %>
+
+<section class="page-hero auth-hero">
+  <p class="eyebrow">My Account</p>
+  <h1>Hello, <%= accountUser.name.split(" ")[0] %>.</h1>
+  <p>Your ZUPPIO account is active and protected with a server-side session.</p>
+</section>
+
+<section class="section account-section">
+  <div class="account-panel scroll-reveal">
+    <div>
+      <p class="eyebrow">Profile</p>
+      <h2>Account details</h2>
+    </div>
+
+    <div class="account-grid">
+      <article>
+        <span>Name</span>
+        <strong><%= accountUser.name %></strong>
+      </article>
+      <article>
+        <span>Email</span>
+        <strong><%= accountUser.email %></strong>
+      </article>
+      <article>
+        <span>Member Since</span>
+        <strong><%= new Date(accountUser.createdAt).toLocaleDateString("en-IN", { day: "2-digit", month: "short", year: "numeric" }) %></strong>
+      </article>
+    </div>
+
+    <div class="account-actions">
+      <a class="button primary" href="/product-categories">
+        Browse Categories
+        <i data-lucide="shopping-bag"></i>
+      </a>
+      <form action="/logout" method="POST">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <button class="button secondary" type="submit">
+          Logout
+          <i data-lucide="log-out"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

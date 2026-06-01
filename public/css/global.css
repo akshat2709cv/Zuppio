@@ -319,6 +319,7 @@ i[data-lucide] {
 
 .loader-screen.hidden {
   opacity: 0;
+  pointer-events: none;
   visibility: hidden;
 }
 

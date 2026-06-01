@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Wafers category</title>
+  <desc id="desc">Layered wafer sticks and wafers.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#271052"/>
+      <stop offset="1" stop-color="#07010f"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="46" fill="url(#bg)"/>
+  <circle cx="490" cy="112" r="110" fill="#7b2ff7" opacity=".22"/>
+  <g transform="translate(138 100) rotate(-8 180 100)">
+    <rect x="0" y="80" width="346" height="62" rx="16" fill="#f0c176" stroke="#7a451a" stroke-width="7"/>
+    <rect x="26" y="44" width="346" height="62" rx="16" fill="#ffd58c" stroke="#7a451a" stroke-width="7"/>
+    <rect x="52" y="8" width="346" height="62" rx="16" fill="#ffe0a3" stroke="#7a451a" stroke-width="7"/>
+    <path d="M82 18v42M130 15v44M178 12v46M226 10v48M274 10v46M322 12v42" stroke="#ad6d2d" stroke-width="4" opacity=".55"/>
+  </g>
+  <g stroke="#ffcc00" stroke-linecap="round" opacity=".7">
+    <path d="M130 306h118" stroke-width="10"/>
+    <path d="M376 318h92" stroke-width="8"/>
+  </g>
+</svg>

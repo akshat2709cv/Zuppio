@@ -33,10 +33,9 @@
 }
 
 .logo {
-  font-size: 1.02rem;
+  line-height: 0;
 }
 
-.logo span,
 .footer-logo span {
   display: block;
   flex: 0 0 auto;
@@ -47,9 +46,12 @@
   box-shadow: 0 0 24px rgba(255, 204, 0, 0.16);
 }
 
-.logo span {
-  width: 38px;
-  height: 38px;
+.navbar-logo {
+  display: block;
+  width: auto;
+  height: clamp(42px, 4vw, 52px);
+  object-fit: contain;
+  filter: drop-shadow(0 0 18px rgba(255, 145, 0, 0.2));
 }
 
 .navbar {
@@ -95,6 +97,41 @@
 .navbar a:hover::after,
 .navbar a.active::after {
   transform: scaleX(1);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.account-link {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 999px;
+  padding: 0 12px;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.84rem;
+  font-weight: 900;
+  transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease, color 0.24s ease;
+}
+
+.account-link i {
+  width: 18px;
+  height: 18px;
+  color: var(--yellow);
+}
+
+.account-link:hover,
+.account-link.active {
+  transform: translateY(-2px);
+  border-color: rgba(255, 204, 0, 0.38);
+  background: rgba(255, 204, 0, 0.1);
+  color: var(--text);
 }
 
 .menu-button,

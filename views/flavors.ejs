@@ -1,63 +1,166 @@
 <%- include("partials/header") %>
 
-<section class="page-hero">
-  <p class="eyebrow">Flavor Universe</p>
-  <h1>Choose your crunch mood.</h1>
-  <p>Three bold ZUPPIO packs, tuned for classic cravings, cafe energy, and spicy party mode.</p>
+<section class="product-suggestion-section">
+  <div class="swiper product-suggestion-swiper">
+    <div class="swiper-wrapper">
+      <article class="swiper-slide product-suggestion-slide chips-slide">
+        <div class="product-suggestion-copy">
+          <p class="eyebrow">Product Categories</p>
+          <h1>Explore the ZUPPIO product world.</h1>
+          <p>Start with our available Aloo Snack potato chips and discover the future category lineup.</p>
+          <a class="button primary" href="#potato-chips">
+            View Potato Chips
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+        <div class="product-suggestion-art triple-pack-art" aria-hidden="true">
+          <img class="suggestion-pack pack-one" src="/images/yellow.png" alt="" />
+          <img class="suggestion-pack pack-two" src="/images/purple.png" alt="" />
+          <img class="suggestion-pack pack-three" src="/images/green.png" alt="" />
+        </div>
+      </article>
+
+      <article class="swiper-slide product-suggestion-slide beverage-slide">
+        <div class="product-suggestion-copy">
+          <p class="eyebrow">Coming Soon</p>
+          <h2>Beverages for every mood.</h2>
+          <p>Zeera Drinks, Energy Drinks, Tighter Drinks, Water, and Aam Panna are planned for the next ZUPPIO shelf.</p>
+          <a class="button secondary" href="#beverages">
+            See Beverages
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+        <div class="product-suggestion-art category-art" aria-hidden="true">
+          <img src="/images/categories/beverages.svg" alt="" />
+        </div>
+      </article>
+
+      <article class="swiper-slide product-suggestion-slide bakery-slide">
+        <div class="product-suggestion-copy">
+          <p class="eyebrow">Future Crunch</p>
+          <h2>Biscuits, wafers, and banana chips.</h2>
+          <p>Baked biscuits, cream biscuits, cookies, wafer biscuits, banana chips, and flavored wafers are mapped for future launches.</p>
+          <a class="button secondary" href="#biscuit">
+            Explore Bakery
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+        <div class="product-suggestion-art combo-art" aria-hidden="true">
+          <img src="/images/categories/biscuit.svg" alt="" />
+          <img src="/images/categories/wafers.svg" alt="" />
+        </div>
+      </article>
+
+      <article class="swiper-slide product-suggestion-slide ready-slide">
+        <div class="product-suggestion-copy">
+          <p class="eyebrow">Ready-to-Eat</p>
+          <h2>Quick meals, ZUPPIO style.</h2>
+          <p>Poha, Rajma Chawal, Noodles, and Creamy Chai Coffee ideas for fast everyday use.</p>
+          <a class="button secondary" href="#ready-to-eat">
+            View Ready-to-Eat
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+        <div class="product-suggestion-art category-art" aria-hidden="true">
+          <img src="/images/categories/ready-to-eat.svg" alt="" />
+        </div>
+      </article>
+    </div>
+
+    <button class="suggestion-arrow suggestion-prev" type="button" aria-label="Previous product suggestion">
+      <i data-lucide="chevron-left"></i>
+    </button>
+    <button class="suggestion-arrow suggestion-next" type="button" aria-label="Next product suggestion">
+      <i data-lucide="chevron-right"></i>
+    </button>
+    <div class="swiper-pagination suggestion-pagination"></div>
+  </div>
 </section>
 
-<section class="section">
-  <div class="flavor-grid">
-    <% flavors.forEach(function(flavor) { %>
-      <% const imageName = flavor.id === "seedha" ? "yellow" : flavor.id === "italian" ? "green" : "purple"; %>
-      <% const crunch = flavor.id === "seedha" ? 74 : flavor.id === "italian" ? 82 : 96; %>
-      <article class="flavor-card flavor-<%= flavor.color %> scroll-reveal">
-        <% if (flavor.id === "masaledar") { %>
-          <span class="badge">Most Loved</span>
-        <% } %>
-        <div class="chips-pattern" aria-hidden="true"></div>
-        <img class="flavor-pack" src="/images/<%= imageName %>.png" alt="<%= flavor.name %> chips packet" />
-        <div class="flavor-card-copy">
-          <p class="eyebrow"><%= flavor.theme %></p>
-          <h2><%= flavor.name %></h2>
-          <p><%= flavor.description %></p>
+<section class="section category-overview-section">
+  <div class="section-kicker">
+    <p class="eyebrow">Categories</p>
+    <h2>Choose what you want to explore.</h2>
+  </div>
+
+  <div class="category-grid">
+    <% productCategories.forEach(function(category, index) { %>
+      <a class="category-card scroll-reveal" style="--delay: <%= index * 70 %>ms" href="#<%= category.id %>">
+        <span class="category-status <%= category.status === 'Available' ? 'available' : '' %>"><%= category.status %></span>
+        <img class="category-image" src="<%= category.image %>" alt="<%= category.name %> category" />
+        <div>
+          <h2><%= category.name %></h2>
+          <p><%= category.summary %></p>
         </div>
-        <div class="meter-stack">
-          <div class="meter">
-            <span>Spice</span>
-            <div><i style="width: <%= flavor.spice %>%"></i></div>
-          </div>
-          <div class="meter crunch">
-            <span>Crunch</span>
-            <div><i style="width: <%= crunch %>%"></i></div>
-          </div>
+        <span class="category-arrow" aria-hidden="true">
+          <i data-lucide="arrow-up-right"></i>
+        </span>
+      </a>
+    <% }) %>
+  </div>
+</section>
+
+<section class="section category-detail-section">
+  <div class="section-kicker">
+    <p class="eyebrow">Product Map</p>
+    <h2>Inside every category.</h2>
+  </div>
+
+  <div class="category-detail-list">
+    <% productCategories.forEach(function(category, index) { %>
+      <article class="category-detail-card scroll-reveal" id="<%= category.id %>" style="--delay: <%= index * 70 %>ms">
+        <div class="category-detail-media">
+          <img src="<%= category.image %>" alt="" />
         </div>
-        <a class="button primary" href="/contact">
-          Buy Now
-          <i data-lucide="shopping-bag"></i>
-        </a>
+        <div class="category-detail-copy">
+          <div class="category-title-row">
+            <div>
+              <p class="eyebrow"><%= category.status %></p>
+              <h2><%= category.name %></h2>
+            </div>
+            <% if (category.featured) { %>
+              <span class="category-live-badge">Live Now</span>
+            <% } %>
+          </div>
+          <p><%= category.summary %></p>
+
+          <% category.groups.forEach(function(group) { %>
+            <div class="product-group">
+              <h3><%= group.name %></h3>
+              <div class="product-pill-grid">
+                <% group.products.forEach(function(product) { %>
+                  <div class="product-pill <%= product.status === 'Available' ? 'available' : '' %>">
+                    <% if (product.image) { %>
+                      <img src="<%= product.image %>" alt="<%= product.name %> pack" />
+                    <% } else { %>
+                      <span class="product-dot" aria-hidden="true"></span>
+                    <% } %>
+                    <div>
+                      <strong><%= product.name %></strong>
+                      <small><%= product.status %></small>
+                    </div>
+                  </div>
+                <% }) %>
+              </div>
+            </div>
+          <% }) %>
+        </div>
       </article>
     <% }) %>
   </div>
 </section>
 
 <section class="section">
-  <div class="section-kicker">
-    <p class="eyebrow">Front / Back Pack</p>
-    <h2>See the pack from every angle.</h2>
-  </div>
-  <div class="pack-switcher">
-    <div class="pack-image pack-center" id="switchPack"></div>
+  <div class="product-contact-panel scroll-reveal">
     <div>
-      <button class="button primary" data-pack-side="front" type="button">
-        Front
-        <i data-lucide="rotate-ccw"></i>
-      </button>
-      <button class="button secondary" data-pack-side="back" type="button">
-        Back
-        <i data-lucide="rotate-cw"></i>
-      </button>
+      <p class="eyebrow">Business Enquiries</p>
+      <h2>Want product, retail, or distributor details?</h2>
+      <p>Contact the ZUPPIO team for available Aloo Snack packs and upcoming category information.</p>
     </div>
+    <a class="button primary" href="/contact">
+      Contact Team
+      <i data-lucide="message-circle"></i>
+    </a>
   </div>
 </section>
 

@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Potato chips category</title>
+  <desc id="desc">A premium yellow chips packet with potato chips.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#2b104f"/>
+      <stop offset="1" stop-color="#07010f"/>
+    </linearGradient>
+    <linearGradient id="pack" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffdf51"/>
+      <stop offset="1" stop-color="#ff8a00"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="420" rx="46" fill="url(#bg)"/>
+  <circle cx="504" cy="88" r="98" fill="#ffcc00" opacity=".18"/>
+  <path d="M244 80h162l28 260H214z" fill="url(#pack)"/>
+  <path d="M244 80h162l-16 25H260z" fill="#fff2a4" opacity=".58"/>
+  <path d="M242 104h166" stroke="#5b2600" stroke-width="8" opacity=".35"/>
+  <rect x="252" y="148" width="144" height="56" rx="16" fill="#1d0a12"/>
+  <text x="324" y="185" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="900" fill="#ffcc00">ALOO</text>
+  <path d="M248 250c38-24 119-24 155 0-24 48-129 48-155 0z" fill="#fff0a8" opacity=".55"/>
+  <g fill="#ffd978" stroke="#a45f05" stroke-width="4">
+    <ellipse cx="144" cy="310" rx="62" ry="28" transform="rotate(-11 144 310)"/>
+    <ellipse cx="232" cy="338" rx="66" ry="29" transform="rotate(8 232 338)"/>
+    <ellipse cx="428" cy="318" rx="70" ry="31" transform="rotate(-16 428 318)"/>
+    <ellipse cx="500" cy="346" rx="56" ry="25" transform="rotate(12 500 346)"/>
+  </g>
+  <path d="M106 356h428" stroke="#ffcc00" stroke-width="4" opacity=".3"/>
+</svg>

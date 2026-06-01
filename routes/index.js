@@ -1,46 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { sendSnackDropConfirmation } = require("../services/emailService");
-
-const flavors = [
-  {
-    id: "seedha",
-    name: "Seedha Simple",
-    theme: "Simple & Relaxed",
-    color: "yellow",
-    side: "left",
-    spice: 20,
-    description: "Classic salted potato chips made for movie nights, tea breaks, and everyday snacking."
-  },
-  {
-    id: "masaledar",
-    name: "Mast Masaledar",
-    theme: "Gaming & Party",
-    color: "purple",
-    side: "center",
-    spice: 92,
-    description: "Bold Indian masala flavor with spicy, tangy, chatpata energy."
-  },
-  {
-    id: "italian",
-    name: "Italian Tadka",
-    theme: "Travel & Cafe Vibes",
-    color: "green",
-    side: "right",
-    spice: 48,
-    description: "Italian herbs and creamy seasoning mixed with an Indian-style twist."
-  }
-];
-
-const pages = [
-  { label: "Home", href: "/" },
-  { label: "Flavors", href: "/flavors" },
-  { label: "How To Buy", href: "/how-to-buy" },
-  { label: "About", href: "/about" },
-  { label: "Blogs", href: "/blogs" },
-  { label: "Contact", href: "/contact" },
-  { label: "Terms", href: "/terms" }
-];
+const { flavors, pages, productCategories } = require("../services/siteData");
 
 const policies = [
   {
@@ -200,6 +161,7 @@ function renderPage(res, view, title, activePage, extra = {}) {
     activePage,
     pages,
     flavors,
+    productCategories,
     policies,
     ...extra
   });
@@ -209,8 +171,12 @@ router.get("/", function (_req, res) {
   renderPage(res, "index", "ZUPPIO | Crunch Karo, Smile Karo.", "Home");
 });
 
+router.get("/product-categories", function (_req, res) {
+  renderPage(res, "flavors", "Product Categories | ZUPPIO", "Product Categories");
+});
+
 router.get("/flavors", function (_req, res) {
-  renderPage(res, "flavors", "Flavors | ZUPPIO", "Flavors");
+  res.redirect(301, "/product-categories");
 });
 
 router.get("/how-to-buy", function (_req, res) {

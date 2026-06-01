@@ -20,14 +20,9 @@
     <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
     <header class="site-header">
-      <a class="logo" href="/">
-        <span></span>
-        ZUPPIO
+      <a class="logo" href="/" aria-label="ZUPPIO home">
+        <img class="navbar-logo" src="/images/zuppio-navbar-logo.png" alt="ZUPPIO" />
       </a>
-
-      <button class="menu-button" id="menuButton" type="button" aria-label="Open menu" aria-controls="navbar" aria-expanded="false">
-        <i data-lucide="menu"></i>
-      </button>
 
       <nav class="navbar" id="navbar">
         <button class="drawer-close" type="button" data-drawer-close aria-label="Close menu">
@@ -37,6 +32,24 @@
           <a class="<%= activePage === page.label ? 'active' : '' %>" href="<%= page.href %>"><%= page.label %></a>
         <% }) %>
       </nav>
+
+      <div class="header-actions">
+        <% if (typeof currentUser !== "undefined" && currentUser) { %>
+          <a class="account-link <%= activePage === 'Account' ? 'active' : '' %>" href="/account" aria-label="Open account">
+            <i data-lucide="circle-user-round"></i>
+            <span><%= currentUser.name.split(" ")[0] %></span>
+          </a>
+        <% } else { %>
+          <a class="account-link <%= activePage === 'Account' ? 'active' : '' %>" href="/login" aria-label="Login">
+            <i data-lucide="log-in"></i>
+            <span>Login</span>
+          </a>
+        <% } %>
+      </div>
+
+      <button class="menu-button" id="menuButton" type="button" aria-label="Open menu" aria-controls="navbar" aria-expanded="false">
+        <i data-lucide="menu"></i>
+      </button>
     </header>
     <div class="drawer-scrim" id="drawerScrim" data-drawer-close aria-hidden="true"></div>
 
