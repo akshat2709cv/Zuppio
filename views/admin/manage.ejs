@@ -1,0 +1,144 @@
+<%- include("partials/shell-open") %>
+
+<% function list(value) { return Array.isArray(value) ? value.join(", ") : (value || ""); } %>
+
+<% if (kind === "content") { %>
+  <section class="admin-list">
+    <% state.content.forEach(function(item) { %>
+      <form class="admin-card admin-form" method="post" action="/admin/content/<%= item.id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <label>Title<input name="title" value="<%= item.title %>" required /></label>
+        <label>Status<select name="status"><option <%= item.status === "published" ? "selected" : "" %>>published</option><option <%= item.status === "draft" ? "selected" : "" %>>draft</option></select></label>
+        <label class="wide">Body<textarea name="body" rows="5"><%= item.body %></textarea></label>
+        <button class="admin-button" type="submit">Save Content</button>
+      </form>
+    <% }) %>
+  </section>
+<% } %>
+
+<% if (kind === "products") { %>
+  <form class="admin-card admin-form compact" method="post" action="/admin/products">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <label>Name<input name="name" required /></label><label>Flavour<input name="flavour" /></label><label>Price<input name="price" /></label><label>Packet Size<input name="packetSize" /></label>
+    <label>Category<input name="category" /></label><label>Availability<input name="availability" value="Available" /></label><label>Status<input name="status" value="Active" /></label>
+    <label class="wide">Image URLs<input name="images" placeholder="/images/yellow.png, /images/admin-media/file.png" /></label>
+    <label class="wide">Description<textarea name="description"></textarea></label><label class="wide">Offers<input name="offers" /></label>
+    <button class="admin-button" type="submit">Add Product</button>
+  </form>
+  <section class="admin-list">
+    <% state.products.forEach(function(product) { %>
+      <form class="admin-card admin-form compact" method="post" action="/admin/products/<%= product.id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <label>Name<input name="name" value="<%= product.name %>" /></label><label>Flavour<input name="flavour" value="<%= product.flavour %>" /></label><label>Price<input name="price" value="<%= product.price %>" /></label><label>Packet Size<input name="packetSize" value="<%= product.packetSize %>" /></label>
+        <label>Category<input name="category" value="<%= product.category %>" /></label><label>Availability<input name="availability" value="<%= product.availability %>" /></label><label>Status<input name="status" value="<%= product.status %>" /></label>
+        <label class="wide">Image URLs<input name="images" value="<%= list(product.images) %>" /></label>
+        <label class="wide">Description<textarea name="description"><%= product.description %></textarea></label><label class="wide">Offers<input name="offers" value="<%= product.offers %>" /></label>
+        <button class="admin-button" type="submit">Update</button>
+      </form>
+      <form method="post" action="/admin/products/<%= product.id %>/delete"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><button class="admin-button danger" type="submit">Delete Product</button></form>
+    <% }) %>
+  </section>
+<% } %>
+
+<% if (kind === "categories") { %>
+  <form class="admin-card admin-form compact" method="post" action="/admin/categories">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <label>Name<input name="name" required /></label><label>Tags<input name="tags" /></label><label>Flavour<input name="flavour" /></label><label>Size<input name="size" /></label><label>Colour<input name="colour" /></label><label>Variations<input name="variations" /></label><label>Product Type<input name="productType" /></label><label>Status<input name="status" /></label>
+    <button class="admin-button" type="submit">Add Category</button>
+  </form>
+  <section class="admin-list">
+    <% state.categories.forEach(function(category) { %>
+      <form class="admin-card admin-form compact" method="post" action="/admin/categories/<%= category.id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <label>Name<input name="name" value="<%= category.name %>" /></label><label>Tags<input name="tags" value="<%= list(category.tags) %>" /></label><label>Flavour<input name="flavour" value="<%= category.flavour %>" /></label><label>Size<input name="size" value="<%= category.size %>" /></label><label>Colour<input name="colour" value="<%= category.colour %>" /></label><label>Variations<input name="variations" value="<%= category.variations %>" /></label><label>Product Type<input name="productType" value="<%= category.productType %>" /></label><label>Status<input name="status" value="<%= category.status %>" /></label>
+        <button class="admin-button" type="submit">Save Category</button>
+      </form>
+    <% }) %>
+  </section>
+<% } %>
+
+<% if (kind === "media") { %>
+  <form class="admin-card admin-form" method="post" action="/admin/media" enctype="multipart/form-data">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <label>Name<input name="name" /></label><label>Image File<input name="media" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" required /></label>
+    <button class="admin-button" type="submit">Upload Image</button>
+  </form>
+  <section class="media-grid">
+    <% state.media.forEach(function(media) { %>
+      <article class="admin-card media-card"><img src="<%= media.url %>" alt="<%= media.name %>" /><strong><%= media.name %></strong><code><%= media.url %></code><form method="post" action="/admin/media/<%= media.id %>/delete"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><button class="admin-button danger" type="submit">Delete</button></form></article>
+    <% }) %>
+  </section>
+<% } %>
+
+<% if (kind === "swiper") { %>
+  <section class="admin-list">
+    <% state.swiperSlides.forEach(function(slide) { %>
+      <form class="admin-card admin-form" method="post" action="/admin/swiper/<%= slide.id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <p class="admin-note">This is one Swiper slide with three responsive images. Editing these paths does not create extra slides.</p>
+        <label>Title<input name="title" value="<%= slide.title %>" /></label><label>Status<input name="status" value="<%= slide.status %>" /></label>
+        <label class="wide">Desktop Image<input name="desktopImage" value="<%= slide.desktopImage %>" /></label>
+        <label class="wide">Tablet Image<input name="tabletImage" value="<%= slide.tabletImage %>" /></label>
+        <label class="wide">Mobile Image<input name="mobileImage" value="<%= slide.mobileImage %>" /></label>
+        <label class="wide">Alt Text<input name="alt" value="<%= slide.alt %>" /></label>
+        <picture class="admin-preview"><source media="(max-width: 640px)" srcset="<%= slide.mobileImage %>" /><source media="(max-width: 1024px)" srcset="<%= slide.tabletImage %>" /><img src="<%= slide.desktopImage %>" alt="<%= slide.alt %>" /></picture>
+        <button class="admin-button" type="submit">Save Responsive Slide</button>
+      </form>
+    <% }) %>
+  </section>
+<% } %>
+
+<% if (kind === "users") { %>
+  <form class="admin-card admin-form compact" method="post" action="/admin/users">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <label>Name<input name="name" required /></label><label>Email<input name="email" type="email" required /></label><label>Password<input name="password" type="password" minlength="10" required /></label><label>Role<select name="role"><% roles.forEach(function(role) { %><option><%= role %></option><% }) %></select></label><label>Status<select name="status"><option>Active</option><option>Blocked</option></select></label>
+    <button class="admin-button" type="submit">Create User</button>
+  </form>
+  <section class="admin-list">
+    <% state.users.forEach(function(user) { %>
+      <form class="admin-card admin-form compact" method="post" action="/admin/users/<%= user.id %>">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+        <label>Name<input name="name" value="<%= user.name %>" /></label><label>Email<input value="<%= user.email %>" disabled /></label><label>New Password<input name="password" type="password" minlength="10" placeholder="Leave blank to keep" /></label><label>Role<select name="role"><% roles.forEach(function(role) { %><option <%= user.role === role ? "selected" : "" %>><%= role %></option><% }) %></select></label><label>Status<select name="status"><option <%= user.status === "Active" ? "selected" : "" %>>Active</option><option <%= user.status === "Blocked" ? "selected" : "" %>>Blocked</option></select></label>
+        <button class="admin-button" type="submit">Save User</button>
+      </form>
+    <% }) %>
+  </section>
+<% } %>
+
+<% if (kind === "messages") { %>
+  <section class="admin-grid two">
+    <article class="admin-card"><h2>Contact Inquiries</h2><% (state.submissions.contacts || state.inquiries).forEach(function(item) { %><p><strong><%= item.name || item.email %></strong><span><%= item.message || item.type %></span><span><%= item.status %></span></p><% }) %><% if (!(state.submissions.contacts || state.inquiries).length) { %><p>No inquiries yet.</p><% } %></article>
+    <article class="admin-card"><h2>Dealer Inquiries</h2><% (state.submissions.dealerInquiries || []).forEach(function(item) { %><p><strong><%= item.name %></strong><span><%= item.phone %> · <%= item.city %></span><span><%= item.status %></span></p><% }) %><% if (!(state.submissions.dealerInquiries || []).length) { %><p>No dealer inquiries yet.</p><% } %></article>
+    <article class="admin-card"><h2>Subscribers</h2><% (state.submissions.newsletter || state.subscribers).forEach(function(item) { %><p><strong><%= item.email %></strong><span><%= new Date(item.createdAt).toLocaleString() %></span></p><% }) %><% if (!(state.submissions.newsletter || state.subscribers).length) { %><p>No subscribers yet.</p><% } %></article>
+  </section>
+<% } %>
+
+<% if (kind === "blog") { %>
+  <form class="admin-card admin-form compact" method="post" action="/admin/blog">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <label>Title<input name="title" required /></label><label>Slug<input name="slug" required /></label><label>Category<input name="category" /></label><label>Tags<input name="tags" /></label><label>Status<select name="status"><option>Draft</option><option>Published</option><option>Unpublished</option></select></label><label class="wide">Image URL<input name="image" /></label><label class="wide">Description<textarea name="description"></textarea></label><label class="wide">SEO Title<input name="seoTitle" /></label><label class="wide">SEO Description<textarea name="seoDescription"></textarea></label>
+    <button class="admin-button" type="submit">Add Blog Post</button>
+  </form>
+  <% state.blogPosts.forEach(function(post) { %><form class="admin-card admin-form compact" method="post" action="/admin/blog/<%= post.id %>"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><label>Title<input name="title" value="<%= post.title %>" /></label><label>Slug<input name="slug" value="<%= post.slug %>" /></label><label>Category<input name="category" value="<%= post.category %>" /></label><label>Tags<input name="tags" value="<%= list(post.tags) %>" /></label><label>Status<input name="status" value="<%= post.status %>" /></label><label class="wide">Image URL<input name="image" value="<%= post.image %>" /></label><label class="wide">Description<textarea name="description"><%= post.description %></textarea></label><label class="wide">SEO Title<input name="seoTitle" value="<%= post.seoTitle || '' %>" /></label><label class="wide">SEO Description<textarea name="seoDescription"><%= post.seoDescription || '' %></textarea></label><button class="admin-button" type="submit">Save Blog</button></form><form method="post" action="/admin/blog/<%= post.id %>/delete"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><button class="admin-button danger" type="submit">Delete Blog</button></form><% }) %>
+<% } %>
+
+<% if (kind === "faqs") { %>
+  <form class="admin-card admin-form compact" method="post" action="/admin/faqs"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><label>Order<input name="order" type="number" /></label><label>Question<input name="question" required /></label><label class="wide">Answer<textarea name="answer"></textarea></label><button class="admin-button" type="submit">Add FAQ</button></form>
+  <% state.faqs.forEach(function(faq) { %><form class="admin-card admin-form compact" method="post" action="/admin/faqs/<%= faq.id %>"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><label>Order<input name="order" type="number" value="<%= faq.order %>" /></label><label>Question<input name="question" value="<%= faq.question %>" /></label><label class="wide">Answer<textarea name="answer"><%= faq.answer %></textarea></label><button class="admin-button" type="submit">Save FAQ</button></form><% }) %>
+<% } %>
+
+<% if (kind === "settings") { %>
+  <form class="admin-card admin-form compact" method="post" action="/admin/settings">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <% Object.keys(state.settings).forEach(function(key) { %><label><%= key %><input name="<%= key %>" value="<%= state.settings[key] %>" /></label><% }) %>
+    <button class="admin-button" type="submit">Save Settings</button>
+  </form>
+<% } %>
+
+<% if (kind === "audit") { %>
+  <section class="admin-card audit-table">
+    <% state.auditLogs.forEach(function(log) { %><p><strong><%= log.action %></strong><span><%= log.actor %></span><span><%= log.target %></span><span><%= new Date(log.createdAt).toLocaleString() %></span></p><% }) %>
+  </section>
+<% } %>
+
+<%- include("partials/shell-close") %>

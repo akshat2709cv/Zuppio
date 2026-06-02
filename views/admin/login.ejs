@@ -1,0 +1,20 @@
+<%- include("partials/head") %>
+<main class="login-page">
+  <section class="login-panel">
+    <p>ZUPPIO Admin Portal</p>
+    <h1>Private command center</h1>
+    <% if (error) { %><div class="admin-alert"><%= error %></div><% } %>
+    <form method="post" action="/admin/login" autocomplete="off">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label>Email
+        <input name="email" type="email" value="<%= email %>" autocomplete="username" required />
+      </label>
+      <label>Password
+        <input name="password" type="password" autocomplete="current-password" minlength="10" required />
+      </label>
+      <button class="admin-button" type="submit">Secure Login</button>
+    </form>
+  </section>
+</main>
+</body>
+</html>

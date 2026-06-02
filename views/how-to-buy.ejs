@@ -1,51 +1,27 @@
 <%- include("partials/header") %>
 
-<section class="page-hero">
-  <p class="eyebrow">How To Buy</p>
-  <h1>Deal with us directly.</h1>
-  <p>For wholesalers, distributors, and shop owners.</p>
-</section>
+<%- include("partials/page-hero", { pageHero: howToBuyPage.hero }) %>
 
 <section class="section split">
   <div class="glass-card wholesale-card scroll-reveal">
-    <h2>Wholesale Benefits</h2>
+    <h2><%= howToBuyPage.benefitsTitle %></h2>
     <ul>
-      <li>Direct company pricing</li>
-      <li>Fast delivery</li>
-      <li>Distributor support</li>
-      <li>Exclusive offers</li>
+      <% howToBuyPage.benefits.forEach(function(benefit) { %><li><%= benefit %></li><% }) %>
     </ul>
   </div>
 
-  <form class="form-card scroll-reveal" style="--delay: 120ms">
-    <div class="form-field">
-      <label for="buyer-name">Name</label>
-      <input id="buyer-name" name="name" placeholder="Your name" autocomplete="name" />
-    </div>
-    <div class="form-field">
-      <label for="shop-name">Shop</label>
-      <input id="shop-name" name="shop" placeholder="Shop name" />
-    </div>
-    <div class="form-field">
-      <label for="buyer-phone">Phone</label>
-      <input id="buyer-phone" name="phone" placeholder="Phone number" autocomplete="tel" />
-    </div>
-    <div class="form-field">
-      <label for="buyer-city">City</label>
-      <input id="buyer-city" name="city" placeholder="City" autocomplete="address-level2" />
-    </div>
-    <div class="form-field">
-      <label for="business-type">Business</label>
-      <input id="business-type" name="business" placeholder="Business type" />
-    </div>
-    <div class="form-field">
-      <label for="quantity">Quantity</label>
-      <input id="quantity" name="quantity" placeholder="Quantity requirement" />
-    </div>
+  <form class="form-card dealer-inquiry-form scroll-reveal" action="/dealer-inquiries" method="POST" style="--delay: 120ms">
+    <% howToBuyPage.formFields.forEach(function(field) { %>
+      <div class="form-field">
+        <label for="buyer-<%= field.name %>"><%= field.label %></label>
+        <input id="buyer-<%= field.name %>" name="<%= field.name %>" placeholder="<%= field.placeholder %>" <%= field.required ? "required" : "" %> />
+      </div>
+    <% }) %>
     <button class="button primary" type="submit">
-      Submit Inquiry
+      <%= howToBuyPage.submitButtonText %>
       <i data-lucide="send"></i>
     </button>
+    <p class="newsletter-status" aria-live="polite"></p>
   </form>
 </section>
 

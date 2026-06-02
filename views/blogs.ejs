@@ -1,27 +1,27 @@
 <%- include("partials/header") %>
 
-<section class="page-hero">
-  <p class="eyebrow">Blogs</p>
-  <h1>Snack stories with extra crunch.</h1>
-  <p>Flavor notes, campaign ideas, and modern snack culture from the ZUPPIO world.</p>
-</section>
+<%- include("partials/page-hero") %>
 
 <section class="section blog-grid">
-  <% [
-    ["Why Mast Masaledar Is Perfect For Gamers", "Spice, crunch, and party-ready pacing for high-energy snack moments.", "purple"],
-    ["Tea + Seedha Simple = Perfect Evening", "Classic salted crunch that keeps the chai table calm and crisp.", "yellow"],
-    ["Italian Tadka: Desi Meets Italian", "Cafe-style herbs with a familiar Indian kick in every bite.", "green"]
-  ].forEach(function(blog, index) { %>
-    <article class="blog-card glass-card scroll-reveal flavor-<%= blog[2] %>" style="--delay: <%= index * 90 %>ms">
+  <% managedBlogPosts.forEach(function(blog, index) { %>
+    <article class="blog-card glass-card scroll-reveal flavor-<%= ["purple", "yellow", "green"][index % 3] %>" style="--delay: <%= index * 90 %>ms">
       <span>0<%= index + 1 %></span>
-      <h2><%= blog[0] %></h2>
-      <p><%= blog[1] %></p>
+      <% if (blog.image) { %><img src="<%= blog.image %>" alt="<%= blog.title %>" /><% } %>
+      <h2><%= blog.title %></h2>
+      <p><%= blog.description %></p>
       <a href="/product-categories">
         Read More
         <i data-lucide="arrow-up-right"></i>
       </a>
     </article>
   <% }) %>
+  <% if (!managedBlogPosts.length) { %>
+    <article class="blog-card glass-card scroll-reveal flavor-purple">
+      <span>01</span>
+      <h2>No posts yet</h2>
+      <p>Published ZUPPIO blog posts will appear here.</p>
+    </article>
+  <% } %>
 </section>
 
 <%- include("partials/footer") %>

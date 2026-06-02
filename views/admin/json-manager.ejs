@@ -1,0 +1,16 @@
+<%- include("partials/shell-open") %>
+
+<section class="admin-card">
+  <h2><%= key %></h2>
+  <p class="admin-note"><%= help %></p>
+  <% if (message) { %><div class="admin-alert <%= message.includes('Invalid') ? '' : 'success' %>"><%= message %></div><% } %>
+  <form class="admin-form" method="post" action="/admin/<%= key === 'homepage' ? 'homepage' : key === 'productCategoryPage' ? 'product-category-page' : key === 'productCategories' ? 'product-categories-content' : key === 'contactPage' ? 'contact-page' : key === 'aboutPage' ? 'about-page' : key === 'howToBuyPage' ? 'how-to-buy-page' : key === 'policies' ? 'policies-manager' : key === 'seo' ? 'seo' : key %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <label class="wide">Editable data
+      <textarea class="json-editor" name="value" rows="28" spellcheck="false"><%= value %></textarea>
+    </label>
+    <button class="admin-button" type="submit">Save Changes</button>
+  </form>
+</section>
+
+<%- include("partials/shell-close") %>

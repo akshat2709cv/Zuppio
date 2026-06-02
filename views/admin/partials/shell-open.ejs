@@ -1,0 +1,20 @@
+<%- include("head") %>
+<aside class="admin-sidebar">
+  <a class="admin-brand" href="/admin">ZUPPIO <span>Admin</span></a>
+  <nav>
+    <% adminSections.forEach(function(item) { %>
+      <a class="<%= active === item[0] ? 'active' : '' %>" href="<%= item[2] %>"><%= item[1] %></a>
+    <% }) %>
+  </nav>
+</aside>
+<main class="admin-main">
+  <header class="admin-topbar">
+    <div>
+      <p><%= adminUser.role %></p>
+      <h1><%= title.replace(" | ZUPPIO Admin", "").replace(" | ZUPPIO", "") %></h1>
+    </div>
+    <form method="post" action="/admin/logout">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <button class="admin-button ghost" type="submit">Logout</button>
+    </form>
+  </header>

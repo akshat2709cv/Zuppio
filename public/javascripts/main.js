@@ -99,49 +99,61 @@ if (window.lucide) {
 }
 
 if (window.Swiper) {
-  new Swiper(".product-suggestion-swiper", {
-    slidesPerView: 1,
-    spaceBetween: 0,
-    speed: 720,
-    loop: true,
-    grabCursor: true,
-    autoplay: {
-      delay: 3800,
-      disableOnInteraction: false
-    },
-    pagination: {
-      el: ".suggestion-pagination",
-      clickable: true
-    },
-    navigation: {
-      nextEl: ".suggestion-next",
-      prevEl: ".suggestion-prev"
-    }
+  document.querySelectorAll(".product-suggestion-swiper").forEach(function (slider) {
+    const hasMultipleSlides = slider.querySelectorAll(".swiper-slide").length > 1;
+
+    new Swiper(slider, {
+      slidesPerView: 1,
+      spaceBetween: 0,
+      speed: 720,
+      loop: hasMultipleSlides,
+      grabCursor: hasMultipleSlides,
+      autoplay: hasMultipleSlides
+        ? {
+            delay: 3800,
+            disableOnInteraction: false
+          }
+        : false,
+      pagination: hasMultipleSlides
+        ? {
+            el: slider.querySelector(".suggestion-pagination"),
+            clickable: true
+          }
+        : false,
+      navigation: hasMultipleSlides
+        ? {
+            nextEl: slider.querySelector(".suggestion-next"),
+            prevEl: slider.querySelector(".suggestion-prev")
+          }
+        : false
+    });
   });
 
-  new Swiper(".flavor-swiper", {
-    slidesPerView: 1,
-    spaceBetween: 18,
-    speed: 560,
-    rewind: true,
-    grabCursor: true,
-    pagination: {
-      el: ".flavor-pagination",
-      clickable: true
-    },
-    navigation: {
-      nextEl: ".flavor-next",
-      prevEl: ".flavor-prev"
-    },
-    breakpoints: {
-      768: {
-        slidesPerView: 2
+  if (document.querySelector(".flavor-swiper")) {
+    new Swiper(".flavor-swiper", {
+      slidesPerView: 1,
+      spaceBetween: 18,
+      speed: 560,
+      rewind: true,
+      grabCursor: true,
+      pagination: {
+        el: ".flavor-pagination",
+        clickable: true
       },
-      992: {
-        slidesPerView: 3
+      navigation: {
+        nextEl: ".flavor-next",
+        prevEl: ".flavor-prev"
+      },
+      breakpoints: {
+        768: {
+          slidesPerView: 2
+        },
+        992: {
+          slidesPerView: 3
+        }
       }
-    }
-  });
+    });
+  }
 
   new Swiper(".testimonial-swiper", {
     slidesPerView: 1,
@@ -271,6 +283,41 @@ document.querySelectorAll(".policy-card").forEach(function (card) {
   });
 });
 
+const categoryCards = document.querySelectorAll(".category-card");
+
+function closeCategoryMenus(exceptCard) {
+  categoryCards.forEach(function (card) {
+    if (card === exceptCard) return;
+    const button = card.querySelector(".category-menu-toggle");
+    const menu = card.querySelector(".category-product-menu");
+    card.classList.remove("menu-open");
+    if (button) button.setAttribute("aria-expanded", "false");
+    if (menu) menu.hidden = true;
+  });
+}
+
+categoryCards.forEach(function (card) {
+  const button = card.querySelector(".category-menu-toggle");
+  const menu = card.querySelector(".category-product-menu");
+  if (!button || !menu) return;
+
+  button.addEventListener("click", function (event) {
+    event.stopPropagation();
+    const isOpen = card.classList.toggle("menu-open");
+    button.setAttribute("aria-expanded", String(isOpen));
+    menu.hidden = !isOpen;
+    if (isOpen) closeCategoryMenus(card);
+  });
+});
+
+document.addEventListener("click", function (event) {
+  if (!event.target.closest(".category-card")) closeCategoryMenus();
+});
+
+document.addEventListener("keydown", function (event) {
+  if (event.key === "Escape") closeCategoryMenus();
+});
+
 document.querySelectorAll(".faq-item button").forEach(function (button) {
   button.addEventListener("click", function () {
     const item = button.closest(".faq-item");
@@ -360,6 +407,85 @@ document.querySelectorAll(".snack-drop-form").forEach(function (form) {
       status.classList.add("error");
     } finally {
       submitButton.disabled = false;
+    }
+  });
+});
+
+document.querySelectorAll(".contact-message-form").forEach(function (form) {
+  const status = form.querySelector(".newsletter-status");
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    if (!status) return;
+
+    const submitButton = form.querySelector("button[type='submit']");
+    const formData = new FormData(form);
+    status.className = "newsletter-status";
+    status.textContent = "Sending message...";
+    if (submitButton) submitButton.disabled = true;
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          name: String(formData.get("name") || "").trim(),
+          email: String(formData.get("email") || "").trim(),
+          message: String(formData.get("message") || "").trim()
+        })
+      });
+      const result = await response.json();
+      status.textContent = result.message;
+      status.classList.add(result.ok ? "success" : "error");
+      if (result.ok) form.reset();
+    } catch (_error) {
+      status.textContent = "Something went wrong. Please try again later.";
+      status.classList.add("error");
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+    }
+  });
+});
+
+document.querySelectorAll(".dealer-inquiry-form").forEach(function (form) {
+  const status = form.querySelector(".newsletter-status");
+
+  form.addEventListener("submit", async function (event) {
+    event.preventDefault();
+    if (!status) return;
+
+    const submitButton = form.querySelector("button[type='submit']");
+    const formData = new FormData(form);
+    const payload = {};
+    formData.forEach(function (value, key) {
+      payload[key] = String(value || "").trim();
+    });
+
+    status.className = "newsletter-status";
+    status.textContent = "Sending inquiry...";
+    if (submitButton) submitButton.disabled = true;
+
+    try {
+      const response = await fetch(form.action, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+      const result = await response.json();
+      status.textContent = result.message;
+      status.classList.add(result.ok ? "success" : "error");
+      if (result.ok) form.reset();
+    } catch (_error) {
+      status.textContent = "Something went wrong. Please try again later.";
+      status.classList.add("error");
+    } finally {
+      if (submitButton) submitButton.disabled = false;
     }
   });
 });

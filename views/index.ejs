@@ -8,16 +8,16 @@
   </div>
 
   <div class="hero-content scroll-reveal">
-    <p class="eyebrow">Premium Snack Brand</p>
-    <h1>Crunch that hits different.</h1>
-    <p>Small-batch style chips with bold Indian flavor, crisp packaging, and a snack universe built for big cravings.</p>
+    <p class="eyebrow"><%= homepage.hero.label %></p>
+    <h1><%= homepage.hero.title %></h1>
+    <p><%= homepage.hero.subtitle %></p>
     <div class="hero-actions">
-      <a class="button primary" href="/product-categories">
-        Explore Products
+      <a class="button primary" href="<%= homepage.hero.primaryButtonLink %>">
+        <%= homepage.hero.primaryButtonText %>
         <i data-lucide="arrow-right"></i>
       </a>
-      <a class="button secondary" href="/contact">
-        Contact Team
+      <a class="button secondary" href="<%= homepage.hero.secondaryButtonLink %>">
+        <%= homepage.hero.secondaryButtonText %>
         <i data-lucide="message-circle"></i>
       </a>
     </div>
@@ -25,9 +25,9 @@
 
   <div class="hero-product-stage scroll-reveal" style="--delay: 120ms">
     <div class="packet-glow"></div>
-    <img class="hero-pack hero-pack-main" src="/images/purple.png" alt="ZUPPIO Mast Masaledar chips packet" data-depth="0.08" />
-    <img class="hero-pack hero-pack-left" src="/images/yellow.png" alt="" data-depth="0.04" />
-    <img class="hero-pack hero-pack-right" src="/images/green.png" alt="" data-depth="0.06" />
+    <img class="hero-pack hero-pack-main" src="<%= homepage.hero.mainImage %>" alt="ZUPPIO hero product" data-depth="0.08" />
+    <img class="hero-pack hero-pack-left" src="<%= homepage.hero.leftImage %>" alt="" data-depth="0.04" />
+    <img class="hero-pack hero-pack-right" src="<%= homepage.hero.rightImage %>" alt="" data-depth="0.06" />
     <span class="particle particle-one"></span>
     <span class="particle particle-two"></span>
     <span class="particle particle-three"></span>
@@ -36,100 +36,68 @@
 
 <section class="section about-preview" id="about">
   <div class="section-kicker">
-    <p class="eyebrow">About</p>
-    <h2>Premium crunch. Street-style soul.</h2>
+    <p class="eyebrow"><%= homepage.aboutPreview.label %></p>
+    <h2><%= homepage.aboutPreview.title %></h2>
   </div>
 
   <div class="about-mini-grid">
-    <article class="glass-card scroll-reveal">
-      <i data-lucide="wheat"></i>
-      <h3>Premium Ingredients</h3>
-      <p>Fresh potatoes and bold spices with a clean, consistent bite.</p>
-    </article>
-    <article class="glass-card scroll-reveal" style="--delay: 90ms">
-      <i data-lucide="package-check"></i>
-      <h3>Hygienic Packaging</h3>
-      <p>Packed with safety, care, and shelf-ready snack appeal.</p>
-    </article>
-    <article class="glass-card scroll-reveal" style="--delay: 180ms">
-      <i data-lucide="flame"></i>
-      <h3>Flavor Innovation</h3>
-      <p>Indian masala energy blended with modern snack moods.</p>
-    </article>
-    <article class="glass-card scroll-reveal" style="--delay: 270ms">
-      <i data-lucide="badge-check"></i>
-      <h3>Trusted Quality</h3>
-      <p>Built for repeat crunches, retailer confidence, and everyday joy.</p>
-    </article>
+    <% homepage.aboutPreview.cards.forEach(function(card, index) { %>
+      <article class="glass-card scroll-reveal" style="--delay: <%= index * 90 %>ms">
+        <i data-lucide="<%= card.icon %>"></i>
+        <h3><%= card.title %></h3>
+        <p><%= card.text %></p>
+      </article>
+    <% }) %>
   </div>
 </section>
 
-<% const homeFlavors = ["seedha", "italian", "masaledar"].map(function(id) {
-  return flavors.find(function(flavor) { return flavor.id === id; });
-}).filter(Boolean); %>
-
 <section class="section flavor-slider-section" id="flavors">
   <div class="section-kicker">
-    <p class="eyebrow">Potato Chips</p>
-    <h2>Pick your perfect crunch.</h2>
+    <p class="eyebrow"><%= homepage.categoryShowcase.label %></p>
+    <h2><%= homepage.categoryShowcase.title %></h2>
   </div>
 
-  <div class="swiper flavor-swiper">
-    <div class="swiper-wrapper">
-      <% homeFlavors.forEach(function(flavor) { %>
-        <% const imageName = flavor.id === "seedha" ? "yellow" : flavor.id === "italian" ? "green" : "purple"; %>
-        <% const crunch = flavor.id === "seedha" ? 74 : flavor.id === "italian" ? 82 : 96; %>
-        <article class="swiper-slide flavor-card flavor-<%= flavor.color %> scroll-reveal">
-          <% if (flavor.id === "masaledar") { %>
-            <span class="badge">Most Loved</span>
-          <% } %>
-          <div class="chips-pattern" aria-hidden="true"></div>
-          <img class="flavor-pack" src="/images/<%= imageName %>.png" alt="<%= flavor.name %> chips packet" />
-          <div class="flavor-card-copy">
-            <p class="eyebrow"><%= flavor.theme %></p>
-            <h3><%= flavor.name %></h3>
-            <p><%= flavor.description %></p>
-          </div>
-          <div class="meter-stack">
-            <div class="meter">
-              <span>Spice</span>
-              <div><i style="width: <%= flavor.spice %>%"></i></div>
-            </div>
-            <div class="meter crunch">
-              <span>Crunch</span>
-              <div><i style="width: <%= crunch %>%"></i></div>
-            </div>
-          </div>
-        </article>
+  <div class="product-marquee" aria-label="ZUPPIO product category showcase">
+    <div class="product-marquee-track">
+      <% [false, true].forEach(function(isDuplicate) { %>
+        <div class="product-marquee-set" <%= isDuplicate ? 'aria-hidden="true"' : "" %>>
+          <% homepage.categoryShowcase.cards.forEach(function(category) { %>
+            <article class="marquee-product-card category-marquee-card flavor-<%= category.color %>">
+              <% if (category.status && category.status.toLowerCase().includes("coming")) { %>
+                <span class="badge future-badge"><%= category.badge || "Future Expansion" %></span>
+              <% } else { %>
+                <span class="badge available-badge"><%= category.badge || category.status %></span>
+              <% } %>
+              <div class="chips-pattern" aria-hidden="true"></div>
+              <img class="marquee-category-icon" src="<%= category.image %>" alt="<%= isDuplicate ? "" : category.name + " category icon" %>" />
+              <div class="marquee-product-copy">
+                <p class="eyebrow"><%= category.status %></p>
+                <h3><%= category.name %></h3>
+                <p><%= category.description %></p>
+                <a class="button secondary" href="<%= category.link || ('/product-categories#' + category.id) %>">
+                  Explore Category
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+          <% }) %>
+        </div>
       <% }) %>
-    </div>
-    <div class="slider-controls">
-      <button class="slider-button flavor-prev" type="button" aria-label="Previous flavor">
-        <i data-lucide="chevron-left"></i>
-      </button>
-      <div class="swiper-pagination flavor-pagination"></div>
-      <button class="slider-button flavor-next" type="button" aria-label="Next flavor">
-        <i data-lucide="chevron-right"></i>
-      </button>
     </div>
   </div>
 </section>
 
 <section class="section testimonials-section">
   <div class="section-kicker">
-    <p class="eyebrow">Snack talk</p>
-    <h2>Crunch reviews with extra volume.</h2>
+    <p class="eyebrow"><%= homepage.testimonials.label %></p>
+    <h2><%= homepage.testimonials.title %></h2>
   </div>
   <div class="swiper testimonial-swiper">
     <div class="swiper-wrapper">
-      <% [
-        ["Mast Masaledar has that spicy theatre-seat energy. One pack disappears fast.", "Aarav, Delhi"],
-        ["Italian Tadka feels premium without losing the desi punch.", "Meera, Noida"],
-        ["Seedha Simple is the tea-break pack. Clean, crisp, easy favorite.", "Rohan, Ghaziabad"]
-      ].forEach(function(item) { %>
+      <% homepage.testimonials.items.forEach(function(item) { %>
         <article class="swiper-slide testimonial-card">
-          <p><%= item[0] %></p>
-          <span><%= item[1] %></span>
+          <p><%= item.quote %></p>
+          <span><%= item.author %></span>
         </article>
       <% }) %>
     </div>
@@ -138,22 +106,18 @@
 
 <section class="section faq-section">
   <div class="section-kicker">
-    <p class="eyebrow">FAQ</p>
-    <h2>Fast answers for snack plans.</h2>
+    <p class="eyebrow"><%= homepage.faqs.label %></p>
+    <h2><%= homepage.faqs.title %></h2>
   </div>
   <div class="faq-list">
-    <% [
-      ["Where can I buy ZUPPIO?", "You can contact the ZUPPIO team directly for wholesale, distributor, and retail enquiries."],
-      ["Which product categories are planned?", "ZUPPIO is building Potato Chips, Beverages, Biscuit, Banana Chips, Wafers, and Ready-to-Eat categories."],
-      ["Which flavor is most loved?", "Mast Masaledar is the bold crowd favorite, while Seedha Simple and Italian Tadka cover classic and cafe-style moods."]
-    ].forEach(function(item, index) { %>
+    <% homepage.faqs.items.forEach(function(item, index) { %>
       <article class="faq-item <%= index === 0 ? 'open' : '' %>">
         <button type="button" aria-expanded="<%= index === 0 ? 'true' : 'false' %>">
-          <span><%= item[0] %></span>
+          <span><%= item.question %></span>
           <i data-lucide="plus"></i>
         </button>
         <div class="faq-panel">
-          <p><%= item[1] %></p>
+          <p><%= item.answer %></p>
         </div>
       </article>
     <% }) %>
@@ -163,13 +127,13 @@
 <section class="section newsletter-section">
   <div class="newsletter-panel">
     <div>
-      <p class="eyebrow">Snack drop alerts</p>
-      <h2>Get the next crunch in your inbox.</h2>
+      <p class="eyebrow"><%= homepage.newsletter.label %></p>
+      <h2><%= homepage.newsletter.title %></h2>
     </div>
     <form class="newsletter-card snack-drop-form" action="/snack-drop-alerts" method="POST">
-      <label for="home-email">Email address</label>
+      <label for="home-email"><%= homepage.newsletter.fieldLabel %></label>
       <div>
-        <input id="home-email" name="email" type="email" placeholder="you@crunch.in" autocomplete="email" required />
+        <input id="home-email" name="email" type="email" placeholder="<%= homepage.newsletter.placeholder %>" autocomplete="email" required />
         <button type="submit" aria-label="Subscribe">
           <i data-lucide="arrow-right"></i>
         </button>

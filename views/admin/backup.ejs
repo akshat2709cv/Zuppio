@@ -1,0 +1,22 @@
+<%- include("partials/shell-open") %>
+
+<section class="admin-grid two">
+  <article class="admin-card">
+    <h2>Export</h2>
+    <p class="admin-note">Download the current admin CMS data and reports.</p>
+    <p><a class="admin-button" href="/admin/backup/export">Export Admin JSON</a></p>
+    <p><a class="admin-button ghost" href="/admin/backup/subscribers.csv">Download Subscribers CSV</a></p>
+    <p><a class="admin-button ghost" href="/admin/backup/inquiries.csv">Download Inquiries CSV</a></p>
+  </article>
+  <article class="admin-card">
+    <h2>Restore</h2>
+    <% if (message) { %><div class="admin-alert <%= message.includes('Invalid') ? '' : 'success' %>"><%= message %></div><% } %>
+    <form class="admin-form" method="post" action="/admin/backup/restore">
+      <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+      <label class="wide">Paste backup JSON<textarea class="json-editor" name="backup" rows="18" spellcheck="false"></textarea></label>
+      <button class="admin-button danger" type="submit">Restore Backup</button>
+    </form>
+  </article>
+</section>
+
+<%- include("partials/shell-close") %>

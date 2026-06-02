@@ -6,46 +6,35 @@
           <span></span>
           ZUPPIO
         </a>
-        <p>Bold chips, clean design, and modern snack energy for India&apos;s next-gen crunch crowd.</p>
+        <p><%= siteFooter && siteFooter.brandText ? siteFooter.brandText : "Bold chips, clean design, and modern snack energy for India's next-gen crunch crowd." %></p>
 
         <div class="social-links" aria-label="Social media links">
-          <a class="social-link social-link-instagram" href="https://www.instagram.com/zuppiosnacks?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO Instagram">
-            <img class="social-img social-img-instagram" src="/images/insta.png" alt="" />
-          </a>
-          <a class="social-link social-link-twitter" href="https://x.com/ZUPPIOSnacks" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO Twitter X">
-            <img class="social-img social-img-twitter" src="/images/twitter.png" alt="" />
-          </a>
-          <a class="social-link social-link-youtube" href="https://www.youtube.com/@ZUPPIOsnacks" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO YouTube">
-            <img class="social-img social-img-youtube" src="/images/yt.png" alt="" />
-          </a>
-          <a class="social-link social-link-facebook" href="https://www.facebook.com/profile.php?id=61589926595273&mibextid=rS40aB7S9Ucbxw6v" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO Facebook">
-            <img class="social-img social-img-facebook" src="/images/facebook.png" alt="" />
-          </a>
+          <% (siteFooter && siteFooter.socialLinks ? siteFooter.socialLinks : []).filter(function(item) { return item.visible !== false; }).forEach(function(item) { %>
+            <a class="social-link" href="<%= item.url %>" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO <%= item.label %>">
+              <img class="social-img" src="<%= item.icon %>" alt="" />
+            </a>
+          <% }) %>
         </div>
       </div>
 
       <nav class="footer-links" aria-label="Footer quick links">
         <h2>Explore</h2>
         <div>
-          <a href="/">Home</a>
-          <a href="/product-categories">Product Categories</a>
-          <a href="/how-to-buy">How To Buy</a>
-          <a href="/blogs">Blogs</a>
-          <a href="/about">About</a>
-          <a href="/contact">Contact</a>
-          <a href="/terms">Terms</a>
+          <% (siteFooter && siteFooter.exploreLinks ? siteFooter.exploreLinks : pages).filter(function(item) { return item.visible !== false; }).forEach(function(item) { %>
+            <a href="<%= item.href %>"><%= item.label %></a>
+          <% }) %>
         </div>
       </nav>
 
       <div class="footer-contact">
         <h2>Connect</h2>
-        <a href="tel:+917011992634">
+        <a href="tel:<%= siteFooter && siteFooter.phone ? siteFooter.phone.replace(/\s/g, '') : '+917011992634' %>">
           <i data-lucide="phone"></i>
-          +91 7011992634
+          <%= siteFooter && siteFooter.phone ? siteFooter.phone : "+91 7011992634" %>
         </a>
-        <a href="mailto:zuppiosnacks.pvt.ltd@gmail.com">
+        <a href="mailto:<%= siteFooter && siteFooter.email ? siteFooter.email : 'zuppiosnacks.pvt.ltd@gmail.com' %>">
           <i data-lucide="mail"></i>
-          zuppiosnacks.pvt.ltd@gmail.com
+          <%= siteFooter && siteFooter.email ? siteFooter.email : "zuppiosnacks.pvt.ltd@gmail.com" %>
         </a>
         <a class="button primary" href="/contact">
           Contact Team
@@ -53,10 +42,10 @@
         </a>
       </div>
 
-      <p class="footer-bottom">&copy; <%= new Date().getFullYear() %> ZUPPIO Snacks Private Limited. All rights reserved.</p>
+      <p class="footer-bottom">&copy; <%= new Date().getFullYear() %> <%= siteFooter && siteFooter.copyrightText ? siteFooter.copyrightText : "ZUPPIO Snacks Private Limited. All rights reserved." %></p>
     </footer>
 
-    <a class="whatsapp-float" href="https://wa.me/917011992634?text=Hello%20ZUPPIO%20Team%2C%20I%20want%20to%20know%20more%20about%20your%20products" target="_blank" rel="noopener noreferrer" aria-label="Chat with ZUPPIO on WhatsApp">
+    <a class="whatsapp-float" href="<%= siteFooter && siteFooter.whatsappLink ? siteFooter.whatsappLink : 'https://wa.me/917011992634?text=Hello%20ZUPPIO%20Team%2C%20I%20want%20to%20know%20more%20about%20your%20products' %>" target="_blank" rel="noopener noreferrer" aria-label="Chat with ZUPPIO on WhatsApp">
       <i data-lucide="message-circle"></i>
     </a>
     <button class="back-to-top" id="backToTop" type="button" aria-label="Back to top">

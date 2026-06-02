@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { sendSnackDropConfirmation } = require("../services/emailService");
+const { addAudit, id, mutate, now, readState } = require("../services/adminStore");
 const { flavors, pages, productCategories } = require("../services/siteData");
 
 const policies = [
@@ -155,48 +156,80 @@ Zuppio Snacks Private Limited reserves the right to take appropriate legal actio
   
 ];
 
-function renderPage(res, view, title, activePage, extra = {}) {
+async function renderPage(req, res, view, title, activePage, extra = {}) {
+  const adminState = await readState();
+  const seoKey = extra.seoKey || "home";
+  const seo = adminState.seo && adminState.seo[seoKey] ? adminState.seo[seoKey] : {};
+  const headerPages = (adminState.header.navItems || pages)
+    .filter((item) => item.visible !== false)
+    .sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
   res.render(view, {
-    title,
+    title: seo.title || title,
+    metaDescription: seo.description || "ZUPPIO is a premium modern snack brand with bold chips flavors and fresh snack drops.",
+    ogImage: seo.ogImage || "",
+    canonicalUrl: seo.canonicalUrl || "",
+    noindex: Boolean(seo.noindex),
     activePage,
-    pages,
+    pages: headerPages,
+    siteHeader: adminState.header,
+    siteFooter: adminState.footer,
     flavors,
-    productCategories,
-    policies,
+    productCategories: adminState.productCategories || productCategories,
+    productCategoryPage: adminState.productCategoryPage,
+    homepage: adminState.homepage,
+    contactPage: adminState.contactPage,
+    aboutPage: adminState.aboutPage,
+    howToBuyPage: adminState.howToBuyPage,
+    responsiveSwiperSlides: adminState.swiperSlides.filter((slide) => slide.status === "Active"),
+    managedBlogPosts: adminState.blogPosts.filter((post) => post.status === "Published"),
+    siteSettings: adminState.settings,
+    policies: adminState.policies.items || policies,
+    policiesConfig: adminState.policies,
     ...extra
   });
 }
 
-router.get("/", function (_req, res) {
-  renderPage(res, "index", "ZUPPIO | Crunch Karo, Smile Karo.", "Home");
+router.get("/", async function (req, res) {
+  await renderPage(req, res, "index", "ZUPPIO | Crunch Karo, Smile Karo.", "Home", { seoKey: "home" });
 });
 
-router.get("/product-categories", function (_req, res) {
-  renderPage(res, "flavors", "Product Categories | ZUPPIO", "Product Categories");
+router.get("/product-categories", async function (req, res) {
+  await renderPage(req, res, "flavors", "Product Categories | ZUPPIO", "Product Categories", { seoKey: "productCategories" });
 });
 
 router.get("/flavors", function (_req, res) {
   res.redirect(301, "/product-categories");
 });
 
-router.get("/how-to-buy", function (_req, res) {
-  renderPage(res, "how-to-buy", "How To Buy | ZUPPIO", "How To Buy");
+router.get("/how-to-buy", async function (req, res) {
+  await renderPage(req, res, "how-to-buy", "How To Buy | ZUPPIO", "How To Buy", {
+    seoKey: "howToBuy"
+  });
 });
 
-router.get("/blogs", function (_req, res) {
-  renderPage(res, "blogs", "Blogs | ZUPPIO", "Blogs");
+router.get("/blogs", async function (req, res) {
+  await renderPage(req, res, "blogs", "Blogs | ZUPPIO", "Blogs", {
+    seoKey: "blogs",
+    pageHero: { breadcrumbTitle: "Blogs", commandTitle: "BLOG COMMAND CENTER", pageTitle: "BLOGS" }
+  });
 });
 
-router.get("/about", function (_req, res) {
-  renderPage(res, "about", "About | ZUPPIO", "About");
+router.get("/about", async function (req, res) {
+  await renderPage(req, res, "about", "About | ZUPPIO", "About", {
+    seoKey: "about"
+  });
 });
 
-router.get("/contact", function (_req, res) {
-  renderPage(res, "contact", "Contact | ZUPPIO", "Contact");
+router.get("/contact", async function (req, res) {
+  await renderPage(req, res, "contact", "Contact | ZUPPIO", "Contact", {
+    seoKey: "contact"
+  });
 });
 
-router.get("/terms", function (_req, res) {
-  renderPage(res, "terms", "Terms | ZUPPIO", "Terms");
+router.get("/terms", async function (req, res) {
+  await renderPage(req, res, "terms", "Terms | ZUPPIO", "Terms", {
+    seoKey: "terms"
+  });
 });
 
 router.post("/snack-drop-alerts", async function (req, res) {
@@ -209,7 +242,16 @@ router.post("/snack-drop-alerts", async function (req, res) {
   }
 
   try {
+    await mutate((state) => {
+      if (!state.subscribers.some((subscriber) => subscriber.email === email)) {
+        const subscriber = { id: id("subscriber"), email, status: "Active", createdAt: now() };
+        state.subscribers.unshift(subscriber);
+        state.submissions.newsletter.unshift(subscriber);
+      }
+      state.analytics.newsletterSubscribers = state.subscribers.length;
+    });
     await sendSnackDropConfirmation(email);
+    await addAudit(email, "subscriber_create", "snack-drop", req);
     const payload = {
       ok: true,
       message: "Thank you for contacting us. We will get back to you soon."
@@ -226,11 +268,52 @@ router.post("/snack-drop-alerts", async function (req, res) {
   }
 });
 
-policies.forEach(function (policy) {
-  router.get(`/terms/${policy.slug}`, function (_req, res) {
-    renderPage(res, policy.view, `${policy.title} | ZUPPIO Terms`, "Terms", {
-      policy
-    });
+router.post("/contact", async function (req, res) {
+  const name = String(req.body.name || "").trim().slice(0, 120);
+  const email = String(req.body.email || "").trim().toLowerCase();
+  const message = String(req.body.message || "").trim().slice(0, 2000);
+
+  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !message) {
+    return res.status(400).json({ ok: false, message: "Please enter name, email, and message." });
+  }
+
+  await mutate((state) => {
+    const inquiry = { id: id("inquiry"), name, email, message, type: "contact", status: "Unread", createdAt: now() };
+    state.inquiries.unshift(inquiry);
+    state.submissions.contacts.unshift(inquiry);
+    state.analytics.contactSubmissions += 1;
+  });
+  await addAudit(email, "inquiry_create", "contact", req);
+  res.json({ ok: true, message: "Thank you for contacting us. We will get back to you soon." });
+});
+
+router.post("/dealer-inquiries", async function (req, res) {
+  const payload = {
+    id: id("dealer"),
+    name: String(req.body.name || "").trim().slice(0, 120),
+    shop: String(req.body.shop || "").trim().slice(0, 160),
+    phone: String(req.body.phone || "").trim().slice(0, 60),
+    city: String(req.body.city || "").trim().slice(0, 120),
+    business: String(req.body.business || "").trim().slice(0, 160),
+    quantity: String(req.body.quantity || "").trim().slice(0, 120),
+    status: "New",
+    createdAt: now()
+  };
+  if (!payload.name || !payload.phone) return res.status(400).json({ ok: false, message: "Please enter name and phone number." });
+  await mutate((state) => {
+    state.submissions.dealerInquiries.unshift(payload);
+  });
+  await addAudit(payload.name, "dealer_inquiry_create", payload.phone, req);
+  res.json({ ok: true, message: "Thank you. Our team will contact you soon." });
+});
+
+router.get("/terms/:slug", async function (req, res, next) {
+  const state = await readState();
+  const policy = (state.policies.items || policies).find((item) => item.slug === req.params.slug);
+  if (!policy) return next();
+  await renderPage(req, res, "partials/policy-detail", `${policy.title} | ZUPPIO Terms`, "Terms", {
+    seoKey: "terms",
+    policy
   });
 });
 

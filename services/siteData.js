@@ -74,7 +74,7 @@ const productCategories = [
           { name: "Energy Drinks", status: "Coming Soon" },
           { name: "Tighter Drinks", status: "Coming Soon" },
           { name: "Water", status: "Coming Soon" },
-          { name: "Aam Panna", status: "Coming Soon" }
+          { name: "Aam Papad", status: "Coming Soon" }
         ]
       }
     ]

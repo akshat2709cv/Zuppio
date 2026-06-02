@@ -3,68 +3,43 @@
 <section class="product-suggestion-section">
   <div class="swiper product-suggestion-swiper">
     <div class="swiper-wrapper">
-      <article class="swiper-slide product-suggestion-slide chips-slide">
-        <div class="product-suggestion-copy">
-          <p class="eyebrow">Product Categories</p>
-          <h1>Explore the ZUPPIO product world.</h1>
-          <p>Start with our available Aloo Snack potato chips and discover the future category lineup.</p>
-          <a class="button primary" href="#potato-chips">
-            View Potato Chips
-            <i data-lucide="arrow-right"></i>
-          </a>
-        </div>
-        <div class="product-suggestion-art triple-pack-art" aria-hidden="true">
-          <img class="suggestion-pack pack-one" src="/images/yellow.png" alt="" />
-          <img class="suggestion-pack pack-two" src="/images/purple.png" alt="" />
-          <img class="suggestion-pack pack-three" src="/images/green.png" alt="" />
-        </div>
+      <article class="swiper-slide product-suggestion-slide category-hero-slide">
+        <% const responsiveBanner = (typeof responsiveSwiperSlides !== "undefined" && responsiveSwiperSlides[0]) ? responsiveSwiperSlides[0] : {
+          desktopImage: "/images/product-categories/zuppio-category-desktop.png",
+          tabletImage: "/images/product-categories/zuppio-category-tablet.png",
+          mobileImage: "/images/product-categories/zuppio-category-mobile.png",
+          alt: "ZUPPIO product category city illustration"
+        }; %>
+        <picture>
+          <source media="(max-width: 640px)" srcset="<%= responsiveBanner.mobileImage %>" />
+          <source media="(max-width: 1024px)" srcset="<%= responsiveBanner.tabletImage %>" />
+          <img
+            src="<%= responsiveBanner.desktopImage %>"
+            alt="<%= responsiveBanner.alt %>"
+            width="1232"
+            height="864"
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
       </article>
 
-      <article class="swiper-slide product-suggestion-slide beverage-slide">
-        <div class="product-suggestion-copy">
-          <p class="eyebrow">Coming Soon</p>
-          <h2>Beverages for every mood.</h2>
-          <p>Zeera Drinks, Energy Drinks, Tighter Drinks, Water, and Aam Panna are planned for the next ZUPPIO shelf.</p>
-          <a class="button secondary" href="#beverages">
-            See Beverages
-            <i data-lucide="arrow-right"></i>
-          </a>
-        </div>
-        <div class="product-suggestion-art category-art" aria-hidden="true">
-          <img src="/images/categories/beverages.svg" alt="" />
-        </div>
-      </article>
-
-      <article class="swiper-slide product-suggestion-slide bakery-slide">
-        <div class="product-suggestion-copy">
-          <p class="eyebrow">Future Crunch</p>
-          <h2>Biscuits, wafers, and banana chips.</h2>
-          <p>Baked biscuits, cream biscuits, cookies, wafer biscuits, banana chips, and flavored wafers are mapped for future launches.</p>
-          <a class="button secondary" href="#biscuit">
-            Explore Bakery
-            <i data-lucide="arrow-right"></i>
-          </a>
-        </div>
-        <div class="product-suggestion-art combo-art" aria-hidden="true">
-          <img src="/images/categories/biscuit.svg" alt="" />
-          <img src="/images/categories/wafers.svg" alt="" />
-        </div>
-      </article>
-
-      <article class="swiper-slide product-suggestion-slide ready-slide">
-        <div class="product-suggestion-copy">
-          <p class="eyebrow">Ready-to-Eat</p>
-          <h2>Quick meals, ZUPPIO style.</h2>
-          <p>Poha, Rajma Chawal, Noodles, and Creamy Chai Coffee ideas for fast everyday use.</p>
-          <a class="button secondary" href="#ready-to-eat">
-            View Ready-to-Eat
-            <i data-lucide="arrow-right"></i>
-          </a>
-        </div>
-        <div class="product-suggestion-art category-art" aria-hidden="true">
-          <img src="/images/categories/ready-to-eat.svg" alt="" />
-        </div>
-      </article>
+      <% productCategoryPage.suggestionSlides.forEach(function(slide) { %>
+        <article class="swiper-slide product-suggestion-slide <%= slide.className %>">
+          <div class="product-suggestion-copy">
+            <p class="eyebrow"><%= slide.label %></p>
+            <h2><%= slide.title %></h2>
+            <p><%= slide.text %></p>
+            <a class="button secondary" href="<%= slide.buttonLink %>">
+              <%= slide.buttonText %>
+              <i data-lucide="arrow-right"></i>
+            </a>
+          </div>
+          <div class="product-suggestion-art <%= slide.artClass %>" aria-hidden="true">
+            <% slide.images.forEach(function(image) { %><img src="<%= image %>" alt="" /><% }) %>
+          </div>
+        </article>
+      <% }) %>
     </div>
 
     <button class="suggestion-arrow suggestion-prev" type="button" aria-label="Previous product suggestion">
@@ -79,51 +54,23 @@
 
 <section class="section category-overview-section">
   <div class="section-kicker">
-    <p class="eyebrow">Categories</p>
-    <h2>Choose what you want to explore.</h2>
+    <p class="eyebrow"><%= productCategoryPage.overview.label %></p>
+    <h2><%= productCategoryPage.overview.title %></h2>
   </div>
 
   <div class="category-grid">
     <% productCategories.forEach(function(category, index) { %>
-      <a class="category-card scroll-reveal" style="--delay: <%= index * 70 %>ms" href="#<%= category.id %>">
+      <article class="category-card scroll-reveal" id="<%= category.id %>" style="--delay: <%= index * 70 %>ms">
         <span class="category-status <%= category.status === 'Available' ? 'available' : '' %>"><%= category.status %></span>
         <img class="category-image" src="<%= category.image %>" alt="<%= category.name %> category" />
         <div>
           <h2><%= category.name %></h2>
           <p><%= category.summary %></p>
         </div>
-        <span class="category-arrow" aria-hidden="true">
-          <i data-lucide="arrow-up-right"></i>
-        </span>
-      </a>
-    <% }) %>
-  </div>
-</section>
-
-<section class="section category-detail-section">
-  <div class="section-kicker">
-    <p class="eyebrow">Product Map</p>
-    <h2>Inside every category.</h2>
-  </div>
-
-  <div class="category-detail-list">
-    <% productCategories.forEach(function(category, index) { %>
-      <article class="category-detail-card scroll-reveal" id="<%= category.id %>" style="--delay: <%= index * 70 %>ms">
-        <div class="category-detail-media">
-          <img src="<%= category.image %>" alt="" />
-        </div>
-        <div class="category-detail-copy">
-          <div class="category-title-row">
-            <div>
-              <p class="eyebrow"><%= category.status %></p>
-              <h2><%= category.name %></h2>
-            </div>
-            <% if (category.featured) { %>
-              <span class="category-live-badge">Live Now</span>
-            <% } %>
-          </div>
-          <p><%= category.summary %></p>
-
+        <button class="category-menu-toggle" type="button" aria-label="Show <%= category.name %> products" aria-expanded="false">
+          <i data-lucide="ellipsis"></i>
+        </button>
+        <div class="category-product-menu" hidden>
           <% category.groups.forEach(function(group) { %>
             <div class="product-group">
               <h3><%= group.name %></h3>
@@ -153,12 +100,12 @@
 <section class="section">
   <div class="product-contact-panel scroll-reveal">
     <div>
-      <p class="eyebrow">Business Enquiries</p>
-      <h2>Want product, retail, or distributor details?</h2>
-      <p>Contact the ZUPPIO team for available Aloo Snack packs and upcoming category information.</p>
+      <p class="eyebrow"><%= productCategoryPage.businessPanel.label %></p>
+      <h2><%= productCategoryPage.businessPanel.title %></h2>
+      <p><%= productCategoryPage.businessPanel.text %></p>
     </div>
-    <a class="button primary" href="/contact">
-      Contact Team
+    <a class="button primary" href="<%= productCategoryPage.businessPanel.buttonLink %>">
+      <%= productCategoryPage.businessPanel.buttonText %>
       <i data-lucide="message-circle"></i>
     </a>
   </div>

@@ -106,11 +106,10 @@ main {
 .policy-detail-section {
   width: var(--container);
   margin-inline: auto;
+  padding: 70px ;
 }
 
-.section {
-  padding: 72px 0;
-}
+
 
 .page-hero,
 .terms-hero,
@@ -118,6 +117,57 @@ main {
 .policy-detail-hero {
   position: relative;
   padding: 118px 0 54px;
+}
+
+.command-page-hero {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  margin: 0;
+  padding: 118px max(24px, calc((100% - min(1180px, 92%)) / 2)) 54px;
+  overflow: hidden;
+  
+}
+
+.command-page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.06), transparent 46%),
+    radial-gradient(ellipse at 24% 0%, rgba(255, 255, 255, 0.08), transparent 24rem);
+  pointer-events: none;
+}
+
+.command-page-hero .command-breadcrumb {
+  margin: 0 0 28px;
+  color: rgba(255, 255, 255, 0.56);
+  font-size: 1rem;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.command-page-hero .command-label {
+  margin: 0 0 24px;
+  color: var(--yellow);
+  font-size: 0.95rem;
+  font-weight: 950;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.command-page-hero h1 {
+  max-width: none;
+  margin: 0;
+  color: #fff;
+  font-size: clamp(4.5rem, 7.4vw, 5.25rem);
+  font-weight: 950;
+  line-height: 0.92;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: uppercase;
 }
 
 .contact-hero {

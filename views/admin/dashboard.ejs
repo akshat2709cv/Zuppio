@@ -1,0 +1,37 @@
+<%- include("partials/shell-open") %>
+
+<section class="metric-grid">
+  <article><span>Total Visits</span><strong><%= state.analytics.visits %></strong></article>
+  <article><span>Inquiries</span><strong><%= state.inquiries.length %></strong></article>
+  <article><span>Feedbacks</span><strong><%= state.feedback.length %></strong></article>
+  <article><span>Product Views</span><strong><%= state.analytics.productViews %></strong></article>
+  <article><span>Subscribers</span><strong><%= state.subscribers.length %></strong></article>
+  <article><span>Products</span><strong><%= state.products.length %></strong></article>
+</section>
+
+<section class="admin-grid two">
+  <article class="admin-card">
+    <h2>Simple Analytics</h2>
+    <div class="bar-chart" aria-label="Admin analytics chart">
+      <% [
+        ["Visits", state.analytics.visits],
+        ["Product Views", state.analytics.productViews],
+        ["Inquiries", state.inquiries.length],
+        ["Subscribers", state.subscribers.length]
+      ].forEach(function(row) { const width = Math.max(8, Math.min(100, row[1] * 12)); %>
+        <div><span><%= row[0] %></span><i style="width:<%= width %>%"></i><b><%= row[1] %></b></div>
+      <% }) %>
+    </div>
+  </article>
+  <article class="admin-card">
+    <h2>Latest Activity</h2>
+    <div class="activity-list">
+      <% (state.analytics.latestActivity.length ? state.analytics.latestActivity : state.auditLogs.slice(0, 8)).forEach(function(log) { %>
+        <p><strong><%= log.action %></strong><span><%= log.actor %> · <%= new Date(log.createdAt).toLocaleString() %></span></p>
+      <% }) %>
+      <% if (!state.auditLogs.length) { %><p>No activity yet.</p><% } %>
+    </div>
+  </article>
+</section>
+
+<%- include("partials/shell-close") %>
