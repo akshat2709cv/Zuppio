@@ -147,8 +147,7 @@
   width: 44%;
   height: 170px;
   border-radius: 36px;
-  background: linear-gradient(90deg, rgba(255, 204, 0, 0.12), rgba(123, 47, 247, 0.22), rgba(45, 212, 191, 0.12));
-  filter: blur(34px);
+  
   opacity: 0.56;
   transform: rotate(-18deg);
   animation: auroraSlide 13s ease-in-out infinite;

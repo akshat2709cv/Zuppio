@@ -79,7 +79,8 @@ svg {
 
 button,
 input,
-textarea {
+textarea,
+select {
   font: inherit;
 }
 
@@ -106,7 +107,7 @@ main {
 .policy-detail-section {
   width: var(--container);
   margin-inline: auto;
-  padding: 70px ;
+  padding-bottom: 70px ;
 }
 
 
@@ -463,6 +464,9 @@ i[data-lucide] {
 
 .form-card input,
 .form-card textarea,
+.form-card select,
+.store-finder-form input,
+.store-finder-form select,
 .newsletter-card input {
   width: 100%;
   min-width: 0;
@@ -480,14 +484,38 @@ i[data-lucide] {
   resize: vertical;
 }
 
+.form-card select,
+.store-finder-form select {
+  appearance: none;
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--yellow) 50%),
+    linear-gradient(135deg, var(--yellow) 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 52%,
+    calc(100% - 14px) 52%;
+  background-repeat: no-repeat;
+  background-size: 6px 6px, 6px 6px;
+  color-scheme: dark;
+}
+
+.form-card option,
+.store-finder-form option {
+  background: #10051c;
+  color: var(--text);
+}
+
 .form-card input::placeholder,
 .form-card textarea::placeholder,
+.store-finder-form input::placeholder,
 .newsletter-card input::placeholder {
   color: rgba(255, 255, 255, 0.42);
 }
 
 .form-card input:focus,
 .form-card textarea:focus,
+.form-card select:focus,
+.store-finder-form input:focus,
+.store-finder-form select:focus,
 .newsletter-card input:focus {
   border-color: rgba(255, 204, 0, 0.68);
   background: rgba(10, 4, 20, 0.78);

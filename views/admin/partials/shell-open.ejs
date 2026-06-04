@@ -1,16 +1,19 @@
 <%- include("head") %>
 <aside class="admin-sidebar">
-  <a class="admin-brand" href="/admin">ZUPPIO <span>Admin</span></a>
+  <a class="admin-brand" href="/admin">
+    <span class="admin-brand-mark">Z</span>
+    <span>ZUPPIO CMS</span>
+  </a>
   <nav>
     <% adminSections.forEach(function(item) { %>
-      <a class="<%= active === item[0] ? 'active' : '' %>" href="<%= item[2] %>"><%= item[1] %></a>
+      <a class="<%= active === item.id ? 'active' : '' %>" href="<%= item.href %>"><%= item.label %></a>
     <% }) %>
   </nav>
 </aside>
 <main class="admin-main">
   <header class="admin-topbar">
     <div>
-      <p><%= adminUser.role %></p>
+      <p><%= adminUser.role %> access</p>
       <h1><%= title.replace(" | ZUPPIO Admin", "").replace(" | ZUPPIO", "") %></h1>
     </div>
     <form method="post" action="/admin/logout">

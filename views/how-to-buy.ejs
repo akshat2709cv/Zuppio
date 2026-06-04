@@ -1,24 +1,215 @@
+<%
+  const page = (typeof howToBuy !== "undefined" && howToBuy) ? howToBuy : (howToBuyPage || {});
+  const pageHeroConfig = page.hero || { breadcrumbTitle: "How To Buy", commandTitle: "STORE FINDER", pageTitle: "WHERE TO BUY ZUPPIO" };
+  const filters = page.filters || {};
+  const mapConfig = page.map || {};
+  const tabs = page.tabs || [];
+  const buyingOptions = page.buyingOptions || [];
+  const stores = page.stores || [];
+  const dealerInquiry = page.dealerInquiry || {};
+  const categories = filters.categories || ["Any", "Potato Chips", "Banana Chips", "Wafers", "Biscuits", "Beverages", "Ready-To-Eat"];
+  const products = filters.products || ["All products", "Seedha Simple", "Italian Tadka", "Mast Masaledar"];
+  const radii = filters.radii || ["Within 2 km", "Within 5 km", "Within 10 km", "Within 25 km"];
+  const businessTypes = dealerInquiry.businessTypes || ["Retailer", "Distributor", "Wholesaler", "Super Stockist", "Modern Trade", "Online Seller", "Other"];
+  const activeTab = tabs[0] ? tabs[0].id : "nearby-stores";
+  const hasMapsApiKey = typeof googleMapsApiKey !== "undefined" && Boolean(googleMapsApiKey);
+  const locatorConfig = {
+    apiKeyConfigured: hasMapsApiKey,
+    stores,
+    map: {
+      defaultCenter: mapConfig.defaultCenter || { lat: 28.5355, lng: 77.391, zoom: 11 },
+      defaultQuery: mapConfig.defaultQuery || "Noida Delhi NCR",
+      googleMapsUrl: mapConfig.googleMapsUrl || "https://www.google.com/maps/search/?api=1&query=ZUPPIO%20snacks%20Noida%20Delhi%20NCR",
+      apiMissingMessage: mapConfig.apiMissingMessage || "Map API key is not configured.",
+      noStoresMessage: mapConfig.noStoresMessage || "No ZUPPIO stores found in this area yet. Please contact us on WhatsApp for availability."
+    }
+  };
+  const locatorConfigJson = JSON.stringify(locatorConfig);
+%>
+
 <%- include("partials/header") %>
 
-<%- include("partials/page-hero", { pageHero: howToBuyPage.hero }) %>
+<%- include("partials/page-hero", { pageHero: pageHeroConfig }) %>
 
-<section class="section split">
-  <div class="glass-card wholesale-card scroll-reveal">
-    <h2><%= howToBuyPage.benefitsTitle %></h2>
-    <ul>
-      <% howToBuyPage.benefits.forEach(function(benefit) { %><li><%= benefit %></li><% }) %>
-    </ul>
+<div id="storeLocatorData" hidden data-config="<%= locatorConfigJson %>"></div>
+
+<section class="section where-buy-section">
+  <aside class="where-filter-panel glass-card scroll-reveal" aria-label="Store finder filters">
+    <div class="where-filter-brand">
+      <img src="<%= filters.bannerImage || '/images/logo1.png' %>" alt="ZUPPIO" />
+      <div>
+        <p class="eyebrow">Snack Finder</p>
+        <h2>Find ZUPPIO near you.</h2>
+      </div>
+    </div>
+
+    <form class="store-finder-form" action="/how-to-buy" method="GET" data-map-target="#whereToBuyMap" data-status-target="#finderStatus" data-link-target="#openGoogleMaps">
+      <div class="form-field full">
+        <label for="finder-pincode">Pincode</label>
+        <input id="finder-pincode" name="pincode" inputmode="numeric" pattern="[0-9]{6}" maxlength="6" placeholder="<%= filters.pincodePlaceholder || 'Enter pincode' %>" />
+      </div>
+
+      <div class="form-field">
+        <label for="finder-category">Category</label>
+        <select id="finder-category" name="category">
+          <% categories.forEach(function(category) { %>
+            <option value="<%= category %>"><%= category %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="finder-product">Product</label>
+        <select id="finder-product" name="product">
+          <% products.forEach(function(product) { %>
+            <option value="<%= product %>"><%= product %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <div class="form-field full">
+        <label for="finder-radius">Search radius</label>
+        <select id="finder-radius" name="radius">
+          <% radii.forEach(function(radius) { %>
+            <option value="<%= radius %>"><%= radius %></option>
+          <% }) %>
+        </select>
+      </div>
+
+      <button class="button primary" type="submit">
+        <%= filters.findButtonText || "Find ZUPPIO" %>
+        <i data-lucide="search"></i>
+      </button>
+      <p class="finder-status" id="finderStatus" aria-live="polite">Showing availability around <%= mapConfig.locationLabel || "Noida / Delhi NCR" %>.</p>
+    </form>
+  </aside>
+
+  <div class="where-buy-main">
+    <section class="where-map-card glass-card scroll-reveal" style="--delay: 120ms">
+      <div class="where-map-heading">
+        <div>
+          <p class="eyebrow">Availability Map</p>
+          <h2><%= mapConfig.title || "Delhi NCR Availability Zone" %></h2>
+          <p><%= mapConfig.locationLabel || "Noida / Delhi NCR" %></p>
+        </div>
+        <div class="where-map-actions">
+          <button class="button secondary" type="button" data-use-location data-map-target="#whereToBuyMap" data-status-target="#finderStatus" data-link-target="#openGoogleMaps">
+            Use My Location
+            <i data-lucide="locate-fixed"></i>
+          </button>
+          <a class="button primary" id="openGoogleMaps" href="<%= mapConfig.googleMapsUrl || 'https://www.google.com/maps/search/?api=1&query=ZUPPIO%20snacks%20Noida%20Delhi%20NCR' %>" target="_blank" rel="noopener noreferrer">
+            Open in Google Maps
+            <i data-lucide="map"></i>
+          </a>
+        </div>
+      </div>
+
+      <div class="where-map-frame">
+        <div class="where-map-canvas" id="whereToBuyMap" role="img" aria-label="ZUPPIO store locator map"></div>
+        <div class="where-map-fallback <%= hasMapsApiKey ? '' : 'show' %>" data-map-fallback>
+          <i data-lucide="map-pinned"></i>
+          <h3><%= hasMapsApiKey ? "Loading ZUPPIO store map..." : (mapConfig.apiMissingMessage || "Map API key is not configured.") %></h3>
+          <p><%= hasMapsApiKey ? "Store pins will appear here when the map is ready." : "Store results below still work. Add GOOGLE_MAPS_API_KEY in .env to enable the live map." %></p>
+        </div>
+      </div>
+
+      <div class="store-results-panel">
+        <div class="store-results-heading">
+          <div>
+            <p class="eyebrow">Store Results</p>
+            <h3>Matching ZUPPIO availability</h3>
+          </div>
+          <span id="storeResultCount">0 stores</span>
+        </div>
+        <p class="store-empty-message" id="storeEmptyMessage" hidden><%= mapConfig.noStoresMessage || "No ZUPPIO stores found in this area yet. Please contact us on WhatsApp for availability." %></p>
+        <div class="store-result-grid" id="storeResults"></div>
+      </div>
+    </section>
+
+    <section class="where-options-card scroll-reveal" style="--delay: 180ms">
+      <div class="where-tabs" role="tablist" aria-label="Buying options">
+        <% tabs.forEach(function(tab, index) { %>
+          <button class="where-tab <%= index === 0 ? 'active' : '' %>" type="button" role="tab" aria-selected="<%= index === 0 ? 'true' : 'false' %>" data-buying-tab="<%= tab.id %>">
+            <%= tab.label %>
+          </button>
+        <% }) %>
+      </div>
+
+      <div class="buying-option-grid">
+        <% buyingOptions.forEach(function(option) {
+          const optionTab = option.tab || activeTab;
+          const isExternal = /^https?:\/\//.test(option.link || "");
+        %>
+          <article class="buying-option-card glass-card <%= optionTab === activeTab ? '' : 'hidden' %>" data-buying-option data-option-tab="<%= optionTab %>">
+            <div class="buying-option-icon">
+              <% if (option.image) { %>
+                <img src="<%= option.image %>" alt="" />
+              <% } else { %>
+                <i data-lucide="<%= option.icon || 'shopping-bag' %>"></i>
+              <% } %>
+            </div>
+            <div>
+              <span class="option-status"><%= option.status || "Available" %></span>
+              <h3><%= option.name %></h3>
+              <p><%= option.type %></p>
+            </div>
+            <a class="button secondary" href="<%= option.link || '/contact' %>" <%= isExternal ? 'target="_blank" rel="noopener noreferrer"' : '' %>>
+              <%= option.buttonText || "Contact" %>
+              <i data-lucide="arrow-up-right"></i>
+            </a>
+          </article>
+        <% }) %>
+      </div>
+    </section>
+  </div>
+</section>
+
+<section class="section dealer-inquiry-section" id="dealer-inquiry">
+  <div class="section-kicker">
+    <p class="eyebrow"><%= dealerInquiry.label || "Partner With ZUPPIO" %></p>
+    <h2><%= dealerInquiry.title || "Become a ZUPPIO Dealer" %></h2>
+    <p><%= dealerInquiry.description || "Share your business details and the ZUPPIO team will contact you." %></p>
   </div>
 
-  <form class="form-card dealer-inquiry-form scroll-reveal" action="/dealer-inquiries" method="POST" style="--delay: 120ms">
-    <% howToBuyPage.formFields.forEach(function(field) { %>
-      <div class="form-field">
-        <label for="buyer-<%= field.name %>"><%= field.label %></label>
-        <input id="buyer-<%= field.name %>" name="<%= field.name %>" placeholder="<%= field.placeholder %>" <%= field.required ? "required" : "" %> />
-      </div>
-    <% }) %>
+  <form class="form-card wide dealer-inquiry-form scroll-reveal" action="/dealer-inquiries" method="POST">
+    <div class="form-field">
+      <label for="dealer-name">Full Name</label>
+      <input id="dealer-name" name="name" placeholder="Your full name" required />
+    </div>
+    <div class="form-field">
+      <label for="dealer-business-name">Business Name</label>
+      <input id="dealer-business-name" name="businessName" placeholder="Shop or company name" />
+    </div>
+    <div class="form-field">
+      <label for="dealer-phone">Phone Number</label>
+      <input id="dealer-phone" name="phone" inputmode="tel" placeholder="Phone number" required />
+    </div>
+    <div class="form-field">
+      <label for="dealer-email">Email</label>
+      <input id="dealer-email" name="email" type="email" placeholder="you@example.com" />
+    </div>
+    <div class="form-field">
+      <label for="dealer-city">City</label>
+      <input id="dealer-city" name="city" placeholder="City" />
+    </div>
+    <div class="form-field">
+      <label for="dealer-state">State</label>
+      <input id="dealer-state" name="state" placeholder="State" />
+    </div>
+    <div class="form-field full">
+      <label for="dealer-business-type">Business Type</label>
+      <select id="dealer-business-type" name="businessType">
+        <% businessTypes.forEach(function(type) { %>
+          <option value="<%= type %>"><%= type %></option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="form-field full">
+      <label for="dealer-message">Message</label>
+      <textarea id="dealer-message" name="message" placeholder="Tell us about your dealership, wholesale, or retail requirement"></textarea>
+    </div>
     <button class="button primary" type="submit">
-      <%= howToBuyPage.submitButtonText %>
+      <%= dealerInquiry.submitButtonText || "Submit Inquiry" %>
       <i data-lucide="send"></i>
     </button>
     <p class="newsletter-status" aria-live="polite"></p>

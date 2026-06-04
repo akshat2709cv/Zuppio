@@ -60,6 +60,7 @@
 
   <div class="category-grid">
     <% productCategories.forEach(function(category, index) { %>
+      <% const categoryLink = "/product-categories/" + (category.slug || category.id); %>
       <article class="category-card scroll-reveal" id="<%= category.id %>" style="--delay: <%= index * 70 %>ms">
         <span class="category-status <%= category.status === 'Available' ? 'available' : '' %>"><%= category.status %></span>
         <img class="category-image" src="<%= category.image %>" alt="<%= category.name %> category" />
@@ -67,11 +68,17 @@
           <h2><%= category.name %></h2>
           <p><%= category.summary %></p>
         </div>
-        <button class="category-menu-toggle" type="button" aria-label="Show <%= category.name %> products" aria-expanded="false">
-          <i data-lucide="ellipsis"></i>
-        </button>
+        <div class="category-card-actions">
+          <a class="button secondary category-view-link" href="<%= categoryLink %>">
+            View Category
+            <i data-lucide="arrow-right"></i>
+          </a>
+          <button class="category-menu-toggle" type="button" aria-label="Show <%= category.name %> products" aria-expanded="false">
+            <i data-lucide="ellipsis"></i>
+          </button>
+        </div>
         <div class="category-product-menu" hidden>
-          <% category.groups.forEach(function(group) { %>
+          <% (category.groups || []).forEach(function(group) { %>
             <div class="product-group">
               <h3><%= group.name %></h3>
               <div class="product-pill-grid">

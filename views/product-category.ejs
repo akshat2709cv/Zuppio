@@ -1,0 +1,90 @@
+<%- include("partials/header") %>
+
+<%
+  const categoryProducts = Array.isArray(category.products) ? category.products : [];
+  const hasProducts = categoryProducts.length > 0;
+  const businessPanel = productCategoryPage && productCategoryPage.businessPanel ? productCategoryPage.businessPanel : {
+    label: "Business Enquiries",
+    title: "Want product, retail, or distributor details?",
+    text: "Contact the ZUPPIO team for available packs and upcoming category information.",
+    buttonText: "Contact Team",
+    buttonLink: "/contact"
+  };
+  const placeholders = [
+    { icon: "package", title: "New Packs", text: "Fresh product ideas are being prepared for this category." },
+    { icon: "sparkles", title: "Flavor Trials", text: "Taste, texture, and shelf appeal are being refined." },
+    { icon: "rocket", title: "Launch Shelf", text: "Updates will appear here when products are ready." }
+  ];
+%>
+
+<section class="command-page-hero category-command-hero">
+  <nav class="breadcrumb command-breadcrumb" aria-label="Breadcrumb">
+    <a href="/">Home</a>
+    <span>/</span>
+    <a href="/product-categories">Product Categories</a>
+    <span>/</span>
+    <span><%= category.title %></span>
+  </nav>
+
+  <p class="command-label">PRODUCT CATEGORY</p>
+  <h1><%= category.title %></h1>
+  <p class="category-hero-description"><%= category.description %></p>
+</section>
+
+<section class="section category-products-section">
+  <div class="section-kicker">
+    <p class="eyebrow"><%= hasProducts ? "Product Listing" : "Coming Soon" %></p>
+    <h2><%= hasProducts ? "Explore Products" : "Products Coming Soon" %></h2>
+    <% if (!hasProducts) { %>
+      <p>New products are under development and will be available soon.</p>
+    <% } %>
+  </div>
+
+  <% if (hasProducts) { %>
+    <div class="category-product-grid">
+      <% categoryProducts.forEach(function(product, index) { %>
+        <article class="category-product-card scroll-reveal" style="--delay: <%= index * 80 %>ms">
+          <span class="category-live-badge <%= String(product.status || '').toLowerCase().includes('available') ? '' : 'coming-soon-badge' %>"><%= product.status || "Available" %></span>
+          <div class="category-product-art">
+            <% if (product.image) { %>
+              <img src="<%= product.image %>" alt="<%= product.name %> pack" />
+            <% } else { %>
+              <span class="product-dot" aria-hidden="true"></span>
+            <% } %>
+          </div>
+          <h3><%= product.name %></h3>
+          <p><%= product.description || category.description %></p>
+        </article>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="category-placeholder-grid">
+      <% placeholders.forEach(function(item, index) { %>
+        <article class="category-placeholder-card scroll-reveal" style="--delay: <%= index * 80 %>ms">
+          <span class="category-placeholder-icon" aria-hidden="true">
+            <i data-lucide="<%= item.icon %>"></i>
+          </span>
+          <span class="category-live-badge coming-soon-badge">COMING SOON</span>
+          <h3><%= item.title %></h3>
+          <p><%= item.text %></p>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>
+
+<section class="section">
+  <div class="product-contact-panel scroll-reveal">
+    <div>
+      <p class="eyebrow"><%= businessPanel.label %></p>
+      <h2><%= businessPanel.title %></h2>
+      <p><%= businessPanel.text %></p>
+    </div>
+    <a class="button primary" href="<%= businessPanel.buttonLink %>">
+      <%= businessPanel.buttonText %>
+      <i data-lucide="message-circle"></i>
+    </a>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

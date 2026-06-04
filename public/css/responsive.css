@@ -135,9 +135,11 @@
   .mission-vision-grid,
   .contact-details-section,
   .contact-form-section,
+  .where-buy-section,
   .split,
   .pack-switcher,
   .newsletter-panel,
+  .blog-detail-card,
   .policy-detail-card {
     grid-template-columns: 1fr;
   }
@@ -159,7 +161,9 @@
   .blog-grid,
   .policy-grid,
   .values-grid,
-  .category-grid {
+  .category-grid,
+  .category-product-grid,
+  .category-placeholder-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -169,6 +173,19 @@
 
   .category-detail-media {
     min-height: 320px;
+  }
+
+  .where-filter-panel {
+    position: relative;
+    top: auto;
+  }
+
+  .buying-option-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .blog-detail-image {
+    min-height: 300px;
   }
 
   .product-suggestion-slide {
@@ -345,8 +362,15 @@
   .policy-grid,
   .values-grid,
   .category-grid,
+  .category-product-grid,
+  .category-placeholder-grid,
   .qr-grid,
   .form-card {
+    grid-template-columns: 1fr;
+  }
+
+  .buying-option-grid,
+  .store-finder-form {
     grid-template-columns: 1fr;
   }
 
@@ -360,6 +384,7 @@
   .contact-action-panel > div,
   .qr-card,
   .policy-card,
+  .blog-detail-card,
   .policy-detail-card,
   .pack-switcher,
   .testimonial-card,
@@ -374,6 +399,14 @@
 
   .flavor-card {
     min-height: 470px;
+  }
+
+  .blog-card {
+    min-height: 315px;
+  }
+
+  .blog-card img {
+    height: 165px;
   }
 
   .category-detail-media {
@@ -424,6 +457,19 @@
 
   .newsletter-panel {
     gap: 18px;
+  }
+
+  .where-map-heading {
+    display: grid;
+  }
+
+  .where-map-actions {
+    justify-content: flex-start;
+  }
+
+  .where-map-frame,
+  .where-map-canvas {
+    min-height: 340px;
   }
 
   .footer {
@@ -593,8 +639,93 @@
     min-height: auto;
   }
 
+  .blog-card {
+    min-height: auto;
+  }
+
+  .blog-detail-image {
+    min-height: 220px;
+  }
+
+  .category-card-actions {
+    position: static;
+    margin-top: 18px;
+  }
+
+  .category-card .category-view-link {
+    width: auto;
+    min-width: 0;
+  }
+
+  .category-product-card,
+  .category-placeholder-card {
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .category-product-art {
+    min-height: 145px;
+  }
+
+  .category-product-art img {
+    height: 130px;
+  }
+
   .category-detail-card {
     padding: 18px;
+  }
+
+  .where-filter-panel,
+  .where-map-heading {
+    padding: 18px;
+  }
+
+  .where-filter-brand {
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
+
+  .where-filter-brand img {
+    width: 62px;
+    height: 62px;
+    border-radius: 16px;
+  }
+
+  .where-map-frame,
+  .where-map-canvas {
+    min-height: 280px;
+  }
+
+  .store-results-panel {
+    padding: 18px;
+  }
+
+  .store-results-heading {
+    display: grid;
+  }
+
+  .store-result-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .store-result-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .buying-option-card {
+    grid-template-columns: 52px minmax(0, 1fr);
+    min-height: auto;
+    padding: 16px;
+  }
+
+  .buying-option-icon {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+  }
+
+  .buying-option-card .button {
+    grid-column: 1 / -1;
   }
 
   .category-detail-media {

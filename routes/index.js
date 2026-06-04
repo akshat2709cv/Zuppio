@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { sendSnackDropConfirmation } = require("../services/emailService");
 const { addAudit, id, mutate, now, readState } = require("../services/adminStore");
-const { flavors, pages, productCategories } = require("../services/siteData");
+const { flavors, pages, productCategories, findProductCategory, normalizeProductCategories } = require("../services/siteData");
 
 const policies = [
   {
@@ -160,6 +160,7 @@ async function renderPage(req, res, view, title, activePage, extra = {}) {
   const adminState = await readState();
   const seoKey = extra.seoKey || "home";
   const seo = adminState.seo && adminState.seo[seoKey] ? adminState.seo[seoKey] : {};
+  const managedProductCategories = normalizeProductCategories(adminState.productCategories || productCategories);
   const headerPages = (adminState.header.navItems || pages)
     .filter((item) => item.visible !== false)
     .sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
@@ -174,11 +175,12 @@ async function renderPage(req, res, view, title, activePage, extra = {}) {
     siteHeader: adminState.header,
     siteFooter: adminState.footer,
     flavors,
-    productCategories: adminState.productCategories || productCategories,
+    productCategories: managedProductCategories,
     productCategoryPage: adminState.productCategoryPage,
     homepage: adminState.homepage,
     contactPage: adminState.contactPage,
     aboutPage: adminState.aboutPage,
+    howToBuy: adminState.howToBuy || adminState.howToBuyPage,
     howToBuyPage: adminState.howToBuyPage,
     responsiveSwiperSlides: adminState.swiperSlides.filter((slide) => slide.status === "Active"),
     managedBlogPosts: adminState.blogPosts.filter((post) => post.status === "Published"),
@@ -197,13 +199,30 @@ router.get("/product-categories", async function (req, res) {
   await renderPage(req, res, "flavors", "Product Categories | ZUPPIO", "Product Categories", { seoKey: "productCategories" });
 });
 
+router.get("/product-categories/:slug", async function (req, res, next) {
+  const adminState = await readState();
+  const managedProductCategories = normalizeProductCategories(adminState.productCategories || productCategories);
+  const category = findProductCategory(managedProductCategories, req.params.slug);
+
+  if (!category) return next();
+
+  await renderPage(req, res, "product-category", `${category.title} | Product Categories | ZUPPIO`, "Product Categories", {
+    seoKey: "productCategories",
+    category,
+    productCategories: managedProductCategories,
+    metaDescription: category.description || category.summary || `Explore ${category.title} products from ZUPPIO.`
+  });
+});
+
 router.get("/flavors", function (_req, res) {
   res.redirect(301, "/product-categories");
 });
 
 router.get("/how-to-buy", async function (req, res) {
-  await renderPage(req, res, "how-to-buy", "How To Buy | ZUPPIO", "How To Buy", {
-    seoKey: "howToBuy"
+  await renderPage(req, res, "how-to-buy", "Where To Buy ZUPPIO | ZUPPIO", "How To Buy", {
+    seoKey: "howToBuy",
+    isStoreLocatorPage: true,
+    googleMapsApiKey: process.env.GOOGLE_MAPS_API_KEY || ""
   });
 });
 
@@ -211,6 +230,19 @@ router.get("/blogs", async function (req, res) {
   await renderPage(req, res, "blogs", "Blogs | ZUPPIO", "Blogs", {
     seoKey: "blogs",
     pageHero: { breadcrumbTitle: "Blogs", commandTitle: "BLOG COMMAND CENTER", pageTitle: "BLOGS" }
+  });
+});
+
+router.get("/blogs/:slug", async function (req, res, next) {
+  const adminState = await readState();
+  const blog = (adminState.blogPosts || []).find((post) => post.slug === req.params.slug && post.status === "Published");
+
+  if (!blog) return next();
+
+  await renderPage(req, res, "blog-detail", `${blog.title} | ZUPPIO Blog`, "Blogs", {
+    seoKey: "blogs",
+    blog,
+    metaDescription: blog.seoDescription || blog.description || "Read ZUPPIO snack stories, food ideas, recipes, and brand updates."
   });
 });
 
@@ -288,14 +320,23 @@ router.post("/contact", async function (req, res) {
 });
 
 router.post("/dealer-inquiries", async function (req, res) {
+  const name = String(req.body.name || req.body.fullName || "").trim().slice(0, 120);
+  const businessName = String(req.body.businessName || req.body.shop || "").trim().slice(0, 160);
+  const businessType = String(req.body.businessType || req.body.business || "").trim().slice(0, 160);
   const payload = {
     id: id("dealer"),
-    name: String(req.body.name || "").trim().slice(0, 120),
-    shop: String(req.body.shop || "").trim().slice(0, 160),
+    name,
+    businessName,
+    shop: businessName,
     phone: String(req.body.phone || "").trim().slice(0, 60),
+    email: String(req.body.email || "").trim().toLowerCase().slice(0, 160),
     city: String(req.body.city || "").trim().slice(0, 120),
-    business: String(req.body.business || "").trim().slice(0, 160),
+    state: String(req.body.state || "").trim().slice(0, 120),
+    businessType,
+    business: businessType,
     quantity: String(req.body.quantity || "").trim().slice(0, 120),
+    message: String(req.body.message || "").trim().slice(0, 2000),
+    source: "Where To Buy",
     status: "New",
     createdAt: now()
   };

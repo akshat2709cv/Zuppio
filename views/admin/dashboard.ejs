@@ -1,37 +1,67 @@
 <%- include("partials/shell-open") %>
 
+<%
+  const contactSubmissions = (state.submissions.contacts || state.inquiries || []).length;
+  const dealerInquiries = (state.submissions.dealerInquiries || []).length;
+  const newsletterSubscribers = (state.submissions.newsletter || state.subscribers || []).length;
+  const recentActivity = (state.analytics.latestActivity && state.analytics.latestActivity.length ? state.analytics.latestActivity : state.auditLogs).slice(0, 8);
+%>
+
 <section class="metric-grid">
-  <article><span>Total Visits</span><strong><%= state.analytics.visits %></strong></article>
-  <article><span>Inquiries</span><strong><%= state.inquiries.length %></strong></article>
-  <article><span>Feedbacks</span><strong><%= state.feedback.length %></strong></article>
-  <article><span>Product Views</span><strong><%= state.analytics.productViews %></strong></article>
-  <article><span>Subscribers</span><strong><%= state.subscribers.length %></strong></article>
-  <article><span>Products</span><strong><%= state.products.length %></strong></article>
+  <article><span>Total Blogs</span><strong><%= state.blogPosts.length %></strong></article>
+  <article><span>Total Products</span><strong><%= state.products.length %></strong></article>
+  <article><span>Contact Submissions</span><strong><%= contactSubmissions %></strong></article>
+  <article><span>Dealer Inquiries</span><strong><%= dealerInquiries %></strong></article>
+  <article><span>Newsletter Subscribers</span><strong><%= newsletterSubscribers %></strong></article>
 </section>
 
 <section class="admin-grid two">
   <article class="admin-card">
-    <h2>Simple Analytics</h2>
+    <div class="cms-section-heading">
+      <h2>Website Activity</h2>
+      <p class="admin-note">Quick pulse of visits, content clicks, and inquiry signals.</p>
+    </div>
     <div class="bar-chart" aria-label="Admin analytics chart">
       <% [
-        ["Visits", state.analytics.visits],
-        ["Product Views", state.analytics.productViews],
-        ["Inquiries", state.inquiries.length],
-        ["Subscribers", state.subscribers.length]
-      ].forEach(function(row) { const width = Math.max(8, Math.min(100, row[1] * 12)); %>
+        ["Page Visits", state.analytics.visits || 0],
+        ["Blog Views", state.analytics.blogViews || 0],
+        ["Product Clicks", state.analytics.productViews || 0],
+        ["QR Clicks", state.analytics.qrClicks || 0],
+        ["WhatsApp Clicks", state.analytics.whatsappClicks || 0],
+        ["Inquiry Count", contactSubmissions + dealerInquiries]
+      ].forEach(function(row) { const width = Math.max(8, Math.min(100, Number(row[1] || 0) * 8)); %>
         <div><span><%= row[0] %></span><i style="width:<%= width %>%"></i><b><%= row[1] %></b></div>
       <% }) %>
     </div>
   </article>
+
   <article class="admin-card">
-    <h2>Latest Activity</h2>
-    <div class="activity-list">
-      <% (state.analytics.latestActivity.length ? state.analytics.latestActivity : state.auditLogs.slice(0, 8)).forEach(function(log) { %>
-        <p><strong><%= log.action %></strong><span><%= log.actor %> · <%= new Date(log.createdAt).toLocaleString() %></span></p>
-      <% }) %>
-      <% if (!state.auditLogs.length) { %><p>No activity yet.</p><% } %>
+    <div class="cms-section-heading">
+      <h2>Quick Edit</h2>
+      <p class="admin-note">Jump straight into the sections most often edited by the ZUPPIO team.</p>
+    </div>
+    <div class="quick-actions">
+      <a class="admin-button" href="/admin/homepage">Homepage</a>
+      <a class="admin-button" href="/admin/products">Products</a>
+      <a class="admin-button" href="/admin/product-categories-content">Categories</a>
+      <a class="admin-button" href="/admin/how-to-buy-page">Store Locator</a>
+      <a class="admin-button" href="/admin/blog">Blogs</a>
+      <a class="admin-button" href="/admin/faqs">FAQ Manager</a>
     </div>
   </article>
+</section>
+
+<section class="admin-card">
+  <div class="cms-section-heading">
+    <h2>Recent Activity</h2>
+    <p class="admin-note">Latest admin and website actions recorded in the CMS.</p>
+  </div>
+  <div class="activity-list">
+    <% recentActivity.forEach(function(log) { %>
+      <p><strong><%= log.action %></strong><span><%= log.actor || "Website" %> · <%= new Date(log.createdAt).toLocaleString() %></span></p>
+    <% }) %>
+    <% if (!recentActivity.length) { %><p>No activity yet.</p><% } %>
+  </div>
 </section>
 
 <%- include("partials/shell-close") %>

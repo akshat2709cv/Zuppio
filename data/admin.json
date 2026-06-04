@@ -8,7 +8,7 @@
       "role": "Super Admin",
       "status": "Active",
       "createdAt": "2026-06-02T10:25:16.074Z",
-      "lastLoginAt": "2026-06-02T10:27:37.173Z"
+      "lastLoginAt": "2026-06-03T10:18:36.751Z"
     }
   ],
   "content": [
@@ -99,11 +99,35 @@
   "productCategories": [
     {
       "id": "potato-chips",
+      "slug": "potato-chips",
       "name": "Potato Chips",
+      "title": "Potato Chips",
       "image": "/images/categories/potato-chips.svg",
+      "banner": "/images/categories/potato-chips.svg",
       "summary": "Aloo Snack packs with crisp potato crunch and bold ZUPPIO flavors.",
+      "description": "Crisp aloo snack packs made for everyday munching, tea breaks, and party bowls with bold ZUPPIO flavor energy.",
       "status": "Available",
       "featured": true,
+      "products": [
+        {
+          "name": "Seedha Simple",
+          "status": "Available",
+          "image": "/images/yellow.png",
+          "description": "Classic salted potato chips with a clean, simple crunch."
+        },
+        {
+          "name": "Italian Tadka",
+          "status": "Available",
+          "image": "/images/green.png",
+          "description": "Italian herbs and creamy seasoning with an Indian-style twist."
+        },
+        {
+          "name": "Mast Masaledar",
+          "status": "Available",
+          "image": "/images/purple.png",
+          "description": "Bold Indian masala chips with spicy, tangy, chatpata energy."
+        }
+      ],
       "groups": [
         {
           "name": "Aloo Snack",
@@ -114,14 +138,14 @@
               "image": "/images/yellow.png"
             },
             {
-              "name": "Mast Masaledar",
-              "status": "Available",
-              "image": "/images/purple.png"
-            },
-            {
               "name": "Italian Tadka",
               "status": "Available",
               "image": "/images/green.png"
+            },
+            {
+              "name": "Mast Masaledar",
+              "status": "Available",
+              "image": "/images/purple.png"
             }
           ]
         }
@@ -129,10 +153,15 @@
     },
     {
       "id": "beverages",
+      "slug": "beverages",
       "name": "Beverages",
+      "title": "Beverages",
       "image": "/images/categories/beverages.svg",
+      "banner": "/images/categories/beverages.svg",
       "summary": "Refreshing drinks planned for everyday moments and high-energy occasions.",
+      "description": "Refreshing beverage ideas are being shaped for everyday hydration, energy moments, and flavorful Indian refreshment.",
       "status": "Coming Soon",
+      "products": [],
       "groups": [
         {
           "name": "Coming Soon",
@@ -163,10 +192,15 @@
     },
     {
       "id": "biscuit",
+      "slug": "biscuit",
       "name": "Biscuit",
+      "title": "Biscuit",
       "image": "/images/categories/biscuit.svg",
+      "banner": "/images/categories/biscuit.svg",
       "summary": "Baked, cream, cookie, and wafer biscuit formats for future snack shelves.",
+      "description": "A future biscuit range covering baked, cream, cookie, and wafer formats for simple, reliable snack shelves.",
       "status": "Coming Soon",
+      "products": [],
       "groups": [
         {
           "name": "Biscuit Range",
@@ -193,10 +227,15 @@
     },
     {
       "id": "banana-chips",
+      "slug": "banana-chips",
       "name": "Banana Chips",
+      "title": "Banana Chips",
       "image": "/images/categories/banana-chips.svg",
+      "banner": "/images/categories/banana-chips.svg",
       "summary": "Crunchy banana chips with classic salted and aloo-inspired ideas.",
+      "description": "Crispy banana chips are planned for classic salted crunch and ZUPPIO-style flavor twists.",
       "status": "Coming Soon",
+      "products": [],
       "groups": [
         {
           "name": "Coming Soon",
@@ -215,10 +254,15 @@
     },
     {
       "id": "wafers",
+      "slug": "wafers",
       "name": "Wafers",
+      "title": "Wafers",
       "image": "/images/categories/wafers.svg",
+      "banner": "/images/categories/wafers.svg",
       "summary": "Light wafer snacks with the familiar ZUPPIO flavor personality.",
+      "description": "Light, crisp wafer snacks are planned with familiar ZUPPIO flavor energy and easy shareability.",
       "status": "Coming Soon",
+      "products": [],
       "groups": [
         {
           "name": "Wafer Flavors",
@@ -241,10 +285,15 @@
     },
     {
       "id": "ready-to-eat",
-      "name": "Ready-to-Eat",
+      "slug": "ready-to-eat",
+      "name": "Ready-To-Eat",
+      "title": "Ready-To-Eat",
       "image": "/images/categories/ready-to-eat.svg",
+      "banner": "/images/categories/ready-to-eat.svg",
       "summary": "Convenient meal and beverage formats for fast, everyday consumption.",
+      "description": "Convenient ready-to-eat food ideas are being prepared for quick meals, travel, and busy everyday routines.",
       "status": "Coming Soon",
+      "products": [],
       "groups": [
         {
           "name": "Meal Range",
@@ -282,7 +331,7 @@
         "title": "Beverages for every mood.",
         "text": "Zeera Drinks, Energy Drinks, Tighter Drinks, Water, and Aam Papad are planned for the next ZUPPIO shelf.",
         "buttonText": "See Beverages",
-        "buttonLink": "#beverages",
+        "buttonLink": "/product-categories/beverages",
         "images": [
           "/images/categories/beverages.svg"
         ],
@@ -294,7 +343,7 @@
         "title": "Biscuits, wafers, and banana chips.",
         "text": "Baked biscuits, cream biscuits, cookies, wafer biscuits, banana chips, and flavored wafers are mapped for future launches.",
         "buttonText": "Explore Bakery",
-        "buttonLink": "#biscuit",
+        "buttonLink": "/product-categories/biscuit",
         "images": [
           "/images/categories/biscuit.svg",
           "/images/categories/wafers.svg"
@@ -303,11 +352,11 @@
       },
       {
         "className": "ready-slide",
-        "label": "Ready-to-Eat",
+        "label": "Ready-To-Eat",
         "title": "Quick meals, ZUPPIO style.",
         "text": "Poha, Rajma Chawal, Noodles, and Creamy Chai Coffee ideas for fast everyday use.",
-        "buttonText": "View Ready-to-Eat",
-        "buttonLink": "#ready-to-eat",
+        "buttonText": "View Ready-To-Eat",
+        "buttonLink": "/product-categories/ready-to-eat",
         "images": [
           "/images/categories/ready-to-eat.svg"
         ],
@@ -380,13 +429,13 @@
     },
     {
       "id": "ready-to-eat",
-      "name": "Ready-to-Eat",
+      "name": "Ready-To-Eat",
       "tags": [],
       "flavour": "",
       "size": "",
       "colour": "",
       "variations": "",
-      "productType": "Ready-to-Eat",
+      "productType": "Ready-To-Eat",
       "status": "Coming Soon"
     }
   ],
@@ -407,16 +456,130 @@
   "subscribers": [],
   "blogPosts": [
     {
-      "id": "blog_a9d5f63120ac8855",
-      "title": "Why Mast Masaledar Is Perfect For Gamers",
-      "slug": "mast-masaledar-gamers",
-      "description": "Spice, crunch, and party-ready pacing.",
-      "category": "Flavour",
+      "id": "blog_story_behind_zuppio_snacks",
+      "title": "The Story Behind ZUPPIO Snacks",
+      "slug": "story-behind-zuppio-snacks",
+      "description": "How ZUPPIO is building a modern Indian snack brand with bold taste and everyday trust.",
+      "category": "Brand Story",
       "tags": [
-        "chips"
+        "brand",
+        "snacks",
+        "zuppio"
       ],
-      "image": "",
-      "status": "Published"
+      "image": "/images/home-hero-zuppio.png",
+      "status": "Published",
+      "content": [
+        "ZUPPIO began with a simple belief: everyday snacks should feel exciting, trustworthy, and easy to love. The brand brings together bold Indian flavor energy, modern packaging, and a growing vision for food products that fit naturally into daily routines.",
+        "From potato chips to upcoming categories, ZUPPIO is shaping a product universe around taste, consistency, and consumer connection. Every pack is designed to feel familiar enough for daily snacking and fresh enough to stand out on the shelf.",
+        "The long-term goal is bigger than one snack. ZUPPIO is building a food brand that can grow across multiple categories while keeping quality, clarity, and joyful taste at the center."
+      ],
+      "seoTitle": "The Story Behind ZUPPIO Snacks",
+      "seoDescription": "Read the brand story behind ZUPPIO Snacks and its modern Indian FMCG vision."
+    },
+    {
+      "id": "blog_potato_chips_india_favorite",
+      "title": "Why Potato Chips Are India's Favorite Snack",
+      "slug": "why-potato-chips-are-indias-favorite-snack",
+      "description": "A look at why crispy potato chips work for tea breaks, parties, travel, and everyday cravings.",
+      "category": "Snack Culture",
+      "tags": [
+        "potato chips",
+        "india",
+        "snacks"
+      ],
+      "image": "/images/categories/potato-chips.svg",
+      "status": "Published",
+      "content": [
+        "Potato chips have a special place in Indian snacking because they fit almost every moment. They work with tea, movie nights, road trips, office breaks, and quick get-togethers.",
+        "The best chips balance crunch, seasoning, and freshness. ZUPPIO's Potato Chips category is built around that simple pleasure: crisp texture with flavors that feel made for Indian snack moods.",
+        "From classic salted to masala-led flavors, potato chips remain a favorite because they are easy to share, easy to carry, and instantly satisfying."
+      ],
+      "seoTitle": "Why Potato Chips Are India's Favorite Snack",
+      "seoDescription": "Explore why potato chips remain one of India's most loved everyday snack choices."
+    },
+    {
+      "id": "blog_easy_snack_recipes_zuppio_chips",
+      "title": "5 Easy Snack Recipes with ZUPPIO Chips",
+      "slug": "easy-snack-recipes-with-zuppio-chips",
+      "description": "Quick food ideas using ZUPPIO chips for parties, evening snacks, and fun family moments.",
+      "category": "Recipes",
+      "tags": [
+        "recipes",
+        "chips",
+        "party snacks"
+      ],
+      "image": "/images/yellow.png",
+      "status": "Published",
+      "content": [
+        "ZUPPIO chips can do more than sit beside a cold drink. Try crushed chips over chaat for extra crunch, layer them into a quick sandwich, or use them as a topping for cheesy nacho-style plates.",
+        "For parties, make a snack bowl with chips, chopped onion, tomato, coriander, lemon, and a little chaat masala. Serve immediately so the crunch stays lively.",
+        "You can also use chips as a crispy side with burgers, rolls, and wraps. Keep it simple: bold crunch, fast prep, and no complicated kitchen work."
+      ],
+      "seoTitle": "5 Easy Snack Recipes with ZUPPIO Chips",
+      "seoDescription": "Try quick and simple snack ideas using ZUPPIO chips for parties and everyday cravings."
+    },
+    {
+      "id": "blog_zuppio_quality_and_taste",
+      "title": "How ZUPPIO Focuses on Quality and Taste",
+      "slug": "how-zuppio-focuses-on-quality-and-taste",
+      "description": "Inside the quality-first thinking behind ZUPPIO's ingredients, flavors, and packaging.",
+      "category": "Quality",
+      "tags": [
+        "quality",
+        "taste",
+        "ingredients"
+      ],
+      "image": "/images/zuppio-front.jpeg",
+      "status": "Published",
+      "content": [
+        "Quality starts with clear choices. ZUPPIO focuses on ingredients, consistent taste, hygienic handling, and packaging that supports a reliable snacking experience.",
+        "Taste is just as important as process. The brand works toward flavors that feel bold, balanced, and repeat-worthy, so each pack can become part of a consumer's regular snack routine.",
+        "As ZUPPIO grows into more categories, this quality-first thinking will guide new launches across snacks, beverages, bakery ideas, and ready-to-eat formats."
+      ],
+      "seoTitle": "How ZUPPIO Focuses on Quality and Taste",
+      "seoDescription": "Learn how ZUPPIO approaches quality, ingredients, taste, and packaging."
+    },
+    {
+      "id": "blog_party_gathering_snacks",
+      "title": "Best Snacks for Parties and Gatherings",
+      "slug": "best-snacks-for-parties-and-gatherings",
+      "description": "Snack planning ideas for game nights, house parties, family visits, and festive tables.",
+      "category": "Food Ideas",
+      "tags": [
+        "party snacks",
+        "gatherings",
+        "food ideas"
+      ],
+      "image": "/images/purple.png",
+      "status": "Published",
+      "content": [
+        "Great party snacks should be easy to serve, easy to refill, and fun to eat. Chips, wafers, dips, quick chaat bowls, and bite-sized sides all work well because guests can enjoy them without slowing the conversation.",
+        "ZUPPIO chips can sit at the center of a snack table with dips, sliced vegetables, masala peanuts, and small sandwiches. Add different textures so the table feels full and exciting.",
+        "For larger gatherings, keep extra packs ready and open them in batches. Fresh crunch makes a simple snack spread feel much more premium."
+      ],
+      "seoTitle": "Best Snacks for Parties and Gatherings",
+      "seoDescription": "Snack planning ideas for parties, gatherings, game nights, and family events."
+    },
+    {
+      "id": "blog_upcoming_zuppio_categories",
+      "title": "Upcoming ZUPPIO Product Categories",
+      "slug": "upcoming-zuppio-product-categories",
+      "description": "A preview of ZUPPIO's future product universe across beverages, biscuits, wafers, banana chips, and ready-to-eat ideas.",
+      "category": "Product Updates",
+      "tags": [
+        "categories",
+        "launches",
+        "future products"
+      ],
+      "image": "/images/product-categories/zuppio-category-desktop.png",
+      "status": "Published",
+      "content": [
+        "ZUPPIO's roadmap includes more than potato chips. The brand is preparing dedicated category spaces for Beverages, Biscuit, Banana Chips, Wafers, and Ready-To-Eat ideas.",
+        "These categories are marked as coming soon because product development, quality checks, packaging, and supply readiness all matter before a launch reaches consumers.",
+        "Visitors can already explore each category page on the website. As products become ready, those pages can be updated from admin data with descriptions, banners, and product listings."
+      ],
+      "seoTitle": "Upcoming ZUPPIO Product Categories",
+      "seoDescription": "Preview upcoming ZUPPIO categories including beverages, biscuits, wafers, banana chips, and ready-to-eat products."
     }
   ],
   "faqs": [
@@ -441,9 +604,45 @@
     "seoDescription": "ZUPPIO is a premium modern snack brand with bold chips flavors and fresh snack drops.",
     "logo": "/images/zuppio-navbar-logo.png",
     "favicon": "",
-    "footerText": "Bold chips, clean design, and modern snack energy."
+    "footerText": "Bold chips, clean design, and modern snack energy.",
+    "websiteName": "ZUPPIO",
+    "adminEmail": "admin@zuppio.local",
+    "contactEmail": "zuppiosnacks.pvt.ltd@gmail.com",
+    "defaultWhatsAppNumber": "+91 7011992634"
   },
   "auditLogs": [
+    {
+      "id": "audit_4e32f0aa7166b4df",
+      "actor": "admin@zuppio.local",
+      "action": "login",
+      "target": "admin",
+      "ip": "::1",
+      "createdAt": "2026-06-03T10:18:36.755Z"
+    },
+    {
+      "id": "audit_81afdd0cec2a4499",
+      "actor": "admin@zuppio.local",
+      "action": "homepage_update",
+      "target": "homepage",
+      "ip": "::1",
+      "createdAt": "2026-06-03T08:58:53.983Z"
+    },
+    {
+      "id": "audit_152bbb30111f9a66",
+      "actor": "admin@zuppio.local",
+      "action": "homepage_update",
+      "target": "homepage",
+      "ip": "::1",
+      "createdAt": "2026-06-03T08:58:16.503Z"
+    },
+    {
+      "id": "audit_1e44a77cb855e362",
+      "actor": "admin@zuppio.local",
+      "action": "login",
+      "target": "admin",
+      "ip": "::1",
+      "createdAt": "2026-06-03T08:57:47.743Z"
+    },
     {
       "id": "audit_42a7efe0a1eca322",
       "actor": "admin@zuppio.local",
@@ -470,8 +669,8 @@
     }
   ],
   "analytics": {
-    "visits": 1,
-    "productViews": 0,
+    "visits": 61,
+    "productViews": 7,
     "contactSubmissions": 0,
     "newsletterSubscribers": 0,
     "categoryClicks": 0,
@@ -479,6 +678,38 @@
     "whatsappClicks": 0,
     "blogViews": 0,
     "latestActivity": [
+      {
+        "id": "audit_4e32f0aa7166b4df",
+        "actor": "admin@zuppio.local",
+        "action": "login",
+        "target": "admin",
+        "ip": "::1",
+        "createdAt": "2026-06-03T10:18:36.755Z"
+      },
+      {
+        "id": "audit_81afdd0cec2a4499",
+        "actor": "admin@zuppio.local",
+        "action": "homepage_update",
+        "target": "homepage",
+        "ip": "::1",
+        "createdAt": "2026-06-03T08:58:53.983Z"
+      },
+      {
+        "id": "audit_152bbb30111f9a66",
+        "actor": "admin@zuppio.local",
+        "action": "homepage_update",
+        "target": "homepage",
+        "ip": "::1",
+        "createdAt": "2026-06-03T08:58:16.503Z"
+      },
+      {
+        "id": "audit_1e44a77cb855e362",
+        "actor": "admin@zuppio.local",
+        "action": "login",
+        "target": "admin",
+        "ip": "::1",
+        "createdAt": "2026-06-03T08:57:47.743Z"
+      },
       {
         "id": "audit_42a7efe0a1eca322",
         "actor": "admin@zuppio.local",
@@ -521,8 +752,8 @@
       "noindex": false
     },
     "howToBuy": {
-      "title": "How To Buy | ZUPPIO",
-      "description": "Contact ZUPPIO for wholesale, distributor, retailer, and bulk order enquiries.",
+      "title": "Where To Buy ZUPPIO | ZUPPIO",
+      "description": "Find ZUPPIO buying options, nearby availability, WhatsApp ordering, distributor support, and dealer enquiries.",
       "ogImage": "/images/logo1.png",
       "canonicalUrl": "",
       "noindex": false
@@ -608,7 +839,7 @@
           "status": "Available Now",
           "badge": "Available Now",
           "color": "yellow",
-          "link": "/product-categories#potato-chips"
+          "link": "/product-categories/potato-chips"
         },
         {
           "id": "banana-chips",
@@ -618,7 +849,7 @@
           "status": "Coming Soon",
           "badge": "Future Expansion",
           "color": "green",
-          "link": "/product-categories#banana-chips"
+          "link": "/product-categories/banana-chips"
         },
         {
           "id": "wafers",
@@ -628,27 +859,27 @@
           "status": "Coming Soon",
           "badge": "Future Expansion",
           "color": "purple",
-          "link": "/product-categories#wafers"
+          "link": "/product-categories/wafers"
         },
         {
           "id": "ready-to-eat",
-          "name": "Ready-to-Eat",
+          "name": "Ready-To-Eat",
           "image": "/images/categories/ready-to-eat.svg",
           "description": "Convenient snack and meal solutions for everyday consumption.",
           "status": "Coming Soon",
           "badge": "Future Expansion",
           "color": "green",
-          "link": "/product-categories#ready-to-eat"
+          "link": "/product-categories/ready-to-eat"
         },
         {
           "id": "biscuit",
-          "name": "Biscuits",
+          "name": "Biscuit",
           "image": "/images/categories/biscuit.svg",
           "description": "Cream, cookie, and baked biscuit varieties for every age group.",
           "status": "Coming Soon",
           "badge": "Future Expansion",
           "color": "yellow",
-          "link": "/product-categories#biscuit"
+          "link": "/product-categories/biscuit"
         },
         {
           "id": "beverages",
@@ -658,7 +889,7 @@
           "status": "Coming Soon",
           "badge": "Future Expansion",
           "color": "purple",
-          "link": "/product-categories#beverages"
+          "link": "/product-categories/beverages"
         }
       ]
     },
@@ -682,19 +913,55 @@
     },
     "faqs": {
       "label": "FAQ",
-      "title": "Fast answers for snack plans.",
+      "title": "Questions before the next crunch?",
       "items": [
         {
-          "question": "Where can I buy ZUPPIO?",
-          "answer": "You can contact the ZUPPIO team directly for wholesale, distributor, and retail enquiries."
+          "question": "What is ZUPPIO Foods?",
+          "answer": "ZUPPIO Foods is a modern Indian FMCG brand focused on snacks, bold flavors, and everyday food products built for quality, taste, and trust."
         },
         {
-          "question": "Which product categories are planned?",
-          "answer": "ZUPPIO is building Potato Chips, Beverages, Biscuit, Banana Chips, Wafers, and Ready-to-Eat categories."
+          "question": "What products does ZUPPIO offer?",
+          "answer": "ZUPPIO currently showcases Potato Chips and is preparing future categories such as Beverages, Biscuit, Banana Chips, Wafers, and Ready-To-Eat products."
         },
         {
-          "question": "Which flavor is most loved?",
-          "answer": "Mast Masaledar is the bold crowd favorite, while Seedha Simple and Italian Tadka cover classic and cafe-style moods."
+          "question": "Are ZUPPIO snacks made with quality ingredients?",
+          "answer": "Yes. ZUPPIO is built around quality ingredients, hygienic handling, consistent taste, and packaging that keeps products shelf-ready and consumer friendly."
+        },
+        {
+          "question": "Where can I buy ZUPPIO products?",
+          "answer": "You can contact the ZUPPIO team directly for current retail availability, distributor support, and product purchase information."
+        },
+        {
+          "question": "Does ZUPPIO offer wholesale or dealership opportunities?",
+          "answer": "Yes. Retailers, distributors, and business partners can contact ZUPPIO for wholesale, dealership, and bulk enquiry discussions."
+        },
+        {
+          "question": "How can I contact ZUPPIO?",
+          "answer": "You can reach ZUPPIO through the Contact page, WhatsApp, phone, email, or the official social media links listed on the website."
+        },
+        {
+          "question": "Are new ZUPPIO products coming soon?",
+          "answer": "Yes. ZUPPIO is developing new products across snack, beverage, bakery, wafer, banana chips, and ready-to-eat categories."
+        },
+        {
+          "question": "What makes ZUPPIO different from other snack brands?",
+          "answer": "ZUPPIO combines Indian taste energy, clean modern branding, quality-focused production, and a roadmap for multiple everyday food categories."
+        },
+        {
+          "question": "Can retailers partner with ZUPPIO?",
+          "answer": "Yes. Retailers can connect with ZUPPIO for product availability, retail supply, dealership enquiries, and future launch updates."
+        },
+        {
+          "question": "Does ZUPPIO have different product categories?",
+          "answer": "Yes. ZUPPIO has dedicated product category pages for Potato Chips, Beverages, Biscuit, Banana Chips, Wafers, and Ready-To-Eat products."
+        },
+        {
+          "question": "How can I stay updated about ZUPPIO launches?",
+          "answer": "You can follow ZUPPIO on social media, check the website, or subscribe to snack drop alerts from the homepage."
+        },
+        {
+          "question": "Is ZUPPIO available online?",
+          "answer": "Online availability may expand over time. For current purchase and supply options, contact the ZUPPIO team directly."
         }
       ]
     },
@@ -987,6 +1254,274 @@
       ]
     }
   },
+  "howToBuy": {
+    "hero": {
+      "breadcrumbTitle": "How To Buy",
+      "commandTitle": "STORE FINDER",
+      "pageTitle": "WHERE TO BUY ZUPPIO"
+    },
+    "filters": {
+      "bannerImage": "/images/logo1.png",
+      "pincodePlaceholder": "Enter pincode",
+      "categories": [
+        "Any",
+        "Potato Chips",
+        "Banana Chips",
+        "Wafers",
+        "Biscuits",
+        "Beverages",
+        "Ready-To-Eat"
+      ],
+      "products": [
+        "All products",
+        "Seedha Simple",
+        "Italian Tadka",
+        "Mast Masaledar"
+      ],
+      "radii": [
+        "Within 2 km",
+        "Within 5 km",
+        "Within 10 km",
+        "Within 25 km"
+      ],
+      "findButtonText": "Find ZUPPIO"
+    },
+    "map": {
+      "title": "Delhi NCR Availability Zone",
+      "locationLabel": "Noida / Delhi NCR",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=ZUPPIO%20snacks%20Noida%20Delhi%20NCR",
+      "defaultQuery": "Noida Delhi NCR",
+      "defaultCenter": {
+        "lat": 28.5355,
+        "lng": 77.391,
+        "zoom": 11
+      },
+      "apiMissingMessage": "Map API key is not configured.",
+      "noStoresMessage": "No ZUPPIO stores found in this area yet. Please contact us on WhatsApp for availability."
+    },
+    "stores": [
+      {
+        "id": "store-ghaziabad-201002",
+        "name": "ZUPPIO Ghaziabad Retail Partner",
+        "address": "Vijay Nagar market area, Ghaziabad, Uttar Pradesh",
+        "city": "Ghaziabad",
+        "pincode": "201002",
+        "phone": "+91 7011992634",
+        "latitude": 28.6697,
+        "longitude": 77.4256,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Retailer",
+        "status": "Available"
+      },
+      {
+        "id": "store-noida-201301",
+        "name": "ZUPPIO Noida Retail Desk",
+        "address": "Sector 18, Noida, Uttar Pradesh",
+        "city": "Noida",
+        "pincode": "201301",
+        "phone": "+91 7011992634",
+        "latitude": 28.5672,
+        "longitude": 77.321,
+        "products": [
+          "Seedha Simple",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Retailer",
+        "status": "Available"
+      },
+      {
+        "id": "store-noida-201309",
+        "name": "ZUPPIO Sector 62 Partner Store",
+        "address": "Sector 62, Noida, Uttar Pradesh",
+        "city": "Noida",
+        "pincode": "201309",
+        "phone": "+91 7011992634",
+        "latitude": 28.627,
+        "longitude": 77.375,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Retailer",
+        "status": "Available"
+      },
+      {
+        "id": "store-ghaziabad-201001",
+        "name": "ZUPPIO Direct NCR Hub",
+        "address": "A433, Sudamapuri, Vijay Nagar, Ghaziabad, Uttar Pradesh",
+        "city": "Ghaziabad",
+        "pincode": "201001",
+        "phone": "+91 7011992634",
+        "latitude": 28.6643,
+        "longitude": 77.431,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Distributor",
+        "status": "Available"
+      },
+      {
+        "id": "store-delhi-110092",
+        "name": "Delhi NCR Distributor Network",
+        "address": "Patparganj industrial area, East Delhi",
+        "city": "Delhi",
+        "pincode": "110092",
+        "phone": "+91 7011992634",
+        "latitude": 28.6219,
+        "longitude": 77.3121,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Distributor",
+        "status": "Available"
+      },
+      {
+        "id": "store-wholesale-ncr",
+        "name": "ZUPPIO Wholesale Orders",
+        "address": "Delhi NCR wholesale supply desk",
+        "city": "Noida",
+        "pincode": "201305",
+        "phone": "+91 7011992634",
+        "latitude": 28.5024,
+        "longitude": 77.4052,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Wholesale",
+        "status": "Available"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "nearby-stores",
+        "label": "Nearby Stores"
+      },
+      {
+        "id": "online",
+        "label": "Online"
+      },
+      {
+        "id": "distributors",
+        "label": "Distributors"
+      },
+      {
+        "id": "wholesale",
+        "label": "Wholesale"
+      },
+      {
+        "id": "dealer-inquiry",
+        "label": "Dealer Inquiry"
+      }
+    ],
+    "buyingOptions": [
+      {
+        "tab": "nearby-stores",
+        "icon": "store",
+        "name": "Local Retail Stores",
+        "type": "Pickup",
+        "status": "Expanding",
+        "buttonText": "View Products",
+        "link": "/product-categories"
+      },
+      {
+        "tab": "nearby-stores",
+        "image": "/images/logo1.png",
+        "name": "ZUPPIO Direct",
+        "type": "Delivery",
+        "status": "Available",
+        "buttonText": "Contact",
+        "link": "/contact"
+      },
+      {
+        "tab": "online",
+        "icon": "message-circle",
+        "name": "WhatsApp Order",
+        "type": "Delivery",
+        "status": "Available",
+        "buttonText": "Contact",
+        "link": "https://wa.me/917011992634?text=Hello%20ZUPPIO%20Team%2C%20I%20want%20to%20order%20ZUPPIO%20products"
+      },
+      {
+        "tab": "online",
+        "icon": "shopping-bag",
+        "name": "Future Online Partners",
+        "type": "Online",
+        "status": "Coming Soon",
+        "buttonText": "View Products",
+        "link": "/product-categories"
+      },
+      {
+        "tab": "distributors",
+        "icon": "truck",
+        "name": "Distributor Network",
+        "type": "Distributor",
+        "status": "Open",
+        "buttonText": "Contact",
+        "link": "/contact"
+      },
+      {
+        "tab": "wholesale",
+        "icon": "boxes",
+        "name": "Wholesale Orders",
+        "type": "Wholesale",
+        "status": "Available",
+        "buttonText": "Contact",
+        "link": "/contact"
+      },
+      {
+        "tab": "dealer-inquiry",
+        "icon": "handshake",
+        "name": "Dealer Inquiry",
+        "type": "Dealer",
+        "status": "Open",
+        "buttonText": "Contact",
+        "link": "#dealer-inquiry"
+      }
+    ],
+    "dealerInquiry": {
+      "label": "Partner With ZUPPIO",
+      "title": "Become a ZUPPIO Dealer",
+      "description": "Share your business details and the ZUPPIO team will contact you for dealership, distributor, retail, or wholesale opportunities.",
+      "businessTypes": [
+        "Retailer",
+        "Distributor",
+        "Wholesaler",
+        "Super Stockist",
+        "Modern Trade",
+        "Online Seller",
+        "Other"
+      ],
+      "submitButtonText": "Submit Inquiry"
+    }
+  },
   "howToBuyPage": {
     "hero": {
       "breadcrumbTitle": "How to Buy",
@@ -1038,7 +1573,268 @@
         "required": false
       }
     ],
-    "submitButtonText": "Submit Inquiry"
+    "submitButtonText": "Submit Inquiry",
+    "filters": {
+      "bannerImage": "/images/logo1.png",
+      "pincodePlaceholder": "Enter pincode",
+      "categories": [
+        "Any",
+        "Potato Chips",
+        "Banana Chips",
+        "Wafers",
+        "Biscuits",
+        "Beverages",
+        "Ready-To-Eat"
+      ],
+      "products": [
+        "All products",
+        "Seedha Simple",
+        "Italian Tadka",
+        "Mast Masaledar"
+      ],
+      "radii": [
+        "Within 2 km",
+        "Within 5 km",
+        "Within 10 km",
+        "Within 25 km"
+      ],
+      "findButtonText": "Find ZUPPIO"
+    },
+    "map": {
+      "title": "Delhi NCR Availability Zone",
+      "locationLabel": "Noida / Delhi NCR",
+      "googleMapsUrl": "https://www.google.com/maps/search/?api=1&query=ZUPPIO%20snacks%20Noida%20Delhi%20NCR",
+      "defaultQuery": "Noida Delhi NCR",
+      "defaultCenter": {
+        "lat": 28.5355,
+        "lng": 77.391,
+        "zoom": 11
+      },
+      "apiMissingMessage": "Map API key is not configured.",
+      "noStoresMessage": "No ZUPPIO stores found in this area yet. Please contact us on WhatsApp for availability."
+    },
+    "stores": [
+      {
+        "id": "store-ghaziabad-201002",
+        "name": "ZUPPIO Ghaziabad Retail Partner",
+        "address": "Vijay Nagar market area, Ghaziabad, Uttar Pradesh",
+        "city": "Ghaziabad",
+        "pincode": "201002",
+        "phone": "+91 7011992634",
+        "latitude": 28.6697,
+        "longitude": 77.4256,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Retailer",
+        "status": "Available"
+      },
+      {
+        "id": "store-noida-201301",
+        "name": "ZUPPIO Noida Retail Desk",
+        "address": "Sector 18, Noida, Uttar Pradesh",
+        "city": "Noida",
+        "pincode": "201301",
+        "phone": "+91 7011992634",
+        "latitude": 28.5672,
+        "longitude": 77.321,
+        "products": [
+          "Seedha Simple",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Retailer",
+        "status": "Available"
+      },
+      {
+        "id": "store-noida-201309",
+        "name": "ZUPPIO Sector 62 Partner Store",
+        "address": "Sector 62, Noida, Uttar Pradesh",
+        "city": "Noida",
+        "pincode": "201309",
+        "phone": "+91 7011992634",
+        "latitude": 28.627,
+        "longitude": 77.375,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Retailer",
+        "status": "Available"
+      },
+      {
+        "id": "store-ghaziabad-201001",
+        "name": "ZUPPIO Direct NCR Hub",
+        "address": "A433, Sudamapuri, Vijay Nagar, Ghaziabad, Uttar Pradesh",
+        "city": "Ghaziabad",
+        "pincode": "201001",
+        "phone": "+91 7011992634",
+        "latitude": 28.6643,
+        "longitude": 77.431,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Distributor",
+        "status": "Available"
+      },
+      {
+        "id": "store-delhi-110092",
+        "name": "Delhi NCR Distributor Network",
+        "address": "Patparganj industrial area, East Delhi",
+        "city": "Delhi",
+        "pincode": "110092",
+        "phone": "+91 7011992634",
+        "latitude": 28.6219,
+        "longitude": 77.3121,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Distributor",
+        "status": "Available"
+      },
+      {
+        "id": "store-wholesale-ncr",
+        "name": "ZUPPIO Wholesale Orders",
+        "address": "Delhi NCR wholesale supply desk",
+        "city": "Noida",
+        "pincode": "201305",
+        "phone": "+91 7011992634",
+        "latitude": 28.5024,
+        "longitude": 77.4052,
+        "products": [
+          "Seedha Simple",
+          "Italian Tadka",
+          "Mast Masaledar"
+        ],
+        "categories": [
+          "Potato Chips"
+        ],
+        "type": "Wholesale",
+        "status": "Available"
+      }
+    ],
+    "tabs": [
+      {
+        "id": "nearby-stores",
+        "label": "Nearby Stores"
+      },
+      {
+        "id": "online",
+        "label": "Online"
+      },
+      {
+        "id": "distributors",
+        "label": "Distributors"
+      },
+      {
+        "id": "wholesale",
+        "label": "Wholesale"
+      },
+      {
+        "id": "dealer-inquiry",
+        "label": "Dealer Inquiry"
+      }
+    ],
+    "buyingOptions": [
+      {
+        "tab": "nearby-stores",
+        "icon": "store",
+        "name": "Local Retail Stores",
+        "type": "Pickup",
+        "status": "Expanding",
+        "buttonText": "View Products",
+        "link": "/product-categories"
+      },
+      {
+        "tab": "nearby-stores",
+        "image": "/images/logo1.png",
+        "name": "ZUPPIO Direct",
+        "type": "Delivery",
+        "status": "Available",
+        "buttonText": "Contact",
+        "link": "/contact"
+      },
+      {
+        "tab": "online",
+        "icon": "message-circle",
+        "name": "WhatsApp Order",
+        "type": "Delivery",
+        "status": "Available",
+        "buttonText": "Contact",
+        "link": "https://wa.me/917011992634?text=Hello%20ZUPPIO%20Team%2C%20I%20want%20to%20order%20ZUPPIO%20products"
+      },
+      {
+        "tab": "online",
+        "icon": "shopping-bag",
+        "name": "Future Online Partners",
+        "type": "Online",
+        "status": "Coming Soon",
+        "buttonText": "View Products",
+        "link": "/product-categories"
+      },
+      {
+        "tab": "distributors",
+        "icon": "truck",
+        "name": "Distributor Network",
+        "type": "Distributor",
+        "status": "Open",
+        "buttonText": "Contact",
+        "link": "/contact"
+      },
+      {
+        "tab": "wholesale",
+        "icon": "boxes",
+        "name": "Wholesale Orders",
+        "type": "Wholesale",
+        "status": "Available",
+        "buttonText": "Contact",
+        "link": "/contact"
+      },
+      {
+        "tab": "dealer-inquiry",
+        "icon": "handshake",
+        "name": "Dealer Inquiry",
+        "type": "Dealer",
+        "status": "Open",
+        "buttonText": "Contact",
+        "link": "#dealer-inquiry"
+      }
+    ],
+    "dealerInquiry": {
+      "label": "Partner With ZUPPIO",
+      "title": "Become a ZUPPIO Dealer",
+      "description": "Share your business details and the ZUPPIO team will contact you for dealership, distributor, retail, or wholesale opportunities.",
+      "businessTypes": [
+        "Retailer",
+        "Distributor",
+        "Wholesaler",
+        "Super Stockist",
+        "Modern Trade",
+        "Online Seller",
+        "Other"
+      ],
+      "submitButtonText": "Submit Inquiry"
+    }
   },
   "policies": {
     "hero": {
@@ -1118,6 +1914,7 @@
   "submissions": {
     "contacts": [],
     "dealerInquiries": [],
-    "newsletter": []
+    "newsletter": [],
+    "wholesaleInquiries": []
   }
 }

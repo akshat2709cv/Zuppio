@@ -1,15 +1,134 @@
 <%- include("partials/shell-open") %>
 
+<%
+  const cmsData = typeof data !== "undefined" ? data : {};
+  const cmsKey = key;
+  const rootType = Array.isArray(cmsData) ? "array" : "object";
+  const pageLabels = {
+    homepage: "Homepage",
+    productCategories: "Product Categories Page",
+    productCategoryPage: "Product Category Pages",
+    contactPage: "Contact Page",
+    aboutPage: "About Page",
+    howToBuy: "How To Buy / Store Locator",
+    policies: "Policies / Terms",
+    seo: "SEO Settings"
+  };
+  const sectionHints = {
+    hero: "Hero section fields and page introduction.",
+    aboutPreview: "Homepage about feature cards.",
+    categoryShowcase: "Homepage product category slider/cards.",
+    faq: "Homepage FAQ section content.",
+    blogPreview: "Homepage blog preview section.",
+    testimonials: "Homepage testimonials.",
+    newsletter: "Newsletter section copy.",
+    filters: "Pincode, category, product, and radius search options.",
+    map: "Map heading, default location, API fallback, and store messages.",
+    stores: "Store and distributor records for locator results.",
+    buyingOptions: "Buying option tabs and cards.",
+    dealerInquiry: "Dealer and wholesale inquiry form settings.",
+    socialCards: "Social media cards.",
+    qrCards: "Google Maps and WhatsApp QR cards.",
+    items: "Policy cards and detail content.",
+    overview: "Category listing heading.",
+    suggestionSlides: "Category page suggestion slides.",
+    businessCta: "Business inquiry CTA copy."
+  };
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+  function labelize(value) {
+    const raw = String(value || "Content").replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[-_]/g, " ");
+    return raw.charAt(0).toUpperCase() + raw.slice(1);
+  }
+  function isTextarea(key, value) {
+    const lowered = String(key || "").toLowerCase();
+    return String(value ?? "").length > 90 || /(description|subtitle|content|message|detail|paragraph|preview|text|answer|body|copyright)/.test(lowered);
+  }
+  function renderPrimitive(path, key, value) {
+    const safePath = escapeHtml(path);
+    const label = escapeHtml(labelize(key));
+    const type = typeof value;
+    if (type === "boolean") {
+      return `<label class="toggle-label cms-label"><input type="checkbox" data-json-path="${safePath}" data-json-type="boolean" ${value ? "checked" : ""} /> <span>${label}</span></label>`;
+    }
+    if (type === "number") {
+      return `<label class="cms-label">${label}<input type="number" data-json-path="${safePath}" data-json-type="number" value="${escapeHtml(value)}" /></label>`;
+    }
+    if (isTextarea(key, value)) {
+      return `<label class="cms-label wide">${label}<textarea data-json-path="${safePath}" data-json-type="string" rows="4">${escapeHtml(value)}</textarea></label>`;
+    }
+    return `<label class="cms-label">${label}<input data-json-path="${safePath}" data-json-type="string" value="${escapeHtml(value)}" /></label>`;
+  }
+  function renderObject(path, key, value, depth) {
+    const heading = key === null ? pageLabels[cmsKey] || "CMS Section" : labelize(key);
+    const hint = key && sectionHints[key] ? `<p class="admin-note">${escapeHtml(sectionHints[key])}</p>` : "";
+    const entries = Object.entries(value || {});
+    return `
+      <section class="cms-group ${depth === 0 ? "cms-root-group" : ""}">
+        <div class="cms-section-heading">
+          <h2>${escapeHtml(heading)}</h2>
+          ${hint}
+        </div>
+        <div class="cms-grid">
+          ${entries.map(([childKey, childValue]) => renderValue(path ? `${path}.${childKey}` : childKey, childKey, childValue, depth + 1)).join("")}
+        </div>
+      </section>
+    `;
+  }
+  function renderArray(path, key, value, depth) {
+    const items = Array.isArray(value) ? value : [];
+    const heading = key === null ? pageLabels[cmsKey] || "Records" : labelize(key);
+    const hint = key && sectionHints[key] ? `<p class="admin-note">${escapeHtml(sectionHints[key])}</p>` : "";
+    return `
+      <section class="cms-array">
+        <div class="cms-section-heading">
+          <h2>${escapeHtml(heading)}</h2>
+          ${hint}
+          <span class="pill">${items.length} item${items.length === 1 ? "" : "s"}</span>
+        </div>
+        <div class="cms-array-items">
+          ${items.map((item, index) => `
+            <article class="cms-array-item">
+              <div class="cms-array-item-header">
+                <span>${escapeHtml(heading)} ${index + 1}</span>
+              </div>
+              ${renderValue(path ? `${path}.${index}` : String(index), index, item, depth + 1)}
+            </article>
+          `).join("")}
+          ${items.length ? "" : `<p class="admin-note">No records in this section yet.</p>`}
+        </div>
+      </section>
+    `;
+  }
+  function renderValue(path, key, value, depth) {
+    if (Array.isArray(value)) return renderArray(path, key, value, depth);
+    if (value && typeof value === "object") return renderObject(path, key, value, depth);
+    return renderPrimitive(path, key, value);
+  }
+%>
+
 <section class="admin-card">
-  <h2><%= key %></h2>
-  <p class="admin-note"><%= help %></p>
+  <div class="cms-section-heading">
+    <p class="admin-kicker">Structured CMS Editor</p>
+    <h2><%= pageLabels[key] || labelize(key) %></h2>
+    <p class="admin-note"><%= help %></p>
+  </div>
   <% if (message) { %><div class="admin-alert <%= message.includes('Invalid') ? '' : 'success' %>"><%= message %></div><% } %>
-  <form class="admin-form" method="post" action="/admin/<%= key === 'homepage' ? 'homepage' : key === 'productCategoryPage' ? 'product-category-page' : key === 'productCategories' ? 'product-categories-content' : key === 'contactPage' ? 'contact-page' : key === 'aboutPage' ? 'about-page' : key === 'howToBuyPage' ? 'how-to-buy-page' : key === 'policies' ? 'policies-manager' : key === 'seo' ? 'seo' : key %>">
+  <form class="admin-form" method="post" action="<%= formAction %>" data-admin-json-form>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-    <label class="wide">Editable data
-      <textarea class="json-editor" name="value" rows="28" spellcheck="false"><%= value %></textarea>
-    </label>
-    <button class="admin-button" type="submit">Save Changes</button>
+    <textarea name="value" data-json-output data-root-type="<%= rootType %>" hidden><%= value %></textarea>
+    <div class="cms-editor">
+      <%- renderValue("", null, cmsData, 0) %>
+    </div>
+    <div class="admin-actions">
+      <button class="admin-button" type="submit">Save Changes</button>
+    </div>
   </form>
 </section>
 

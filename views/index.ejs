@@ -74,7 +74,7 @@
                 <p class="eyebrow"><%= category.status %></p>
                 <h3><%= category.name %></h3>
                 <p><%= category.description %></p>
-                <a class="button secondary" href="<%= category.link || ('/product-categories#' + category.id) %>">
+                <a class="button secondary" href="<%= category.id ? ('/product-categories/' + category.id) : (category.link || '/product-categories') %>">
                   Explore Category
                   <i data-lucide="arrow-right"></i>
                 </a>
@@ -111,10 +111,10 @@
   </div>
   <div class="faq-list">
     <% homepage.faqs.items.forEach(function(item, index) { %>
-      <article class="faq-item <%= index === 0 ? 'open' : '' %>">
-        <button type="button" aria-expanded="<%= index === 0 ? 'true' : 'false' %>">
+      <article class="faq-item">
+        <button type="button" aria-expanded="false">
           <span><%= item.question %></span>
-          <i data-lucide="plus"></i>
+          <i data-lucide="chevron-down"></i>
         </button>
         <div class="faq-panel">
           <p><%= item.answer %></p>

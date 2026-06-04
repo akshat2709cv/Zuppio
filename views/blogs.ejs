@@ -4,22 +4,18 @@
 
 <section class="section blog-grid">
   <% managedBlogPosts.forEach(function(blog, index) { %>
-    <article class="blog-card glass-card scroll-reveal flavor-<%= ["purple", "yellow", "green"][index % 3] %>" style="--delay: <%= index * 90 %>ms">
-      <span>0<%= index + 1 %></span>
-      <% if (blog.image) { %><img src="<%= blog.image %>" alt="<%= blog.title %>" /><% } %>
+    <a class="blog-card glass-card scroll-reveal flavor-<%= ["purple", "yellow", "green"][index % 3] %>" href="/blogs/<%= blog.slug %>" style="--delay: <%= index * 90 %>ms">
+      <img src="<%= blog.image || '/images/home-hero-zuppio.png' %>" alt="<%= blog.title %>" />
       <h2><%= blog.title %></h2>
-      <p><%= blog.description %></p>
-      <a href="/product-categories">
+      <strong class="blog-read-more">
         Read More
         <i data-lucide="arrow-up-right"></i>
-      </a>
-    </article>
+      </strong>
+    </a>
   <% }) %>
   <% if (!managedBlogPosts.length) { %>
     <article class="blog-card glass-card scroll-reveal flavor-purple">
-      <span>01</span>
       <h2>No posts yet</h2>
-      <p>Published ZUPPIO blog posts will appear here.</p>
     </article>
   <% } %>
 </section>
