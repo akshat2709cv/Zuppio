@@ -1,6 +1,20 @@
+<%
+  const heroConfig = homepage.hero || {};
+  function cssSafe(value) {
+    return String(value || "").replace(/["'()\\]/g, "");
+  }
+  const heroStyle = [
+    heroConfig.backgroundImageDesktop ? `--home-hero-image-desktop: url('${cssSafe(heroConfig.backgroundImageDesktop)}')` : "",
+    heroConfig.backgroundImageTablet ? `--home-hero-image-tablet: url('${cssSafe(heroConfig.backgroundImageTablet)}')` : "",
+    heroConfig.backgroundImageMobile ? `--home-hero-image-mobile: url('${cssSafe(heroConfig.backgroundImageMobile)}')` : "",
+    heroConfig.backgroundPosition ? `--home-hero-image-position: ${cssSafe(heroConfig.backgroundPosition)}` : "",
+    heroConfig.backgroundOverlay !== undefined ? `--home-hero-overlay-opacity: ${Number(heroConfig.backgroundOverlay) || 0}` : ""
+  ].filter(Boolean).join("; ");
+%>
+
 <%- include("partials/header") %>
 
-<section class="hero home-hero" id="home">
+<section class="hero home-hero" id="home" style="<%= heroStyle %>">
   <div class="hero-ambient" aria-hidden="true">
     <span></span>
     <span></span>
@@ -23,15 +37,6 @@
     </div>
   </div>
 
-  <div class="hero-product-stage scroll-reveal" style="--delay: 120ms">
-    <div class="packet-glow"></div>
-    <img class="hero-pack hero-pack-main" src="<%= homepage.hero.mainImage %>" alt="ZUPPIO hero product" data-depth="0.08" />
-    <img class="hero-pack hero-pack-left" src="<%= homepage.hero.leftImage %>" alt="" data-depth="0.04" />
-    <img class="hero-pack hero-pack-right" src="<%= homepage.hero.rightImage %>" alt="" data-depth="0.06" />
-    <span class="particle particle-one"></span>
-    <span class="particle particle-two"></span>
-    <span class="particle particle-three"></span>
-  </div>
 </section>
 
 <section class="section about-preview" id="about">

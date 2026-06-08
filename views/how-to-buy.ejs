@@ -178,7 +178,7 @@
     </div>
     <div class="form-field">
       <label for="dealer-business-name">Business Name</label>
-      <input id="dealer-business-name" name="businessName" placeholder="Shop or company name" />
+      <input id="dealer-business-name" name="businessName" placeholder="Shop or company name" required />
     </div>
     <div class="form-field">
       <label for="dealer-phone">Phone Number</label>
@@ -186,15 +186,19 @@
     </div>
     <div class="form-field">
       <label for="dealer-email">Email</label>
-      <input id="dealer-email" name="email" type="email" placeholder="you@example.com" />
+      <input id="dealer-email" name="email" type="email" placeholder="you@example.com" required />
     </div>
     <div class="form-field">
       <label for="dealer-city">City</label>
-      <input id="dealer-city" name="city" placeholder="City" />
+      <input id="dealer-city" name="city" placeholder="City" required />
     </div>
     <div class="form-field">
       <label for="dealer-state">State</label>
-      <input id="dealer-state" name="state" placeholder="State" />
+      <input id="dealer-state" name="state" placeholder="State" required />
+    </div>
+    <div class="form-field full">
+      <label for="dealer-address">Address (optional)</label>
+      <input id="dealer-address" name="address" placeholder="Business address" autocomplete="street-address" />
     </div>
     <div class="form-field full">
       <label for="dealer-business-type">Business Type</label>
@@ -206,10 +210,54 @@
     </div>
     <div class="form-field full">
       <label for="dealer-message">Message</label>
-      <textarea id="dealer-message" name="message" placeholder="Tell us about your dealership, wholesale, or retail requirement"></textarea>
+      <textarea id="dealer-message" name="message" placeholder="Tell us about your dealership or retail requirement" required></textarea>
     </div>
     <button class="button primary" type="submit">
       <%= dealerInquiry.submitButtonText || "Submit Inquiry" %>
+      <i data-lucide="send"></i>
+    </button>
+    <p class="newsletter-status" aria-live="polite"></p>
+  </form>
+</section>
+
+<section class="section dealer-inquiry-section" id="wholesale-inquiry">
+  <div class="section-kicker">
+    <p class="eyebrow">Bulk Orders</p>
+    <h2>Wholesale Inquiry</h2>
+    <p>Share your product and quantity requirements with the ZUPPIO wholesale team.</p>
+  </div>
+
+  <form class="form-card wide wholesale-inquiry-form scroll-reveal" action="/wholesale-inquiries" method="POST">
+    <div class="form-field">
+      <label for="wholesale-name">Full Name</label>
+      <input id="wholesale-name" name="name" placeholder="Your full name" required />
+    </div>
+    <div class="form-field">
+      <label for="wholesale-business-name">Business Name (optional)</label>
+      <input id="wholesale-business-name" name="businessName" placeholder="Shop or company name" />
+    </div>
+    <div class="form-field">
+      <label for="wholesale-email">Email</label>
+      <input id="wholesale-email" name="email" type="email" placeholder="you@example.com" required />
+    </div>
+    <div class="form-field">
+      <label for="wholesale-phone">Phone Number</label>
+      <input id="wholesale-phone" name="phone" inputmode="tel" placeholder="Phone number" required />
+    </div>
+    <div class="form-field">
+      <label for="wholesale-products">Product Interest</label>
+      <input id="wholesale-products" name="productInterest" placeholder="Products or flavors" required />
+    </div>
+    <div class="form-field">
+      <label for="wholesale-quantity">Quantity Requirement</label>
+      <input id="wholesale-quantity" name="quantityRequirement" placeholder="Estimated order quantity" required />
+    </div>
+    <div class="form-field full">
+      <label for="wholesale-message">Message</label>
+      <textarea id="wholesale-message" name="message" placeholder="Tell us about your wholesale requirement" required></textarea>
+    </div>
+    <button class="button primary" type="submit">
+      Submit Wholesale Inquiry
       <i data-lucide="send"></i>
     </button>
     <p class="newsletter-status" aria-live="polite"></p>

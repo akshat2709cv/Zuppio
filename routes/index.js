@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { sendSnackDropConfirmation } = require("../services/emailService");
+const { sendInquiryNotification, sendSnackDropConfirmation } = require("../services/emailService");
 const { addAudit, id, mutate, now, readState } = require("../services/adminStore");
 const { flavors, pages, productCategories, findProductCategory, normalizeProductCategories } = require("../services/siteData");
 
@@ -156,6 +156,65 @@ Zuppio Snacks Private Limited reserves the right to take appropriate legal actio
   
 ];
 
+const DUPLICATE_WINDOW_MS = 10 * 60 * 1000;
+
+function cleanText(value, limit = 500) {
+  return String(value || "")
+    .replace(/[\u0000-\u001f\u007f]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, limit);
+}
+
+function cleanMessage(value, limit = 3000) {
+  return String(value || "")
+    .replace(/\r\n/g, "\n")
+    .replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/g, "")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim()
+    .slice(0, limit);
+}
+
+function cleanEmail(value) {
+  return cleanText(value, 160).toLowerCase();
+}
+
+function validEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+function validPhone(value) {
+  return String(value || "").replace(/\D/g, "").length >= 7;
+}
+
+function wantsJson(req) {
+  return req.accepts(["json", "html"]) === "json";
+}
+
+function formResponse(req, res, status, payload, redirectPath) {
+  if (wantsJson(req)) return res.status(status).json(payload);
+  if (status >= 400) return res.status(status).send(payload.message);
+  return res.redirect(redirectPath);
+}
+
+function isRecentDuplicate(items, matches) {
+  const cutoff = Date.now() - DUPLICATE_WINDOW_MS;
+  return items.find((item) => {
+    const createdAt = Date.parse(item.createdAt || "");
+    return Number.isFinite(createdAt) && createdAt >= cutoff && matches(item);
+  });
+}
+
+async function notifyInquiry(type, inquiry) {
+  try {
+    await sendInquiryNotification(type, inquiry);
+    return true;
+  } catch (error) {
+    console.error(`${type} inquiry email failed:`, error.message);
+    return false;
+  }
+}
+
 async function renderPage(req, res, view, title, activePage, extra = {}) {
   const adminState = await readState();
   const seoKey = extra.seoKey || "home";
@@ -184,6 +243,7 @@ async function renderPage(req, res, view, title, activePage, extra = {}) {
     howToBuyPage: adminState.howToBuyPage,
     responsiveSwiperSlides: adminState.swiperSlides.filter((slide) => slide.status === "Active"),
     managedBlogPosts: adminState.blogPosts.filter((post) => post.status === "Published"),
+    siteFaqs: adminState.faqs || [],
     siteSettings: adminState.settings,
     policies: adminState.policies.items || policies,
     policiesConfig: adminState.policies,
@@ -226,6 +286,10 @@ router.get("/how-to-buy", async function (req, res) {
   });
 });
 
+router.get("/where-to-buy", function (_req, res) {
+  res.redirect(301, "/how-to-buy");
+});
+
 router.get("/blogs", async function (req, res) {
   await renderPage(req, res, "blogs", "Blogs | ZUPPIO", "Blogs", {
     seoKey: "blogs",
@@ -261,6 +325,21 @@ router.get("/contact", async function (req, res) {
 router.get("/terms", async function (req, res) {
   await renderPage(req, res, "terms", "Terms | ZUPPIO", "Terms", {
     seoKey: "terms"
+  });
+});
+
+router.get("/privacy-policy", function (_req, res) {
+  res.redirect(301, "/terms/privacy");
+});
+
+router.get("/faq", async function (req, res) {
+  await renderPage(req, res, "faq", "FAQ | ZUPPIO", "FAQ", {
+    seoKey: "faq",
+    pageHero: {
+      breadcrumbTitle: "FAQ",
+      commandTitle: "HELP CENTER",
+      pageTitle: "FAQ"
+    }
   });
 });
 
@@ -301,51 +380,129 @@ router.post("/snack-drop-alerts", async function (req, res) {
 });
 
 router.post("/contact", async function (req, res) {
-  const name = String(req.body.name || "").trim().slice(0, 120);
-  const email = String(req.body.email || "").trim().toLowerCase();
-  const message = String(req.body.message || "").trim().slice(0, 2000);
+  const inquiry = {
+    id: id("contact"),
+    type: "contact",
+    source: "Contact Form",
+    name: cleanText(req.body.name, 120),
+    email: cleanEmail(req.body.email),
+    phone: cleanText(req.body.phone, 60),
+    subject: cleanText(req.body.subject, 180),
+    message: cleanMessage(req.body.message),
+    ip: cleanText(req.ip, 80),
+    status: "New",
+    createdAt: now(),
+    updatedAt: now()
+  };
 
-  if (!name || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email) || !message) {
-    return res.status(400).json({ ok: false, message: "Please enter name, email, and message." });
+  if (!inquiry.name || !validEmail(inquiry.email) || !inquiry.message || (inquiry.phone && !validPhone(inquiry.phone))) {
+    return formResponse(req, res, 400, { ok: false, message: "Please enter a valid name, email, optional phone number, and message." }, "/contact");
   }
 
-  await mutate((state) => {
-    const inquiry = { id: id("inquiry"), name, email, message, type: "contact", status: "Unread", createdAt: now() };
+  const saved = await mutate((state) => {
+    const duplicate = isRecentDuplicate(state.submissions.contacts, (item) =>
+      item.email === inquiry.email && item.message === inquiry.message
+    );
+    if (duplicate) return { inquiry: duplicate, duplicate: true };
     state.inquiries.unshift(inquiry);
     state.submissions.contacts.unshift(inquiry);
-    state.analytics.contactSubmissions += 1;
+    state.analytics.contactSubmissions = state.submissions.contacts.length;
+    return { inquiry, duplicate: false };
   });
-  await addAudit(email, "inquiry_create", "contact", req);
-  res.json({ ok: true, message: "Thank you for contacting us. We will get back to you soon." });
+
+  if (saved.duplicate) {
+    return formResponse(req, res, 200, { ok: true, duplicate: true, message: "We already received this message. Our team will get back to you soon." }, "/contact?message=received");
+  }
+
+  await addAudit(inquiry.email, "contact_submission_create", inquiry.id, req);
+  const notificationSent = await notifyInquiry("contact", inquiry);
+  return formResponse(req, res, 200, { ok: true, notificationSent, message: "Thank you for contacting us. We will get back to you soon." }, "/contact?message=sent");
 });
 
 router.post("/dealer-inquiries", async function (req, res) {
-  const name = String(req.body.name || req.body.fullName || "").trim().slice(0, 120);
-  const businessName = String(req.body.businessName || req.body.shop || "").trim().slice(0, 160);
-  const businessType = String(req.body.businessType || req.body.business || "").trim().slice(0, 160);
-  const payload = {
+  const inquiry = {
     id: id("dealer"),
-    name,
-    businessName,
-    shop: businessName,
-    phone: String(req.body.phone || "").trim().slice(0, 60),
-    email: String(req.body.email || "").trim().toLowerCase().slice(0, 160),
-    city: String(req.body.city || "").trim().slice(0, 120),
-    state: String(req.body.state || "").trim().slice(0, 120),
-    businessType,
-    business: businessType,
-    quantity: String(req.body.quantity || "").trim().slice(0, 120),
-    message: String(req.body.message || "").trim().slice(0, 2000),
-    source: "Where To Buy",
+    type: "dealer",
+    source: "Where To Buy Dealer Inquiry",
+    name: cleanText(req.body.name || req.body.fullName, 120),
+    businessName: cleanText(req.body.businessName || req.body.shop, 160),
+    email: cleanEmail(req.body.email),
+    phone: cleanText(req.body.phone, 60),
+    city: cleanText(req.body.city, 120),
+    state: cleanText(req.body.state, 120),
+    address: cleanText(req.body.address, 300),
+    businessType: cleanText(req.body.businessType || req.body.business, 160),
+    message: cleanMessage(req.body.message),
+    ip: cleanText(req.ip, 80),
     status: "New",
-    createdAt: now()
+    createdAt: now(),
+    updatedAt: now()
   };
-  if (!payload.name || !payload.phone) return res.status(400).json({ ok: false, message: "Please enter name and phone number." });
-  await mutate((state) => {
-    state.submissions.dealerInquiries.unshift(payload);
+
+  if (!inquiry.name || !inquiry.businessName || !validEmail(inquiry.email) || !validPhone(inquiry.phone) || !inquiry.city || !inquiry.state || !inquiry.message) {
+    return formResponse(req, res, 400, { ok: false, message: "Please enter name, business name, valid email, phone, city, state, and message." }, "/how-to-buy#dealer-inquiry");
+  }
+
+  const saved = await mutate((state) => {
+    const duplicate = isRecentDuplicate(state.submissions.dealerInquiries, (item) =>
+      item.email === inquiry.email && item.phone === inquiry.phone && item.message === inquiry.message
+    );
+    if (duplicate) return { inquiry: duplicate, duplicate: true };
+    state.submissions.dealerInquiries.unshift(inquiry);
+    state.analytics.dealerInquiries = state.submissions.dealerInquiries.length;
+    return { inquiry, duplicate: false };
   });
-  await addAudit(payload.name, "dealer_inquiry_create", payload.phone, req);
-  res.json({ ok: true, message: "Thank you. Our team will contact you soon." });
+
+  if (saved.duplicate) {
+    return formResponse(req, res, 200, { ok: true, duplicate: true, message: "We already received this dealer inquiry. Our team will contact you soon." }, "/how-to-buy?dealer=received#dealer-inquiry");
+  }
+
+  await addAudit(inquiry.email, "dealer_inquiry_create", inquiry.id, req);
+  const notificationSent = await notifyInquiry("dealer", inquiry);
+  return formResponse(req, res, 200, { ok: true, notificationSent, message: "Thank you. Our dealer team will contact you soon." }, "/how-to-buy?dealer=sent#dealer-inquiry");
+});
+
+router.post("/wholesale-inquiries", async function (req, res) {
+  const inquiry = {
+    id: id("wholesale"),
+    type: "wholesale",
+    source: "Where To Buy Wholesale Inquiry",
+    name: cleanText(req.body.name, 120),
+    businessName: cleanText(req.body.businessName, 160),
+    email: cleanEmail(req.body.email),
+    phone: cleanText(req.body.phone, 60),
+    productInterest: cleanText(req.body.productInterest, 240),
+    quantityRequirement: cleanText(req.body.quantityRequirement || req.body.quantity, 160),
+    message: cleanMessage(req.body.message),
+    ip: cleanText(req.ip, 80),
+    status: "New",
+    createdAt: now(),
+    updatedAt: now()
+  };
+
+  if (!inquiry.name || !validEmail(inquiry.email) || !validPhone(inquiry.phone) || !inquiry.productInterest || !inquiry.quantityRequirement || !inquiry.message) {
+    return formResponse(req, res, 400, { ok: false, message: "Please enter name, valid email, phone, product interest, quantity requirement, and message." }, "/how-to-buy#wholesale-inquiry");
+  }
+
+  const saved = await mutate((state) => {
+    const duplicate = isRecentDuplicate(state.submissions.wholesaleInquiries, (item) =>
+      item.email === inquiry.email &&
+      item.productInterest === inquiry.productInterest &&
+      item.quantityRequirement === inquiry.quantityRequirement
+    );
+    if (duplicate) return { inquiry: duplicate, duplicate: true };
+    state.submissions.wholesaleInquiries.unshift(inquiry);
+    state.analytics.wholesaleInquiries = state.submissions.wholesaleInquiries.length;
+    return { inquiry, duplicate: false };
+  });
+
+  if (saved.duplicate) {
+    return formResponse(req, res, 200, { ok: true, duplicate: true, message: "We already received this wholesale inquiry. Our team will contact you soon." }, "/how-to-buy?wholesale=received#wholesale-inquiry");
+  }
+
+  await addAudit(inquiry.email, "wholesale_inquiry_create", inquiry.id, req);
+  const notificationSent = await notifyInquiry("wholesale", inquiry);
+  return formResponse(req, res, 200, { ok: true, notificationSent, message: "Thank you. Our wholesale team will contact you soon." }, "/how-to-buy?wholesale=sent#wholesale-inquiry");
 });
 
 router.get("/terms/:slug", async function (req, res, next) {

@@ -205,7 +205,7 @@ function saveJsonManager(key, action) {
 }
 
 router.get("/homepage", requirePermission("content"), async function (_req, res) {
-  await renderJsonManager(res, "Homepage Manager | ZUPPIO Admin", "homepage", "homepage", "Controls home hero, feature cards, category marquee, testimonials, FAQ, and newsletter text.");
+  await renderJsonManager(res, "Homepage Manager | ZUPPIO Admin", "homepage", "homepage", "Controls home hero, responsive hero background image paths, feature cards, category marquee, testimonials, FAQ, and newsletter text. Upload background images in Media Manager, then paste the generated image path into the hero background fields.");
 });
 
 router.post("/homepage", requirePermission("content"), saveJsonManager("homepage", "homepage_update"));
@@ -344,20 +344,38 @@ router.get("/backup/subscribers.csv", requirePermission("settings"), async funct
 
 router.get("/backup/inquiries.csv", requirePermission("settings"), async function (_req, res) {
   const state = await readState();
-  const contacts = (state.submissions.contacts || []).map((item) => [item.name, "", item.email, "", "", "", "", item.message, item.status, item.createdAt]);
+  const contacts = (state.submissions.contacts || []).map((item) => ["contact", item.name, "", item.email, item.phone || "", "", "", item.subject || "", "", "", item.message, item.status, item.createdAt]);
   const dealers = (state.submissions.dealerInquiries || []).map((item) => [
+    "dealer",
     item.name,
     item.businessName || item.shop || "",
     item.email || "",
     item.phone,
     item.city,
     item.state || "",
+    item.address || "",
     item.businessType || item.business || "",
-    item.message || item.quantity || "",
+    "",
+    item.message || "",
     item.status,
     item.createdAt
   ]);
-  const rows = [["name", "businessName", "email", "phone", "city", "state", "businessType", "message", "status", "createdAt"]].concat(contacts, dealers);
+  const wholesale = (state.submissions.wholesaleInquiries || []).map((item) => [
+    "wholesale",
+    item.name,
+    item.businessName || "",
+    item.email || "",
+    item.phone || "",
+    "",
+    "",
+    "",
+    item.productInterest || "",
+    item.quantityRequirement || "",
+    item.message || "",
+    item.status,
+    item.createdAt
+  ]);
+  const rows = [["type", "name", "businessName", "email", "phone", "city", "state", "addressOrSubject", "productOrBusinessType", "quantity", "message", "status", "createdAt"]].concat(contacts, dealers, wholesale);
   res.setHeader("Content-Type", "text/csv");
   res.setHeader("Content-Disposition", "attachment; filename=\"zuppio-inquiries.csv\"");
   res.send(rows.map((row) => row.map(csvEscape).join(",")).join("\n"));
@@ -520,7 +538,11 @@ router.get("/messages", requirePermission("messages"), async function (_req, res
 });
 
 router.post("/messages/:type/:id", requirePermission("messages"), async function (req, res) {
-  await mutate((state) => {
+  const action = text(req.body.action || "status").toLowerCase();
+  const allowedStatuses = ["New", "Read", "Replied"];
+  const actionStatus = { read: "Read", replied: "Replied" }[action];
+  const requestedStatus = actionStatus || text(req.body.status);
+  const changed = await mutate((state) => {
     const lists = {
       feedback: state.feedback,
       inquiry: state.inquiries,
@@ -531,9 +553,40 @@ router.post("/messages/:type/:id", requirePermission("messages"), async function
     };
     const list = lists[req.params.type] || state.inquiries;
     const item = list.find((entry) => entry.id === req.params.id);
-    if (item) item.status = text(req.body.status);
+    if (!item) return false;
+
+    if (action === "delete") {
+      if (req.params.type === "contact") {
+        state.submissions.contacts = state.submissions.contacts.filter((entry) => entry.id !== req.params.id);
+        state.inquiries = state.inquiries.filter((entry) => entry.id !== req.params.id);
+      } else if (req.params.type === "dealer") {
+        state.submissions.dealerInquiries = state.submissions.dealerInquiries.filter((entry) => entry.id !== req.params.id);
+      } else if (req.params.type === "wholesale") {
+        state.submissions.wholesaleInquiries = state.submissions.wholesaleInquiries.filter((entry) => entry.id !== req.params.id);
+      } else {
+        const index = list.findIndex((entry) => entry.id === req.params.id);
+        if (index >= 0) list.splice(index, 1);
+      }
+    } else {
+      const status = allowedStatuses.includes(requestedStatus) ? requestedStatus : "New";
+      item.status = status;
+      item.updatedAt = now();
+      if (req.params.type === "contact") {
+        [state.inquiries, state.submissions.contacts].forEach((contactList) => {
+          const matching = contactList.find((entry) => entry.id === req.params.id);
+          if (matching) Object.assign(matching, { status, updatedAt: item.updatedAt });
+        });
+      }
+    }
+
+    state.analytics.contactSubmissions = state.submissions.contacts.length;
+    state.analytics.dealerInquiries = state.submissions.dealerInquiries.length;
+    state.analytics.wholesaleInquiries = state.submissions.wholesaleInquiries.length;
+    return true;
   });
-  await addAudit(req.session.adminUser.email, "message_update", req.params.id, req);
+  if (changed) {
+    await addAudit(req.session.adminUser.email, action === "delete" ? `${req.params.type}_inquiry_delete` : `${req.params.type}_inquiry_${(requestedStatus || "new").toLowerCase()}`, req.params.id, req);
+  }
   res.redirect(req.body.redirect || "/admin/messages");
 });
 
@@ -626,7 +679,8 @@ router.get("/settings", requirePermission("settings"), async function (_req, res
     kind: "settings",
     envStatus: {
       googleMaps: Boolean(process.env.GOOGLE_MAPS_API_KEY),
-      smtp: Boolean(process.env.SMTP_HOST || process.env.SMTP_USER || process.env.SMTP_PASS)
+      smtp: Boolean(process.env.SMTP_HOST || process.env.SMTP_USER || process.env.SMTP_PASS),
+      mongodb: Boolean(process.env.MONGODB_URI)
     }
   });
 });
@@ -647,7 +701,18 @@ router.get("/audit", requirePermission("audit"), async function (_req, res) {
 
 router.get("/api/analytics", requirePermission("analytics"), async function (_req, res) {
   const state = await readState();
-  res.json({ analytics: state.analytics, totals: { inquiries: state.inquiries.length, feedback: state.feedback.length, subscribers: state.subscribers.length, products: state.products.length } });
+  res.json({
+    analytics: state.analytics,
+    totals: {
+      inquiries: state.submissions.contacts.length + state.submissions.dealerInquiries.length + state.submissions.wholesaleInquiries.length,
+      contacts: state.submissions.contacts.length,
+      dealerInquiries: state.submissions.dealerInquiries.length,
+      wholesaleInquiries: state.submissions.wholesaleInquiries.length,
+      feedback: state.feedback.length,
+      subscribers: state.subscribers.length,
+      products: state.products.length
+    }
+  });
 });
 
 module.exports = router;

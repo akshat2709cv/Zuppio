@@ -4,6 +4,7 @@
   function list(value) { return Array.isArray(value) ? value.join(", ") : (value || ""); }
   function selected(value, expected) { return String(value || "") === expected ? "selected" : ""; }
   function checked(value) { return value ? "checked" : ""; }
+  function inquiryStatus(value) { return ["Read", "Replied"].includes(value) ? value : "New"; }
   const categoryNames = (state.productCategories || []).map(function(category) { return category.name; });
   const submissions = state.submissions || {};
 %>
@@ -152,17 +153,29 @@
       <div class="cms-section-heading"><h2>Contact Messages</h2><p class="admin-note">Customer and general contact form submissions.</p></div>
       <div class="admin-table-wrap">
         <table class="admin-table">
-          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Message</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Subject</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
           <tbody>
             <% contacts.forEach(function(item) { %>
               <tr>
                 <td><strong><%= item.name || item.email || "Visitor" %></strong></td>
                 <td><%= item.email || "" %></td>
                 <td><%= item.phone || "" %></td>
-                <td><%= item.message || item.type || "" %></td>
+                <td><%= item.subject || "General inquiry" %></td>
                 <td><%= item.createdAt ? new Date(item.createdAt).toLocaleString() : "" %></td>
-                <td><span class="pill"><%= item.status || "New" %></span></td>
-                <td><form method="post" action="/admin/messages/contact/<%= item.id %>"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><select name="status"><option <%= selected(item.status || "New", "New") %>>New</option><option <%= selected(item.status, "Read") %>>Read</option><option <%= selected(item.status, "Replied") %>>Replied</option><option <%= selected(item.status, "Closed") %>>Closed</option></select><button class="admin-button" type="submit">Save</button></form></td>
+                <td><span class="pill status-<%= inquiryStatus(item.status).toLowerCase() %>"><%= inquiryStatus(item.status) %></span></td>
+                <td><%- include("partials/inquiry-actions", {
+                  item,
+                  type: "contact",
+                  fields: [
+                    ["Name", item.name],
+                    ["Email", item.email],
+                    ["Phone", item.phone],
+                    ["Subject", item.subject],
+                    ["Message", item.message],
+                    ["Submitted At", item.createdAt ? new Date(item.createdAt).toLocaleString() : ""],
+                    ["IP Address", item.ip]
+                  ]
+                }) %></td>
               </tr>
             <% }) %>
             <% if (!contacts.length) { %><tr><td colspan="7">No contact messages yet.</td></tr><% } %>
@@ -175,7 +188,7 @@
       <div class="cms-section-heading"><h2>Dealer Inquiries</h2><p class="admin-note">Business, dealership, and distributor form submissions.</p></div>
       <div class="admin-table-wrap">
         <table class="admin-table">
-          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Phone</th><th>City / State</th><th>Message</th><th>Status</th><th>Action</th></tr></thead>
+          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Phone</th><th>City / State</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
           <tbody>
             <% dealers.forEach(function(item) { %>
               <tr>
@@ -184,9 +197,25 @@
                 <td><%= item.email || "" %></td>
                 <td><%= item.phone || "" %></td>
                 <td><%= item.city || "" %><%= item.state ? ", " + item.state : "" %></td>
-                <td><%= item.message || item.quantity || "" %></td>
-                <td><span class="pill"><%= item.status || "New" %></span></td>
-                <td><form method="post" action="/admin/messages/dealer/<%= item.id %>"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><select name="status"><option <%= selected(item.status || "New", "New") %>>New</option><option <%= selected(item.status, "Read") %>>Read</option><option <%= selected(item.status, "Replied") %>>Replied</option><option <%= selected(item.status, "Closed") %>>Closed</option></select><button class="admin-button" type="submit">Save</button></form></td>
+                <td><%= item.createdAt ? new Date(item.createdAt).toLocaleString() : "" %></td>
+                <td><span class="pill status-<%= inquiryStatus(item.status).toLowerCase() %>"><%= inquiryStatus(item.status) %></span></td>
+                <td><%- include("partials/inquiry-actions", {
+                  item,
+                  type: "dealer",
+                  fields: [
+                    ["Name", item.name],
+                    ["Business Name", item.businessName || item.shop],
+                    ["Email", item.email],
+                    ["Phone", item.phone],
+                    ["City", item.city],
+                    ["State", item.state],
+                    ["Address", item.address],
+                    ["Business Type", item.businessType || item.business],
+                    ["Message", item.message],
+                    ["Submitted At", item.createdAt ? new Date(item.createdAt).toLocaleString() : ""],
+                    ["IP Address", item.ip]
+                  ]
+                }) %></td>
               </tr>
             <% }) %>
             <% if (!dealers.length) { %><tr><td colspan="8">No dealer inquiries yet.</td></tr><% } %>
@@ -196,13 +225,38 @@
     </article>
 
     <article class="admin-card">
-      <div class="cms-section-heading"><h2>Wholesale Inquiries</h2><p class="admin-note">Prepared for future wholesale submission data.</p></div>
+      <div class="cms-section-heading"><h2>Wholesale Inquiries</h2><p class="admin-note">Bulk order and wholesale product requests.</p></div>
       <div class="admin-table-wrap">
         <table class="admin-table">
-          <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Message</th><th>Date</th><th>Status</th></tr></thead>
+          <thead><tr><th>Name</th><th>Business</th><th>Email</th><th>Phone</th><th>Product / Quantity</th><th>Date</th><th>Status</th><th>Action</th></tr></thead>
           <tbody>
-            <% wholesale.forEach(function(item) { %><tr><td><strong><%= item.name %></strong></td><td><%= item.email %></td><td><%= item.phone %></td><td><%= item.message %></td><td><%= item.createdAt ? new Date(item.createdAt).toLocaleString() : "" %></td><td><span class="pill"><%= item.status || "New" %></span></td></tr><% }) %>
-            <% if (!wholesale.length) { %><tr><td colspan="6">No wholesale inquiries yet.</td></tr><% } %>
+            <% wholesale.forEach(function(item) { %>
+              <tr>
+                <td><strong><%= item.name %></strong></td>
+                <td><%= item.businessName || "" %></td>
+                <td><%= item.email || "" %></td>
+                <td><%= item.phone || "" %></td>
+                <td><%= item.productInterest || "" %><%= item.quantityRequirement ? " / " + item.quantityRequirement : "" %></td>
+                <td><%= item.createdAt ? new Date(item.createdAt).toLocaleString() : "" %></td>
+                <td><span class="pill status-<%= inquiryStatus(item.status).toLowerCase() %>"><%= inquiryStatus(item.status) %></span></td>
+                <td><%- include("partials/inquiry-actions", {
+                  item,
+                  type: "wholesale",
+                  fields: [
+                    ["Name", item.name],
+                    ["Business Name", item.businessName],
+                    ["Email", item.email],
+                    ["Phone", item.phone],
+                    ["Product Interest", item.productInterest],
+                    ["Quantity Requirement", item.quantityRequirement],
+                    ["Message", item.message],
+                    ["Submitted At", item.createdAt ? new Date(item.createdAt).toLocaleString() : ""],
+                    ["IP Address", item.ip]
+                  ]
+                }) %></td>
+              </tr>
+            <% }) %>
+            <% if (!wholesale.length) { %><tr><td colspan="8">No wholesale inquiries yet.</td></tr><% } %>
           </tbody>
         </table>
       </div>
@@ -312,6 +366,7 @@
       <div class="cms-section-heading"><h2>Integration Status</h2><p class="admin-note">Environment-based services are shown as status only and are not exposed as raw secret values.</p></div>
       <p><strong>Google Maps API</strong> <span class="pill"><%= status.googleMaps ? "Configured" : "Missing" %></span></p>
       <p><strong>SMTP</strong> <span class="pill"><%= status.smtp ? "Configured" : "Missing" %></span></p>
+      <p><strong>MongoDB Atlas</strong> <span class="pill"><%= status.mongodb ? "Configured" : "Missing" %></span></p>
     </article>
     <article class="admin-card">
       <div class="cms-section-heading"><h2>Core Settings</h2><p class="admin-note">Website name, admin email, contact email, default WhatsApp number, and public brand defaults.</p></div>

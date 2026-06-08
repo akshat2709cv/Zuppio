@@ -77,17 +77,27 @@
   <form class="form-card wide contact-message-form scroll-reveal" action="/contact" method="POST">
     <div class="form-field">
       <label for="contact-name">Name</label>
-      <input id="contact-name" name="name" type="text" placeholder="Your name" autocomplete="name" />
+      <input id="contact-name" name="name" type="text" placeholder="Your name" autocomplete="name" required />
     </div>
 
     <div class="form-field">
       <label for="contact-email">Email</label>
-      <input id="contact-email" name="email" type="email" placeholder="you@crunch.in" autocomplete="email" />
+      <input id="contact-email" name="email" type="email" placeholder="you@crunch.in" autocomplete="email" required />
+    </div>
+
+    <div class="form-field">
+      <label for="contact-phone">Phone (optional)</label>
+      <input id="contact-phone" name="phone" type="tel" inputmode="tel" placeholder="Phone number" autocomplete="tel" />
+    </div>
+
+    <div class="form-field">
+      <label for="contact-subject">Subject (optional)</label>
+      <input id="contact-subject" name="subject" type="text" placeholder="How can we help?" />
     </div>
 
     <div class="form-field full">
       <label for="contact-message">Message</label>
-      <textarea id="contact-message" name="message" placeholder="Tell us what you want to know..."></textarea>
+      <textarea id="contact-message" name="message" placeholder="Tell us what you want to know..." required></textarea>
     </div>
 
     <button class="button primary" type="submit">

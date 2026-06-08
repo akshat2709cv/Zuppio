@@ -5,7 +5,6 @@ const navbar = document.querySelector("#navbar");
 const drawerScrim = document.querySelector("#drawerScrim");
 const loaderScreen = document.querySelector("#loaderScreen");
 const cursorGlow = document.querySelector("#cursorGlow");
-const switchPack = document.querySelector("#switchPack");
 const backToTop = document.querySelector("#backToTop");
 
 function closeDrawer() {
@@ -248,13 +247,6 @@ document.querySelectorAll(".product-suggestion-swiper:not(.swiper-initialized)")
   restartAutoplay();
 });
 
-document.querySelectorAll("[data-pack-side]").forEach(function (button) {
-  button.addEventListener("click", function () {
-    if (!switchPack) return;
-    switchPack.classList.toggle("back", button.dataset.packSide === "back");
-  });
-});
-
 document.querySelectorAll(".flavor-card").forEach(function (card) {
   card.addEventListener("mousemove", function (event) {
     if (!window.matchMedia("(pointer: fine)").matches) return;
@@ -389,21 +381,6 @@ if (window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matche
     ease: "power2.out",
     delay: 0.25
   });
-
-  window.addEventListener("pointermove", function (event) {
-    const x = event.clientX / window.innerWidth - 0.5;
-    const y = event.clientY / window.innerHeight - 0.5;
-
-    document.querySelectorAll("[data-depth]").forEach(function (item) {
-      const depth = Number(item.dataset.depth || 0.04);
-      window.gsap.to(item, {
-        x: x * depth * 180,
-        y: y * depth * 120,
-        duration: 0.8,
-        ease: "power2.out"
-      });
-    });
-  });
 }
 
 document.querySelectorAll(".snack-drop-form").forEach(function (form) {
@@ -468,6 +445,8 @@ document.querySelectorAll(".contact-message-form").forEach(function (form) {
         body: JSON.stringify({
           name: String(formData.get("name") || "").trim(),
           email: String(formData.get("email") || "").trim(),
+          phone: String(formData.get("phone") || "").trim(),
+          subject: String(formData.get("subject") || "").trim(),
           message: String(formData.get("message") || "").trim()
         })
       });
@@ -484,7 +463,7 @@ document.querySelectorAll(".contact-message-form").forEach(function (form) {
   });
 });
 
-document.querySelectorAll(".dealer-inquiry-form").forEach(function (form) {
+document.querySelectorAll(".dealer-inquiry-form, .wholesale-inquiry-form").forEach(function (form) {
   const status = form.querySelector(".newsletter-status");
 
   form.addEventListener("submit", async function (event) {

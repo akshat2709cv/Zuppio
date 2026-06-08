@@ -195,7 +195,9 @@ p,
 }
 
 .home-hero {
-  --home-hero-bg: linear-gradient(180deg, #fffdf8 0%, #fff5e8 100%);
+  --home-hero-bg:
+    radial-gradient(ellipse at 88% 12%, rgba(255, 201, 40, 0.18), transparent 24rem),
+    linear-gradient(180deg, #fffdf8 0%, #fff5e8 100%);
 }
 
 .hero-content h1 {
@@ -203,7 +205,6 @@ p,
   text-shadow: none;
 }
 
-.hero-product-stage::before,
 .about-pack-stage,
 .product-suggestion-swiper,
 .product-suggestion-swiper:has(.category-hero-slide),
@@ -224,9 +225,6 @@ p,
   opacity: 0.55;
 }
 
-.hero-pack,
-.hero-pack-left,
-.hero-pack-right,
 .flavor-pack,
 .suggestion-pack,
 .marquee-product-pack,

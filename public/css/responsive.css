@@ -16,15 +16,6 @@
     font-size: 2.65rem;
   }
 
-  .home-hero {
-    grid-template-columns: minmax(0, 0.94fr) minmax(360px, 0.82fr);
-    gap: 26px;
-  }
-
-  .hero-product-stage {
-    min-height: 520px;
-  }
-
   .about-mini-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -131,7 +122,6 @@
     display: grid;
   }
 
-  .home-hero,
   .about-intro,
   .about-split,
   .mission-vision-grid,
@@ -147,16 +137,13 @@
   }
 
   .home-hero {
+    --home-hero-image-active: var(--home-hero-image-tablet, var(--home-hero-image-desktop, none));
     min-height: auto;
-    padding: 78px 0 42px;
+    padding: 78px 0 420px;
   }
 
   .hero-content {
-    max-width: 720px;
-  }
-
-  .hero-product-stage {
-    min-height: 460px;
+    max-width: 620px;
   }
 
   .flavor-grid,
@@ -338,24 +325,6 @@
   .button {
     min-height: 44px;
     padding-inline: 15px;
-  }
-
-  .hero-product-stage {
-    min-height: 380px;
-  }
-
-  .hero-product-stage::before {
-    inset: 8% 2% 8% 4%;
-    border-radius: 32px;
-  }
-
-  .hero-pack-main {
-    width: min(230px, 58%);
-  }
-
-  .hero-pack-left,
-  .hero-pack-right {
-    width: min(150px, 38%);
   }
 
   .about-mini-grid,
@@ -544,7 +513,24 @@
   }
 
   .home-hero {
-    padding-top: 58px;
+    --home-hero-image-active: var(--home-hero-image-mobile, var(--home-hero-image-tablet, var(--home-hero-image-desktop, none)));
+    --home-hero-overlay-opacity: 0.16;
+    padding: 58px 0 300px;
+  }
+
+  .home-hero::before {
+    background-image:
+      linear-gradient(180deg, rgba(255, 253, 248, 0.98) 0%, rgba(255, 253, 248, 0.92) 48%, rgba(255, 244, 224, 0.34) 76%, rgba(255, 244, 224, 0.04) 100%),
+      var(--home-hero-image-active),
+      var(--home-hero-bg, linear-gradient(180deg, #fffdf8 0%, #fff5e8 100%));
+    background-position:
+      center,
+      center bottom,
+      center;
+    background-size:
+      cover,
+      cover,
+      cover;
   }
 
   h1,
@@ -571,19 +557,6 @@
 
   .button {
     width: 100%;
-  }
-
-  .hero-product-stage {
-    min-height: 280px;
-  }
-
-  .hero-pack-main {
-    width: min(195px, 62%);
-  }
-
-  .hero-pack-left,
-  .hero-pack-right {
-    width: min(120px, 38%);
   }
 
   .particle {
@@ -1163,11 +1136,8 @@
   }
 
   .home-hero {
-    padding-top: 44px;
-  }
-
-  .hero-product-stage {
-    min-height: 250px;
+    --home-hero-image-active: var(--home-hero-image-mobile, var(--home-hero-image-tablet, var(--home-hero-image-desktop, none)));
+    padding: 44px 0 260px;
   }
 
   .where-map-actions,

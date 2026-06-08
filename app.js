@@ -10,7 +10,7 @@ const logger = require("morgan");
 const indexRouter = require("./routes/index");
 const adminRouter = require("./routes/admin");
 const { adminLocals, csrfProtection } = require("./middleware/adminAuth");
-const { ensureAdminUser, recordVisit } = require("./services/adminStore");
+const { ensureAdminUser, readState, recordVisit } = require("./services/adminStore");
 const { pages } = require("./services/siteData");
 
 const app = express();
@@ -84,13 +84,23 @@ app.use(function (_req, _res, next) {
   next(createError(404));
 });
 
-app.use(function (err, req, res, _next) {
+app.use(async function (err, req, res, _next) {
+  let adminState = null;
+  try {
+    adminState = await readState();
+  } catch (error) {
+    console.error("Error page CMS fallback failed:", error.message);
+  }
+
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
   res.status(err.status || 500);
   res.render("error", {
     title: "Page Not Found",
-    activePage: ""
+    activePage: "",
+    pages: adminState && adminState.header ? adminState.header.navItems : pages,
+    siteHeader: adminState ? adminState.header : null,
+    siteFooter: adminState ? adminState.footer : null
   });
 });
 

@@ -2,10 +2,15 @@ const fs = require("fs/promises");
 const path = require("path");
 const crypto = require("crypto");
 const bcrypt = require("bcryptjs");
+const { MongoClient } = require("mongodb");
 const { productCategories, normalizeProductCategories } = require("./siteData");
 
 const DATA_DIR = path.join(__dirname, "..", "data");
 const STORE_PATH = path.join(DATA_DIR, "admin.json");
+const MONGO_STATE_ID = "main";
+const MONGO_COLLECTION = process.env.MONGODB_COLLECTION || "cms_state";
+let mutationQueue = Promise.resolve();
+let mongoClientPromise;
 
 const ROLES = {
   "Super Admin": ["analytics", "content", "products", "categories", "media", "swiper", "users", "messages", "blog", "faqs", "settings", "audit"],
@@ -219,6 +224,8 @@ function defaultState() {
       visits: 0,
       productViews: 0,
       contactSubmissions: 0,
+      dealerInquiries: 0,
+      wholesaleInquiries: 0,
       newsletterSubscribers: 0,
       categoryClicks: 0,
       qrClicks: 0,
@@ -301,9 +308,11 @@ function defaultHomepage() {
       primaryButtonLink: "/product-categories",
       secondaryButtonText: "Contact Team",
       secondaryButtonLink: "/contact",
-      mainImage: "/images/purple.png",
-      leftImage: "/images/yellow.png",
-      rightImage: "/images/green.png"
+      backgroundImageDesktop: "/images/home-hero-zuppio.png",
+      backgroundImageTablet: "/images/home-hero-zuppio.png",
+      backgroundImageMobile: "/images/home-hero-zuppio.jpeg",
+      backgroundPosition: "center right",
+      backgroundOverlay: 0
     },
     aboutPreview: {
       label: "About",
@@ -608,32 +617,118 @@ function normalizeState(state) {
   if (!merged.submissions.newsletter) merged.submissions.newsletter = merged.subscribers || [];
   if (!merged.submissions.dealerInquiries) merged.submissions.dealerInquiries = [];
   if (!merged.submissions.wholesaleInquiries) merged.submissions.wholesaleInquiries = [];
+  if (!merged.submissions.contacts.length && merged.inquiries.length) merged.submissions.contacts = [...merged.inquiries];
+  if (!merged.inquiries.length && merged.submissions.contacts.length) merged.inquiries = [...merged.submissions.contacts];
+  merged.submissions.contacts.forEach((item) => {
+    if (!item.status || item.status === "Unread") item.status = "New";
+  });
+  merged.submissions.dealerInquiries.forEach((item) => {
+    if (!item.status || item.status === "Unread") item.status = "New";
+  });
+  merged.submissions.wholesaleInquiries.forEach((item) => {
+    if (!item.status || item.status === "Unread") item.status = "New";
+  });
+  merged.analytics.contactSubmissions = merged.submissions.contacts.length;
+  merged.analytics.dealerInquiries = merged.submissions.dealerInquiries.length;
+  merged.analytics.wholesaleInquiries = merged.submissions.wholesaleInquiries.length;
+  merged.analytics.newsletterSubscribers = merged.submissions.newsletter.length;
   return merged;
 }
 
-async function readState() {
+function hasMongoUri() {
+  return Boolean(process.env.MONGODB_URI);
+}
+
+function mongoDbName() {
+  if (process.env.MONGODB_DB) return process.env.MONGODB_DB;
+  try {
+    const parsed = new URL(process.env.MONGODB_URI);
+    const pathname = parsed.pathname.replace(/^\//, "");
+    return pathname || "zuppio";
+  } catch (_error) {
+    return "zuppio";
+  }
+}
+
+async function mongoCollection() {
+  if (!hasMongoUri()) return null;
+  if (!mongoClientPromise) {
+    mongoClientPromise = MongoClient.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 8000
+    }).catch((error) => {
+      mongoClientPromise = null;
+      throw error;
+    });
+  }
+  const client = await mongoClientPromise;
+  return client.db(mongoDbName()).collection(MONGO_COLLECTION);
+}
+
+async function readJsonState() {
   await fs.mkdir(DATA_DIR, { recursive: true });
   try {
-    const state = normalizeState(JSON.parse(await fs.readFile(STORE_PATH, "utf8")));
-    await writeState(state);
-    return state;
+    return normalizeState(JSON.parse(await fs.readFile(STORE_PATH, "utf8")));
   } catch (error) {
+    if (error.code !== "ENOENT") throw error;
     const state = normalizeState(defaultState());
-    await writeState(state);
+    await writeJsonState(state);
     return state;
   }
 }
 
-async function writeState(state) {
+async function writeJsonState(state) {
   await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.writeFile(STORE_PATH, JSON.stringify(state, null, 2));
+  const temporaryPath = `${STORE_PATH}.${process.pid}.${Date.now()}.tmp`;
+  await fs.writeFile(temporaryPath, JSON.stringify(state, null, 2));
+  await fs.rename(temporaryPath, STORE_PATH);
+}
+
+async function readState() {
+  if (hasMongoUri()) {
+    try {
+      const collection = await mongoCollection();
+      const document = await collection.findOne({ _id: MONGO_STATE_ID });
+      if (document && document.state) return normalizeState(document.state);
+
+      const state = await readJsonState();
+      await collection.updateOne(
+        { _id: MONGO_STATE_ID },
+        { $set: { state, updatedAt: now() }, $setOnInsert: { createdAt: now() } },
+        { upsert: true }
+      );
+      return state;
+    } catch (error) {
+      console.error("MongoDB CMS store unavailable, using JSON fallback:", error.message);
+    }
+  }
+
+  return readJsonState();
+}
+
+async function writeState(state) {
+  const normalized = normalizeState(state);
+
+  if (hasMongoUri()) {
+    try {
+      const collection = await mongoCollection();
+      await collection.updateOne(
+        { _id: MONGO_STATE_ID },
+        { $set: { state: normalized, updatedAt: now() }, $setOnInsert: { createdAt: now() } },
+        { upsert: true }
+      );
+    } catch (error) {
+      console.error("MongoDB CMS write failed, preserving JSON fallback:", error.message);
+    }
+  }
+
+  await writeJsonState(normalized);
 }
 
 async function ensureAdminUser() {
-  const state = await readState();
   const email = (process.env.ADMIN_EMAIL || "zuppiosnacks176@gmail.com").trim().toLowerCase();
-  if (!state.users.some((user) => user.email === email)) {
-    const password = process.env.ADMIN_PASSWORD || "ChangeMe@12345";
+  const password = process.env.ADMIN_PASSWORD || "ChangeMe@12345";
+  await mutate(async (state) => {
+    if (state.users.some((user) => user.email === email)) return;
     state.users.push({
       id: id("user"),
       name: "ZUPPIO Super Admin",
@@ -645,8 +740,7 @@ async function ensureAdminUser() {
       lastLoginAt: ""
     });
     state.auditLogs.unshift({ id: id("audit"), action: "seed_admin", actor: "system", target: email, createdAt: now(), ip: "" });
-    await writeState(state);
-  }
+  });
 }
 
 function publicUser(user) {
@@ -655,10 +749,14 @@ function publicUser(user) {
 }
 
 async function mutate(mutator) {
-  const state = await readState();
-  const result = await mutator(state);
-  await writeState(state);
-  return result;
+  const operation = mutationQueue.then(async () => {
+    const state = await readState();
+    const result = await mutator(state);
+    await writeState(state);
+    return result;
+  });
+  mutationQueue = operation.catch(() => undefined);
+  return operation;
 }
 
 async function addAudit(actor, action, target, req) {

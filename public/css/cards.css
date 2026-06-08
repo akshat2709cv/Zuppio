@@ -1831,12 +1831,15 @@
   padding-top: 24px;
 }
 
-.dealer-inquiry-form {
+.dealer-inquiry-form,
+.wholesale-inquiry-form {
   margin-inline: auto;
 }
 
 .dealer-inquiry-form .button,
-.dealer-inquiry-form .newsletter-status {
+.dealer-inquiry-form .newsletter-status,
+.wholesale-inquiry-form .button,
+.wholesale-inquiry-form .newsletter-status {
   grid-column: 1 / -1;
 }
 

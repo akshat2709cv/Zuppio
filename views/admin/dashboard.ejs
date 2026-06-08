@@ -3,6 +3,7 @@
 <%
   const contactSubmissions = (state.submissions.contacts || state.inquiries || []).length;
   const dealerInquiries = (state.submissions.dealerInquiries || []).length;
+  const wholesaleInquiries = (state.submissions.wholesaleInquiries || []).length;
   const newsletterSubscribers = (state.submissions.newsletter || state.subscribers || []).length;
   const recentActivity = (state.analytics.latestActivity && state.analytics.latestActivity.length ? state.analytics.latestActivity : state.auditLogs).slice(0, 8);
 %>
@@ -12,6 +13,7 @@
   <article><span>Total Products</span><strong><%= state.products.length %></strong></article>
   <article><span>Contact Submissions</span><strong><%= contactSubmissions %></strong></article>
   <article><span>Dealer Inquiries</span><strong><%= dealerInquiries %></strong></article>
+  <article><span>Wholesale Inquiries</span><strong><%= wholesaleInquiries %></strong></article>
   <article><span>Newsletter Subscribers</span><strong><%= newsletterSubscribers %></strong></article>
 </section>
 
@@ -28,7 +30,7 @@
         ["Product Clicks", state.analytics.productViews || 0],
         ["QR Clicks", state.analytics.qrClicks || 0],
         ["WhatsApp Clicks", state.analytics.whatsappClicks || 0],
-        ["Inquiry Count", contactSubmissions + dealerInquiries]
+        ["Inquiry Count", contactSubmissions + dealerInquiries + wholesaleInquiries]
       ].forEach(function(row) { const width = Math.max(8, Math.min(100, Number(row[1] || 0) * 8)); %>
         <div><span><%= row[0] %></span><i style="width:<%= width %>%"></i><b><%= row[1] %></b></div>
       <% }) %>

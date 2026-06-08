@@ -1,0 +1,34 @@
+<%- include("partials/header") %>
+
+<%- include("partials/page-hero", { pageHero }) %>
+
+<section class="section faq-section">
+  <%
+    const managedFaqs = (siteFaqs || [])
+      .filter(function(item) { return item.status !== "Unpublished"; })
+      .slice()
+      .sort(function(a, b) { return Number(a.order || 0) - Number(b.order || 0); });
+    const fallbackFaqs = homepage && homepage.faqs && homepage.faqs.items ? homepage.faqs.items : [];
+    const faqItems = managedFaqs.length ? managedFaqs : fallbackFaqs;
+  %>
+  <div class="section-kicker">
+    <p class="eyebrow">Questions</p>
+    <h2>Everything customers ask most.</h2>
+  </div>
+
+  <div class="faq-list">
+    <% faqItems.forEach(function(item) { %>
+      <article class="faq-item">
+        <button type="button" aria-expanded="false">
+          <span><%= item.question %></span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="faq-panel">
+          <p><%= item.answer %></p>
+        </div>
+      </article>
+    <% }) %>
+  </div>
+</section>
+
+<%- include("partials/footer") %>

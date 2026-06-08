@@ -1,0 +1,28 @@
+<div class="message-actions">
+  <details class="message-details">
+    <summary class="admin-button ghost">View</summary>
+    <div class="message-detail-panel">
+      <% fields.filter(function(field) { return field[1]; }).forEach(function(field) { %>
+        <p>
+          <strong><%= field[0] %></strong>
+          <span><%= field[1] %></span>
+        </p>
+      <% }) %>
+    </div>
+  </details>
+  <form method="post" action="/admin/messages/<%= type %>/<%= item.id %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <input type="hidden" name="action" value="read" />
+    <button class="admin-button ghost" type="submit">Mark as Read</button>
+  </form>
+  <form method="post" action="/admin/messages/<%= type %>/<%= item.id %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <input type="hidden" name="action" value="replied" />
+    <button class="admin-button purple" type="submit">Mark as Replied</button>
+  </form>
+  <form method="post" action="/admin/messages/<%= type %>/<%= item.id %>">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <input type="hidden" name="action" value="delete" />
+    <button class="admin-button danger" type="submit">Delete</button>
+  </form>
+</div>
