@@ -4,7 +4,6 @@ const menuButton = document.querySelector("#menuButton");
 const navbar = document.querySelector("#navbar");
 const drawerScrim = document.querySelector("#drawerScrim");
 const loaderScreen = document.querySelector("#loaderScreen");
-const scrollProgress = document.querySelector("#scrollProgress");
 const cursorGlow = document.querySelector("#cursorGlow");
 const switchPack = document.querySelector("#switchPack");
 const backToTop = document.querySelector("#backToTop");
@@ -50,11 +49,8 @@ window.addEventListener("load", function () {
 
 function updateScrollUi() {
   const scrollTop = window.scrollY || document.documentElement.scrollTop;
-  const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
 
   if (siteHeader) siteHeader.classList.toggle("scrolled", scrollTop > 12);
-  if (scrollProgress) scrollProgress.style.width = `${Math.min(progress, 100)}%`;
   if (backToTop) backToTop.classList.toggle("show", scrollTop > 420);
 }
 
@@ -318,11 +314,49 @@ document.addEventListener("keydown", function (event) {
   if (event.key === "Escape") closeCategoryMenus();
 });
 
+function setChevronIcon(button, iconName) {
+  const icon = button.querySelector("svg, i");
+  if (!icon) return;
+
+  const nextIcon = document.createElement("i");
+  nextIcon.setAttribute("data-lucide", iconName);
+  icon.replaceWith(nextIcon);
+  if (window.lucide) window.lucide.createIcons();
+}
+
 document.querySelectorAll(".faq-item button").forEach(function (button) {
   button.addEventListener("click", function () {
     const item = button.closest(".faq-item");
     const isOpen = item.classList.toggle("open");
     button.setAttribute("aria-expanded", String(isOpen));
+    setChevronIcon(button, isOpen ? "chevron-up" : "chevron-down");
+  });
+});
+
+document.querySelectorAll("[data-faq-show-more]").forEach(function (button) {
+  const section = button.closest(".faq-section");
+  const extraItems = section ? section.querySelectorAll(".faq-item-extra") : [];
+
+  button.addEventListener("click", function () {
+    const isExpanded = button.getAttribute("aria-expanded") === "true";
+    button.setAttribute("aria-expanded", String(!isExpanded));
+    button.setAttribute("aria-label", isExpanded ? "Show more FAQs" : "Show fewer FAQs");
+    button.classList.toggle("open", !isExpanded);
+
+    extraItems.forEach(function (item) {
+      item.hidden = isExpanded;
+
+      if (isExpanded) {
+        item.classList.remove("open");
+        const faqButton = item.querySelector("button");
+        if (faqButton) {
+          faqButton.setAttribute("aria-expanded", "false");
+          setChevronIcon(faqButton, "chevron-down");
+        }
+      }
+    });
+
+    setChevronIcon(button, isExpanded ? "chevron-down" : "chevron-up");
   });
 });
 

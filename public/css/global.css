@@ -17,7 +17,8 @@
   --shadow: 0 24px 70px rgba(0, 0, 0, 0.34);
   --soft-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
   --radius: 24px;
-  --container: min(1180px, 92%);
+  --container: min(100% - 32px, 1200px);
+  --container-padding: max(16px, calc((100% - 1200px) / 2));
 }
 
 * {
@@ -25,11 +26,16 @@
 }
 
 html {
+  width: 100%;
+  max-width: 100%;
   min-width: 320px;
+  overflow-x: hidden;
   background: var(--bg);
 }
 
 body {
+  width: 100%;
+  max-width: 100%;
   margin: 0;
   min-width: 320px;
   overflow-x: hidden;
@@ -94,7 +100,10 @@ a {
 }
 
 main {
+  width: 100%;
+  max-width: 100%;
   min-height: 60vh;
+  overflow-x: clip;
 }
 
 .hero,
@@ -106,6 +115,7 @@ main {
 .terms-section,
 .policy-detail-section {
   width: var(--container);
+  max-width: 100%;
   margin-inline: auto;
   padding-bottom: 70px ;
 }
@@ -124,8 +134,9 @@ main {
   position: relative;
   isolation: isolate;
   width: 100%;
+  max-width: 100%;
   margin: 0;
-  padding: 118px max(24px, calc((100% - min(1180px, 92%)) / 2)) 54px;
+  padding: 118px var(--container-padding) 54px;
   overflow: hidden;
   
 }
@@ -235,7 +246,7 @@ h3 {
 h1 {
   max-width: 900px;
   margin-inline: auto;
-  font-size: 5.25rem;
+  font-size: clamp(2.65rem, 6vw, 5.25rem);
   line-height: 0.96;
   text-transform: uppercase;
 }
@@ -256,7 +267,7 @@ h2,
 .section-kicker h2,
 .section-title h2,
 .contact-form-heading h2 {
-  font-size: 3rem;
+  font-size: clamp(1.8rem, 3.4vw, 3rem);
   line-height: 1;
   text-transform: uppercase;
 }
@@ -396,17 +407,6 @@ i[data-lucide] {
   color: var(--yellow);
   font-weight: 900;
   letter-spacing: 0;
-}
-
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 120;
-  width: 0%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--yellow), var(--purple), var(--aqua));
-  box-shadow: 0 0 18px rgba(255, 204, 0, 0.45);
 }
 
 .cursor-glow {

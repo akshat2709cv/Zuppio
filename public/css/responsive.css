@@ -1,11 +1,12 @@
 @media (max-width: 1200px) {
   :root {
-    --container: min(1080px, 92%);
+    --container: min(100% - 32px, 1200px);
+    --container-padding: 16px;
   }
 
   h1,
   .hero-content h1 {
-    font-size: 4.6rem;
+    font-size: clamp(3.4rem, 7.2vw, 4.6rem);
   }
 
   h2,
@@ -39,7 +40,8 @@
 
 @media (max-width: 992px) {
   :root {
-    --container: min(900px, 92%);
+    --container: min(100% - 32px, 1200px);
+    --container-padding: 16px;
   }
 
   .section {
@@ -54,7 +56,7 @@
   }
 
   .command-page-hero {
-    padding: 98px max(18px, calc((100% - min(900px, 92%)) / 2)) 42px;
+    padding: 98px var(--container-padding) 42px;
   }
 
   .command-page-hero h1 {
@@ -63,7 +65,7 @@
 
   h1,
   .hero-content h1 {
-    font-size: 3.85rem;
+    font-size: clamp(3rem, 8.2vw, 3.85rem);
   }
 
   h2,
@@ -172,7 +174,7 @@
   }
 
   .category-detail-media {
-    min-height: 320px;
+    min-height: 260px;
   }
 
   .where-filter-panel {
@@ -185,17 +187,17 @@
   }
 
   .blog-detail-image {
-    min-height: 300px;
+    min-height: 250px;
   }
 
   .product-suggestion-slide {
-    min-height: 430px;
+    min-height: 360px;
     grid-template-columns: minmax(0, 0.9fr) minmax(280px, 0.72fr);
-    padding: 44px 58px;
+    padding: 36px 44px;
   }
 
   .category-hero-slide {
-    height: 430px;
+    height: 360px;
     min-height: 0;
     aspect-ratio: auto;
     padding: 0;
@@ -211,16 +213,16 @@
   }
 
   .flavor-card {
-    min-height: 500px;
+    min-height: 410px;
   }
 
   .marquee-product-card {
     width: clamp(230px, 34vw, 300px);
-    min-height: 400px;
+    min-height: 340px;
   }
 
   .category-marquee-card {
-    min-height: 370px;
+    min-height: 310px;
   }
 
   .marquee-product-pack {
@@ -264,7 +266,8 @@
 
 @media (max-width: 768px) {
   :root {
-    --container: min(680px, 91%);
+    --container: min(100% - 32px, 1200px);
+    --container-padding: 16px;
     --radius: 20px;
   }
 
@@ -278,7 +281,7 @@
   }
 
   .section {
-    padding: 46px 0;
+    padding: 42px 0;
   }
 
   .page-hero,
@@ -289,7 +292,7 @@
   }
 
   .command-page-hero {
-    padding: 82px max(16px, calc((100% - min(680px, 91%)) / 2)) 34px;
+    padding: 82px var(--container-padding) 34px;
   }
 
   .command-page-hero .command-breadcrumb {
@@ -309,7 +312,7 @@
 
   h1,
   .hero-content h1 {
-    font-size: 3.05rem;
+    font-size: clamp(2.45rem, 10vw, 3.05rem);
     line-height: 0.98;
   }
 
@@ -390,27 +393,27 @@
   .testimonial-card,
   .newsletter-panel,
   .form-card {
-    padding: 20px;
+    padding: 16px;
   }
 
   .about-pack-stage {
-    min-height: 340px;
+    min-height: 300px;
   }
 
   .flavor-card {
-    min-height: 470px;
+    min-height: 380px;
   }
 
   .blog-card {
-    min-height: 315px;
+    min-height: 255px;
   }
 
   .blog-card img {
-    height: 165px;
+    height: 132px;
   }
 
   .category-detail-media {
-    min-height: 260px;
+    min-height: 220px;
   }
 
   .product-pill-grid {
@@ -431,7 +434,7 @@
     min-height: auto;
     grid-template-columns: 1fr;
     gap: 18px;
-    padding: 40px 52px 58px;
+    padding: 32px 36px 52px;
   }
 
   .product-suggestion-copy {
@@ -439,7 +442,7 @@
   }
 
   .product-suggestion-art {
-    min-height: 250px;
+    min-height: 210px;
   }
 
   .triple-pack-art {
@@ -469,7 +472,7 @@
 
   .where-map-frame,
   .where-map-canvas {
-    min-height: 340px;
+    min-height: 300px;
   }
 
   .footer {
@@ -504,15 +507,16 @@
 
 @media (max-width: 640px) {
   .category-hero-slide {
-    height: auto;
+    height: clamp(260px, 72vw, 330px);
     min-height: 0;
-    aspect-ratio: 832 / 1296;
+    aspect-ratio: auto;
   }
 }
 
 @media (max-width: 576px) {
   :root {
-    --container: min(540px, calc(100% - 28px));
+    --container: min(100% - 32px, 1200px);
+    --container-padding: 16px;
     --radius: 18px;
   }
 
@@ -536,7 +540,7 @@
   }
 
   .section {
-    padding: 38px 0;
+    padding: 34px 0;
   }
 
   .home-hero {
@@ -545,7 +549,7 @@
 
   h1,
   .hero-content h1 {
-    font-size: 2.42rem;
+    font-size: clamp(2.08rem, 10.2vw, 2.42rem);
   }
 
   h2,
@@ -570,7 +574,7 @@
   }
 
   .hero-product-stage {
-    min-height: 310px;
+    min-height: 280px;
   }
 
   .hero-pack-main {
@@ -598,13 +602,13 @@
 
   .marquee-product-card {
     width: clamp(190px, 58vw, 240px);
-    min-height: 342px;
+    min-height: 294px;
     padding: 14px;
     border-radius: 20px;
   }
 
   .category-marquee-card {
-    min-height: 320px;
+    min-height: 276px;
   }
 
   .marquee-product-pack {
@@ -637,6 +641,32 @@
 
   .category-card {
     min-height: auto;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 10px 12px;
+    padding: 12px;
+  }
+
+  .category-card .category-status,
+  .category-card .category-live-badge {
+    grid-column: 1 / -1;
+  }
+
+  .category-card .category-image {
+    grid-row: 2 / span 2;
+    width: 92px;
+    height: 92px;
+    margin: 0;
+    border-radius: 14px;
+  }
+
+  .category-card h2 {
+    margin-bottom: 5px;
+    font-size: 1.05rem;
+  }
+
+  .category-card p {
+    font-size: 0.86rem;
+    line-height: 1.45;
   }
 
   .blog-card {
@@ -648,8 +678,9 @@
   }
 
   .category-card-actions {
+    grid-column: 1 / -1;
     position: static;
-    margin-top: 18px;
+    margin-top: 4px;
   }
 
   .category-card .category-view-link {
@@ -664,15 +695,15 @@
   }
 
   .category-product-art {
-    min-height: 145px;
+    min-height: 120px;
   }
 
   .category-product-art img {
-    height: 130px;
+    height: 108px;
   }
 
   .category-detail-card {
-    padding: 18px;
+    padding: 14px;
   }
 
   .where-filter-panel,
@@ -692,11 +723,11 @@
 
   .where-map-frame,
   .where-map-canvas {
-    min-height: 280px;
+    min-height: 240px;
   }
 
   .store-results-panel {
-    padding: 18px;
+    padding: 14px;
   }
 
   .store-results-heading {
@@ -705,11 +736,31 @@
 
   .store-result-grid {
     grid-template-columns: 1fr;
+    max-height: min(62vh, 560px);
+    overflow: auto;
+    padding-right: 2px;
+  }
+
+  .store-result-card {
+    gap: 7px;
+    padding: 12px;
+  }
+
+  .store-result-card p {
+    font-size: 0.84rem;
+    line-height: 1.45;
   }
 
   .store-result-actions {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+  }
+
+  .store-result-actions .button {
+    min-height: 34px;
+    padding-inline: 6px;
+    font-size: 0.72rem;
   }
 
   .buying-option-card {
@@ -729,7 +780,7 @@
   }
 
   .category-detail-media {
-    min-height: 220px;
+    min-height: 190px;
   }
 
   .category-title-row {
@@ -763,7 +814,7 @@
   }
 
   .about-pack-stage {
-    min-height: 290px;
+    min-height: 250px;
   }
 
   .about-pack {
@@ -792,15 +843,15 @@
   }
 
   .policy-card {
-    min-height: 230px;
+    min-height: auto;
   }
 
   .category-image {
-    height: 150px;
+    height: 118px;
   }
 
   .product-suggestion-section {
-    width: calc(100% - 24px);
+    width: var(--container);
     margin-top: 18px;
   }
 
@@ -809,12 +860,12 @@
   }
 
   .product-suggestion-slide {
-    padding: 28px 22px 58px;
+    padding: 20px 16px 48px;
   }
 
   .product-suggestion-copy h1,
   .product-suggestion-copy h2 {
-    font-size: clamp(2.05rem, 11vw, 3.2rem);
+    font-size: clamp(1.72rem, 9vw, 2.55rem);
     line-height: 0.96;
   }
 
@@ -824,16 +875,17 @@
   }
 
   .product-suggestion-art {
+    display: none;
     min-height: auto;
   }
 
   .suggestion-pack {
-    max-height: 175px;
+    max-height: 150px;
   }
 
   .category-art img,
   .combo-art img {
-    max-height: 175px;
+    max-height: 150px;
     object-fit: cover;
   }
 
@@ -902,8 +954,8 @@
 
   .about-preview .about-mini-grid .glass-card {
     display: flex;
-    height: 168px;
-    min-height: 168px;
+    height: auto;
+    min-height: 138px;
     min-width: 0;
     flex-direction: column;
     padding: 12px;
@@ -1024,8 +1076,8 @@
   .about-feature-grid .glass-card,
   .about-values-section .value-card {
     display: flex;
-    height: 184px;
-    min-height: 184px;
+    height: auto;
+    min-height: 146px;
     min-width: 0;
     flex-direction: column;
     padding: 12px;
@@ -1081,6 +1133,79 @@
     font-size: clamp(0.68rem, 3vw, 0.78rem);
     line-height: 1.1;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  :root {
+    --container: min(100% - 24px, 1200px);
+    --container-padding: 12px;
+  }
+
+  .site-header {
+    padding-inline: 12px;
+  }
+
+  .command-page-hero {
+    padding-inline: var(--container-padding);
+  }
+
+  h1,
+  .hero-content h1 {
+    font-size: clamp(1.96rem, 11vw, 2.28rem);
+  }
+
+  h2,
+  .section-kicker h2,
+  .section-title h2,
+  .contact-form-heading h2 {
+    font-size: clamp(1.42rem, 8vw, 1.62rem);
+  }
+
+  .home-hero {
+    padding-top: 44px;
+  }
+
+  .hero-product-stage {
+    min-height: 250px;
+  }
+
+  .where-map-actions,
+  .store-result-actions,
+  .contact-social-links,
+  .newsletter-card > div {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .newsletter-card button {
+    width: 100%;
+    border-radius: 999px;
+  }
+
+  .category-card {
+    grid-template-columns: 1fr;
+  }
+
+  .category-card .category-image {
+    grid-row: auto;
+    width: 100%;
+    height: 126px;
+  }
+
+  .category-card-actions {
+    display: grid;
+    grid-template-columns: 1fr 42px;
+  }
+
+  .footer-links div,
+  .qr-section .qr-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-contact .button,
+  .footer-contact .button.primary {
+    width: 100%;
   }
 }
 

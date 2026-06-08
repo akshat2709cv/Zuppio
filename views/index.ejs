@@ -105,13 +105,18 @@
 </section>
 
 <section class="section faq-section">
+  <%
+    const faqItems = homepage.faqs.items || [];
+    const faqPreviewLimit = 3;
+    const hasMoreFaqs = faqItems.length > faqPreviewLimit;
+  %>
   <div class="section-kicker">
     <p class="eyebrow"><%= homepage.faqs.label %></p>
     <h2><%= homepage.faqs.title %></h2>
   </div>
   <div class="faq-list">
-    <% homepage.faqs.items.forEach(function(item, index) { %>
-      <article class="faq-item">
+    <% faqItems.forEach(function(item, index) { %>
+      <article class="faq-item <%= index >= faqPreviewLimit ? 'faq-item-extra' : '' %>" <%= index >= faqPreviewLimit ? "hidden" : "" %>>
         <button type="button" aria-expanded="false">
           <span><%= item.question %></span>
           <i data-lucide="chevron-down"></i>
@@ -122,6 +127,11 @@
       </article>
     <% }) %>
   </div>
+  <% if (hasMoreFaqs) { %>
+    <button class="faq-show-more" type="button" data-faq-show-more aria-label="Show more FAQs" aria-expanded="false">
+      <i data-lucide="chevron-down"></i>
+    </button>
+  <% } %>
 </section>
 
 <section class="section newsletter-section">

@@ -33,12 +33,12 @@ const flavors = [
 
 const pages = [
   { label: "Home", href: "/" },
-  { label: "Product Categories", href: "/product-categories" },
-  { label: "How To Buy", href: "/how-to-buy" },
-  { label: "About", href: "/about" },
+  { label: "Products", href: "/product-categories" },
+  { label: "Where To Buy", href: "/how-to-buy" },
   { label: "Blogs", href: "/blogs" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
-  { label: "Terms", href: "/terms" }
+  { label: "Term", href: "/terms" }
 ];
 
 const productCategories = [

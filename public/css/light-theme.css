@@ -1,0 +1,615 @@
+:root {
+  --primary-orange: #ff7a00;
+  --primary-yellow: #ffc928;
+  --green: #43c15a;
+  --purple: #8b3dff;
+  --bg-main: #fffdf8;
+  --bg-card: #ffffff;
+  --bg-soft: #fff5e8;
+  --text-primary: #1a1a1a;
+  --text-secondary: #5c5c5c;
+  --border: #ececec;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  --hover-shadow: 0 15px 40px rgba(255, 122, 0, 0.18);
+
+  --bg: var(--bg-main);
+  --bg-soft: #fff5e8;
+  --card: var(--bg-card);
+  --card-strong: #ffffff;
+  --line: var(--border);
+  --line-strong: #e2e2e2;
+  --yellow: var(--primary-yellow);
+  --orange: var(--primary-orange);
+  --aqua: #23b9ad;
+  --pink: #ff6b9d;
+  --text: var(--text-primary);
+  --muted: var(--text-secondary);
+  --dark-text: var(--text-primary);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+  --soft-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg-main);
+}
+
+body {
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+body::before,
+body::after,
+.hero-ambient,
+.chips-pattern {
+  opacity: 0;
+}
+
+main,
+section,
+.section,
+.page-hero,
+.terms-hero,
+.contact-hero,
+.policy-detail-hero,
+.terms-section,
+.policy-detail-section {
+  background: transparent;
+}
+
+h1,
+h2,
+h3,
+.section-kicker h2,
+.section-title h2,
+.contact-form-heading h2,
+.command-page-hero h1,
+.about-copy-card h2,
+.about-story-card h2,
+.about-timeline h2,
+.mission-card h2,
+.whatsapp-card h2,
+.contact-info-panel h2,
+.newsletter-panel h2,
+.category-card h2,
+.category-detail-copy h2,
+.category-product-card h3,
+.category-placeholder-card h3,
+.blog-card h2,
+.blog-detail-copy h2,
+.policy-card h2,
+.policy-highlight-panel h3,
+.where-map-heading h2,
+.where-filter-brand h2,
+.store-result-card h3,
+.buying-option-card h3,
+.footer-contact h2 {
+  color: var(--text-primary);
+  text-shadow: none;
+}
+
+p,
+.glass-card p,
+.simple-card p,
+.blog-card p,
+.hero-content p:not(.eyebrow),
+.page-hero p:not(.eyebrow),
+.terms-hero p:not(.eyebrow),
+.contact-hero p:not(.eyebrow),
+.policy-detail-hero p:not(.eyebrow),
+.section-kicker p:not(.eyebrow),
+.section-title p:not(.eyebrow),
+.command-page-hero .command-breadcrumb,
+.category-command-hero .category-hero-description,
+.blog-detail-hero .blog-detail-summary,
+.category-card p,
+.category-product-card p,
+.category-placeholder-card p,
+.blog-detail-copy p,
+.policy-card p,
+.policy-copy p,
+.policy-highlight-panel li,
+.contact-info-list p,
+.whatsapp-card p,
+.finder-status,
+.store-empty-message,
+.store-result-card p,
+.store-result-meta,
+.store-result-products,
+.buying-option-card p,
+.footer-brand p {
+  color: var(--text-secondary);
+}
+
+.eyebrow,
+.command-page-hero .command-label,
+.product-group h3,
+.testimonial-card span,
+.blog-read-more,
+.policy-highlight-panel h3,
+.store-result-top strong,
+.contact-info-list span,
+.footer-contact h2 {
+  color: var(--primary-orange) !important;
+}
+
+.site-header,
+.site-header.scrolled {
+  border-bottom: 1px solid var(--border);
+  background: rgba(255, 255, 255, 0.85);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  backdrop-filter: blur(20px);
+}
+
+.navbar-logo {
+  filter: drop-shadow(0 6px 12px rgba(255, 122, 0, 0.12));
+}
+
+.navbar a {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.navbar a:hover,
+.navbar a.active {
+  color: var(--primary-orange);
+  background: var(--bg-soft);
+}
+
+.navbar a::after {
+  background: linear-gradient(90deg, var(--primary-orange), var(--primary-yellow));
+}
+
+.menu-button,
+.drawer-close,
+.slider-button,
+.category-menu-toggle {
+  border-color: var(--border);
+  background: #ffffff;
+  color: var(--text-primary);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.06);
+}
+
+.menu-button:hover,
+.drawer-close:hover,
+.slider-button:hover,
+.category-menu-toggle:hover,
+.category-menu-toggle:focus-visible {
+  border-color: rgba(255, 122, 0, 0.34);
+  background: var(--bg-soft);
+}
+
+.drawer-scrim {
+  background: rgba(26, 26, 26, 0.18);
+}
+
+.loader-screen {
+  background: var(--bg-main);
+}
+
+.loader-pack {
+  border-color: var(--border);
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.home-hero {
+  --home-hero-bg: linear-gradient(180deg, #fffdf8 0%, #fff5e8 100%);
+}
+
+.hero-content h1 {
+  color: var(--text-primary);
+  text-shadow: none;
+}
+
+.hero-product-stage::before,
+.about-pack-stage,
+.product-suggestion-swiper,
+.product-suggestion-swiper:has(.category-hero-slide),
+.product-suggestion-slide,
+.category-hero-slide,
+.where-map-frame,
+.where-map-fallback,
+.pack-image {
+  border-color: var(--border);
+  background:
+    radial-gradient(ellipse at 70% 16%, rgba(255, 201, 40, 0.18), transparent 18rem),
+    linear-gradient(180deg, #ffffff 0%, #fff5e8 100%);
+  box-shadow: var(--shadow);
+}
+
+.packet-glow {
+  background: linear-gradient(135deg, rgba(255, 201, 40, 0.35), rgba(255, 122, 0, 0.22), rgba(67, 193, 90, 0.14));
+  opacity: 0.55;
+}
+
+.hero-pack,
+.hero-pack-left,
+.hero-pack-right,
+.flavor-pack,
+.suggestion-pack,
+.marquee-product-pack,
+.marquee-category-icon,
+.category-product-art img,
+.product-pill img,
+.about-pack {
+  filter: drop-shadow(0 18px 26px rgba(0, 0, 0, 0.16));
+}
+
+.button.primary,
+.qr-card a,
+.back-to-terms,
+.newsletter-card button,
+.suggestion-arrow,
+.policy-open {
+  border: none;
+  background: var(--primary-orange);
+  color: #ffffff;
+  box-shadow: 0 8px 25px rgba(255, 122, 0, 0.25);
+}
+
+.button.primary:hover,
+.qr-card a:hover,
+.back-to-terms:hover,
+.newsletter-card button:hover,
+.suggestion-arrow:hover,
+.policy-open:hover {
+  background: #ff8d21;
+  box-shadow: 0 15px 35px rgba(255, 122, 0, 0.35);
+}
+
+.button.secondary,
+.store-result-actions .button.secondary,
+.hero-actions .button.secondary {
+  border: 1px solid var(--border);
+  background: #ffffff;
+  color: var(--text-primary);
+  box-shadow: none;
+}
+
+.button.secondary:hover,
+.store-result-actions .button.secondary:hover {
+  border-color: rgba(255, 122, 0, 0.28);
+  background: var(--bg-soft);
+  box-shadow: var(--hover-shadow);
+}
+
+.glass-card,
+.simple-card,
+.about-copy-card,
+.about-story-card,
+.about-timeline,
+.mission-card,
+.contact-info-panel,
+.contact-action-panel > div,
+.qr-card,
+.policy-card,
+.policy-detail-card,
+.pack-switcher,
+.testimonial-card,
+.newsletter-panel,
+.blog-detail-card,
+.category-card,
+.category-detail-card,
+.product-contact-panel,
+.category-product-card,
+.category-placeholder-card,
+.flavor-card,
+.marquee-product-card,
+.where-filter-panel,
+.where-map-card,
+.store-result-card,
+.buying-option-card,
+.wholesale-card,
+.form-card {
+  border-color: var(--border);
+  background: #ffffff;
+  box-shadow: var(--shadow);
+}
+
+.glass-card:hover,
+.simple-card:hover,
+.category-card:hover,
+.category-card.menu-open,
+.category-card:focus-within,
+.policy-card:hover,
+.blog-card:hover,
+.marquee-product-card:hover,
+.flavor-card:hover,
+.contact-social-links a:hover,
+.slider-button:hover {
+  border-color: rgba(255, 122, 0, 0.24);
+  box-shadow: var(--hover-shadow);
+}
+
+.flavor-yellow,
+.flavor-card.flavor-yellow {
+  --accent: var(--primary-yellow);
+  --accent-soft: rgba(255, 201, 40, 0.18);
+  box-shadow: 0 0 40px rgba(255, 201, 40, 0.18), var(--shadow);
+}
+
+.flavor-purple,
+.flavor-card.flavor-purple {
+  --accent: var(--purple);
+  --accent-soft: rgba(139, 61, 255, 0.18);
+  box-shadow: 0 0 40px rgba(139, 61, 255, 0.18), var(--shadow);
+}
+
+.flavor-green,
+.flavor-card.flavor-green {
+  --accent: var(--green);
+  --accent-soft: rgba(67, 193, 90, 0.18);
+  box-shadow: 0 0 40px rgba(67, 193, 90, 0.18), var(--shadow);
+}
+
+.flavor-card::before,
+.marquee-product-card,
+.category-card,
+.category-detail-card,
+.product-contact-panel,
+.category-product-card,
+.category-placeholder-card,
+.vision-card,
+.faq-item,
+.faq-item.open,
+.faq-show-more,
+.buying-option-icon {
+  background:
+    radial-gradient(ellipse at 85% 8%, rgba(255, 201, 40, 0.14), transparent 18rem),
+    #ffffff;
+}
+
+.category-status,
+.category-live-badge,
+.badge,
+.available-badge,
+.policy-number,
+.option-status,
+.blog-tag-row span,
+.store-results-heading span,
+.about-quote,
+.coming-soon-badge {
+  border-color: rgba(255, 122, 0, 0.22);
+  background: var(--bg-soft);
+  color: var(--primary-orange);
+}
+
+.future-badge {
+  background: rgba(139, 61, 255, 0.12);
+  color: var(--purple);
+}
+
+.category-image,
+.category-detail-media,
+.category-product-art,
+.category-product-menu,
+.product-pill,
+.where-map-fallback,
+.store-empty-message,
+.contact-info-list article,
+.contact-social-links a,
+.policy-highlight-panel,
+.policy-highlight-panel li,
+.wholesale-card li,
+.blog-card img,
+.blog-detail-image,
+.qr-card img,
+.footer-contact,
+.where-tab,
+.store-result-card {
+  border-color: var(--border);
+  background: var(--bg-main);
+  color: var(--text-primary);
+}
+
+.category-product-menu {
+  box-shadow: var(--hover-shadow);
+}
+
+.product-pill.available,
+.where-tab:hover,
+.where-tab.active,
+.faq-item.open,
+.faq-show-more:hover {
+  border-color: rgba(255, 122, 0, 0.24);
+  background: var(--bg-soft);
+  color: var(--primary-orange);
+}
+
+.product-pill strong,
+.policy-card h2,
+.store-result-card h3,
+.buying-option-card h3,
+.contact-info-list p,
+.whatsapp-card p,
+.where-tab,
+.footer-contact a:not(.button) {
+  color: var(--text-primary);
+}
+
+.product-pill small,
+.finder-status,
+.store-result-products,
+.store-result-meta,
+.faq-panel p,
+.testimonial-card p,
+.marquee-product-copy p:not(.eyebrow),
+.flavor-card-copy p:not(.eyebrow),
+.product-suggestion-copy p:not(.eyebrow),
+.where-map-heading p:not(.eyebrow),
+.where-filter-brand p,
+.store-empty-message {
+  color: var(--text-secondary);
+}
+
+.faq-item button {
+  color: var(--text-primary);
+}
+
+.faq-item button > i,
+.faq-item button > svg,
+.faq-show-more,
+.category-placeholder-icon,
+.buying-option-icon {
+  border-color: rgba(255, 122, 0, 0.22);
+  background: var(--bg-soft);
+  color: var(--primary-orange);
+}
+
+input,
+textarea,
+select,
+.form-card input,
+.form-card textarea,
+.form-card select,
+.store-finder-form input,
+.store-finder-form select,
+.newsletter-card input {
+  border: 1px solid #e5e5e5;
+  background: var(--bg-main);
+  color: var(--text-primary);
+  color-scheme: light;
+}
+
+.form-card select,
+.store-finder-form select {
+  background-color: var(--bg-main);
+  background-image:
+    linear-gradient(45deg, transparent 50%, var(--primary-orange) 50%),
+    linear-gradient(135deg, var(--primary-orange) 50%, transparent 50%);
+}
+
+.form-card option,
+.store-finder-form option {
+  background: #ffffff;
+  color: var(--text-primary);
+}
+
+input::placeholder,
+.form-card input::placeholder,
+.form-card textarea::placeholder,
+.store-finder-form input::placeholder,
+.newsletter-card input::placeholder,
+textarea::placeholder {
+  color: #8a8a8a;
+}
+
+.form-card input:focus,
+.form-card textarea:focus,
+.form-card select:focus,
+.store-finder-form input:focus,
+.store-finder-form select:focus,
+.newsletter-card input:focus {
+  border-color: rgba(255, 122, 0, 0.58);
+  background: #ffffff;
+  box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.1);
+}
+
+.form-field label,
+.newsletter-card label {
+  color: var(--text-secondary);
+}
+
+.meter div,
+.swiper-pagination-bullet {
+  background: #ececec;
+}
+
+.meter span {
+  color: var(--text-secondary);
+}
+
+.swiper-pagination-bullet-active,
+.meter i,
+.meter.crunch i,
+.product-dot {
+  background: linear-gradient(90deg, var(--primary-orange), var(--primary-yellow));
+}
+
+.contact-social-links img,
+.social-img {
+  filter: none;
+}
+
+.newsletter-status.success {
+  color: #1f9a4d;
+}
+
+.newsletter-status.error {
+  color: #c83232;
+}
+
+.whatsapp-float {
+  border-color: rgba(67, 193, 90, 0.24);
+  background: linear-gradient(135deg, #43c15a, #1fa953);
+  color: #ffffff;
+}
+
+.back-to-top {
+  border-color: rgba(255, 122, 0, 0.24);
+  background: var(--primary-orange);
+  color: #ffffff;
+}
+
+.footer {
+  border-color: rgba(255, 255, 255, 0.1);
+  background: #111111;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.18);
+}
+
+.footer::before {
+  background-image:
+    linear-gradient(90deg, rgba(17, 17, 17, 0.96) 0%, rgba(17, 17, 17, 0.9) 54%, rgba(17, 17, 17, 0.72) 100%),
+    url("/images/footer-chips-bg.png");
+}
+
+.footer::after {
+  background:
+    linear-gradient(180deg, rgba(17, 17, 17, 0.28), transparent 42%, rgba(17, 17, 17, 0.42)),
+    radial-gradient(ellipse at 18% 12%, rgba(255, 201, 40, 0.12), transparent 20rem);
+}
+
+.footer,
+.footer h2,
+.footer-logo,
+.footer-contact h2 {
+  color: #eaeaea;
+}
+
+.footer-brand p,
+.footer-bottom,
+.footer-links a,
+.footer-contact a:not(.button) {
+  color: #bdbdbd;
+}
+
+.footer-links a:hover,
+.footer-contact a:not(.button):hover {
+  color: var(--primary-yellow);
+}
+
+.footer-contact {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.footer .button.primary {
+  background: var(--primary-yellow);
+  color: #111111;
+}
+
+@media (max-width: 992px) {
+  .navbar {
+    border-left: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.08);
+  }
+
+  .navbar a {
+    border-color: var(--border);
+    background: #ffffff;
+    color: var(--text-primary);
+  }
+}

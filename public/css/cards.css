@@ -24,7 +24,7 @@
 
 .glass-card,
 .simple-card {
-  padding: 24px;
+  padding: 20px;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
@@ -65,7 +65,7 @@
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
 
 .about-mini-grid {
@@ -74,7 +74,7 @@
 
 .about-mini-grid .glass-card,
 .about-feature-grid .glass-card {
-  min-height: 186px;
+  min-height: 150px;
 }
 
 .about-intro,
@@ -86,7 +86,7 @@
 .pack-switcher {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 0.88fr);
-  gap: 26px;
+  gap: 20px;
   align-items: center;
 }
 
@@ -94,7 +94,7 @@
 .about-story-card,
 .about-timeline,
 .mission-card {
-  padding: 28px;
+  padding: 22px;
 }
 
 .about-copy-card h2,
@@ -120,7 +120,7 @@
 .about-pack-stage {
   position: relative;
   display: grid;
-  min-height: 430px;
+  min-height: 360px;
   place-items: center;
   overflow: hidden;
   border: 1px solid var(--line);
@@ -148,13 +148,14 @@
 .values-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 18px;
-  max-width: 1180px;
+  gap: 14px;
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
 }
 
 .value-card {
-  min-height: 220px;
+  min-height: 168px;
 }
 
 .about-quote {
@@ -182,7 +183,7 @@
 .flavor-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 20px;
+  gap: 16px;
 }
 
 .flavor-slider-section {
@@ -196,7 +197,8 @@
 .product-marquee {
   position: relative;
   --marquee-gap: 18px;
-  width: min(1320px, 100%);
+  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
   overflow: hidden;
   padding: 8px 0 12px;
@@ -225,7 +227,7 @@
   position: relative;
   display: grid;
   width: clamp(260px, 24vw, 340px);
-  min-height: 430px;
+  min-height: 365px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -239,7 +241,7 @@
 }
 
 .category-marquee-card {
-  min-height: 390px;
+  min-height: 330px;
 }
 
 .marquee-product-card:hover {
@@ -265,9 +267,9 @@
 .marquee-category-icon {
   position: relative;
   z-index: 1;
-  width: min(168px, 70%);
-  height: 165px;
-  margin: 24px auto 18px;
+  width: min(138px, 68%);
+  height: 132px;
+  margin: 20px auto 14px;
   object-fit: contain;
   filter: drop-shadow(0 20px 28px rgba(0, 0, 0, 0.34));
 }
@@ -288,7 +290,7 @@
 }
 
 .marquee-product-copy p:not(.eyebrow) {
-  min-height: 48px;
+  min-height: 0;
   margin: 0;
   color: rgba(255, 255, 255, 0.74);
   font-size: 0.94rem;
@@ -324,7 +326,7 @@
 
 .flavor-card {
   position: relative;
-  min-height: 520px;
+  min-height: 440px;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius);
@@ -383,7 +385,7 @@
   position: relative;
   z-index: 1;
   width: min(230px, 78%);
-  height: 270px;
+  height: 230px;
   margin: 10px auto 18px;
   object-fit: contain;
   filter: drop-shadow(0 24px 32px rgba(0, 0, 0, 0.38));
@@ -437,7 +439,7 @@
 
 .flavor-card-copy p:not(.eyebrow) {
   margin: 0;
-  min-height: 84px;
+  min-height: 0;
 }
 
 .meter-stack {
@@ -481,12 +483,14 @@
 }
 
 .product-suggestion-section {
-  width: min(1320px, 94%);
-  margin: 34px auto 0;
+  width: var(--container);
+  max-width: 100%;
+  margin: 24px auto 0;
 }
 
 .product-suggestion-swiper {
   position: relative;
+  max-width: 100%;
   contain: layout paint;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.16);
@@ -511,12 +515,13 @@
 .product-suggestion-slide {
   position: relative;
   display: grid;
-  min-height: 470px;
+  min-width: 0;
+  min-height: 400px;
   grid-template-columns: minmax(0, 0.9fr) minmax(360px, 0.9fr);
-  gap: 28px;
+  gap: 22px;
   align-items: center;
   overflow: hidden;
-  padding: 54px 72px;
+  padding: 42px 56px;
   background:
     radial-gradient(ellipse at 78% 20%, rgba(255, 204, 0, 0.2), transparent 22rem),
     linear-gradient(110deg, rgba(7, 1, 15, 0.96) 0%, rgba(24, 8, 48, 0.9) 48%, rgba(12, 31, 42, 0.84) 100%);
@@ -543,7 +548,7 @@
 
 .category-hero-slide {
   display: block;
-  height: 470px;
+  height: 400px;
   min-height: 0;
   aspect-ratio: auto;
   padding: 0;
@@ -563,7 +568,7 @@
 }
 
 .category-hero-slide img {
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .beverage-slide {
@@ -707,12 +712,13 @@
 .category-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
 
 .category-card,
 .category-detail-card,
 .product-contact-panel {
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background:
@@ -725,8 +731,9 @@
 .category-card {
   position: relative;
   display: grid;
+  min-width: 0;
   align-content: start;
-  min-height: 330px;
+  min-height: 280px;
   overflow: visible;
   padding: 18px 18px 72px;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
@@ -765,11 +772,12 @@
 
 .category-image {
   width: 100%;
-  height: 172px;
+  height: 138px;
   margin: 8px 0 16px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 12px;
   background: rgba(0, 0, 0, 0.18);
 }
 
@@ -865,13 +873,13 @@
 
 .category-detail-list {
   display: grid;
-  gap: 20px;
+  gap: 16px;
 }
 
 .category-detail-card {
   display: grid;
   grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1fr);
-  gap: 24px;
+  gap: 18px;
   align-items: stretch;
   padding: 22px;
   scroll-margin-top: 110px;
@@ -879,7 +887,7 @@
 
 .category-detail-media {
   display: grid;
-  min-height: 260px;
+  min-height: 220px;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.12);
@@ -890,11 +898,13 @@
 .category-detail-media img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  padding: 14px;
 }
 
 .category-detail-copy {
   display: grid;
+  min-width: 0;
   align-content: center;
   gap: 18px;
 }
@@ -926,13 +936,13 @@
 .category-placeholder-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
 
 .category-product-card,
 .category-placeholder-card {
   display: grid;
-  min-height: 360px;
+  min-height: 280px;
   align-content: start;
   gap: 14px;
   border: 1px solid var(--line);
@@ -948,7 +958,7 @@
 .category-product-art {
   display: grid;
   width: 100%;
-  min-height: 170px;
+  min-height: 132px;
   place-items: center;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.11);
@@ -958,7 +968,7 @@
 
 .category-product-art img {
   width: min(170px, 72%);
-  height: 155px;
+  height: 120px;
   object-fit: contain;
   filter: drop-shadow(0 18px 22px rgba(0, 0, 0, 0.36));
 }
@@ -982,7 +992,7 @@
 }
 
 .category-placeholder-card {
-  min-height: 280px;
+  min-height: 220px;
 }
 
 .category-placeholder-icon {
@@ -1021,7 +1031,8 @@
 
 .product-pill {
   display: flex;
-  min-height: 74px;
+  min-width: 0;
+  min-height: 62px;
   align-items: center;
   gap: 12px;
   border: 1px solid rgba(255, 255, 255, 0.11);
@@ -1073,10 +1084,11 @@
 
 .product-contact-panel {
   display: flex;
+  min-width: 0;
   align-items: center;
   justify-content: space-between;
-  gap: 22px;
-  padding: 28px;
+  gap: 18px;
+  padding: 22px;
 }
 
 .product-contact-panel h2 {
@@ -1125,7 +1137,7 @@
 
 .pack-switcher {
   grid-template-columns: 0.7fr 1fr;
-  padding: 24px;
+  padding: 20px;
 }
 
 .pack-switcher > div:last-child {
@@ -1166,8 +1178,8 @@
 }
 
 .testimonial-card {
-  min-height: 210px;
-  padding: 24px;
+  min-height: 160px;
+  padding: 20px;
 }
 
 .testimonial-card p {
@@ -1186,6 +1198,10 @@
   max-width: 920px;
   margin: 0 auto;
   gap: 12px;
+}
+
+.faq-item[hidden] {
+  display: none;
 }
 
 .faq-item {
@@ -1208,12 +1224,12 @@
 .faq-item button {
   display: flex;
   width: 100%;
-  min-height: 66px;
+  min-height: 58px;
   align-items: center;
   justify-content: space-between;
   gap: 18px;
   border: 0;
-  padding: 17px 20px;
+  padding: 14px 18px;
   background: transparent;
   color: var(--text);
   font-size: 1rem;
@@ -1222,7 +1238,8 @@
   cursor: pointer;
 }
 
-.faq-item i {
+.faq-item button > i,
+.faq-item button > svg {
   display: grid;
   width: 34px;
   height: 34px;
@@ -1232,7 +1249,6 @@
   border-radius: 50%;
   color: var(--yellow);
   background: rgba(255, 204, 0, 0.08);
-  transition: transform 0.24s ease;
 }
 
 .faq-panel {
@@ -1264,16 +1280,41 @@
   padding-bottom: 20px;
 }
 
-.faq-item.open i {
-  transform: rotate(180deg);
+.faq-show-more {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  place-items: center;
+  margin: 18px auto 0;
+  border: 1px solid rgba(255, 204, 0, 0.28);
+  border-radius: 50%;
+  color: var(--yellow);
+  background:
+    linear-gradient(145deg, rgba(255, 204, 0, 0.15), rgba(255, 255, 255, 0.055)),
+    rgba(12, 5, 30, 0.78);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  transition: transform 0.24s ease, border-color 0.24s ease, background 0.24s ease;
+}
+
+.faq-show-more:hover {
+  border-color: rgba(255, 204, 0, 0.48);
+  transform: translateY(-2px);
+}
+
+.faq-show-more i,
+.faq-show-more svg {
+  width: 22px;
+  height: 22px;
 }
 
 .newsletter-panel {
   display: grid;
+  min-width: 0;
   grid-template-columns: minmax(0, 0.85fr) minmax(320px, 0.92fr);
-  gap: 24px;
+  gap: 18px;
   align-items: center;
-  padding: 28px;
+  padding: 22px;
 }
 
 .newsletter-card {
@@ -1334,13 +1375,13 @@
 
 .blog-grid {
   align-items: stretch;
-  gap: 20px;
+  gap: 16px;
 }
 
 .blog-card {
   position: relative;
   display: grid;
-  min-height: 345px;
+  min-height: 280px;
   align-content: start;
   gap: 14px;
   color: inherit;
@@ -1349,7 +1390,7 @@
 
 .blog-card img {
   width: 100%;
-  height: 180px;
+  height: 145px;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
   object-fit: cover;
@@ -1392,15 +1433,16 @@
 
 .blog-detail-card {
   display: grid;
+  min-width: 0;
   grid-template-columns: minmax(280px, 0.72fr) minmax(0, 1fr);
-  gap: 28px;
+  gap: 22px;
   align-items: start;
-  padding: 28px;
+  padding: 22px;
 }
 
 .blog-detail-image {
   width: 100%;
-  min-height: 340px;
+  min-height: 260px;
   max-height: 460px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 20px;
@@ -1439,8 +1481,9 @@
 
 .where-buy-section {
   display: grid;
+  min-width: 0;
   grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
-  gap: 24px;
+  gap: 18px;
   align-items: start;
   padding-top: 28px;
 }
@@ -1449,8 +1492,8 @@
   position: sticky;
   top: 106px;
   display: grid;
-  gap: 22px;
-  padding: 22px;
+  gap: 16px;
+  padding: 18px;
 }
 
 .where-filter-panel:hover,
@@ -1518,8 +1561,8 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 20px;
-  padding: 24px;
+  gap: 16px;
+  padding: 20px;
 }
 
 .where-map-heading p:not(.eyebrow) {
@@ -1535,7 +1578,7 @@
 
 .where-map-frame {
   position: relative;
-  min-height: 420px;
+  min-height: 340px;
   overflow: hidden;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   background:
@@ -1549,7 +1592,7 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  min-height: 420px;
+  min-height: 340px;
 }
 
 .where-map-fallback {
@@ -1590,9 +1633,9 @@
 
 .store-results-panel {
   display: grid;
-  gap: 16px;
+  gap: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 22px 24px 24px;
+  padding: 18px 20px 20px;
 }
 
 .store-results-heading {
@@ -1636,7 +1679,7 @@
 .store-result-card {
   display: grid;
   gap: 10px;
-  padding: 18px;
+  padding: 14px;
 }
 
 .store-result-top {
@@ -1687,8 +1730,10 @@
 
 .where-tabs {
   display: flex;
+  max-width: 100%;
   gap: 10px;
   overflow-x: auto;
+  overscroll-behavior-inline: contain;
   padding: 4px 2px 8px;
   scrollbar-width: thin;
 }
@@ -1718,16 +1763,17 @@
 .buying-option-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 16px;
+  gap: 14px;
 }
 
 .buying-option-card {
   display: grid;
+  min-width: 0;
   grid-template-columns: 58px minmax(0, 1fr);
   gap: 14px;
   align-items: center;
-  min-height: 154px;
-  padding: 18px;
+  min-height: 124px;
+  padding: 16px;
 }
 
 .buying-option-card.hidden {
@@ -1819,7 +1865,7 @@
 
 .contact-info-panel,
 .contact-action-panel > div {
-  padding: 22px;
+  padding: 18px;
 }
 
 .contact-info-panel {
@@ -1850,7 +1896,7 @@
 .contact-info-list article {
   display: grid;
   min-width: 0;
-  min-height: 84px;
+  min-height: 68px;
   grid-template-columns: 28px minmax(0, 1fr);
   gap: 3px 10px;
   align-items: start;
@@ -1927,6 +1973,7 @@
 
 .contact-social-links a {
   display: flex;
+  min-width: 0;
   min-height: 0;
   align-items: center;
   gap: 12px;
@@ -1953,11 +2000,11 @@
 .qr-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 20px;
+  gap: 16px;
 }
 
 .qr-card {
-  padding: 24px;
+  padding: 18px;
 }
 
 .qr-card h3 {
@@ -1965,7 +2012,7 @@
 }
 
 .qr-card img {
-  width: min(220px, 82%);
+  width: min(180px, 78%);
   border-radius: 16px;
   background: white;
   padding: 10px;
@@ -2014,17 +2061,17 @@
 .policy-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 16px;
 }
 
 .policy-card {
   position: relative;
   display: flex;
-  min-height: 270px;
+  min-height: 220px;
   flex-direction: column;
   justify-content: space-between;
   overflow: hidden;
-  padding: 22px;
+  padding: 18px;
   transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -2088,9 +2135,10 @@
 
 .policy-detail-card {
   display: grid;
+  min-width: 0;
   grid-template-columns: minmax(0, 1.2fr) minmax(280px, 0.78fr);
-  gap: 24px;
-  padding: 28px;
+  gap: 18px;
+  padding: 22px;
 }
 
 .policy-copy {
@@ -2144,6 +2192,7 @@
   --footer-image-position: center right;
   display: grid;
   width: var(--container);
+  max-width: 100%;
   grid-template-columns: minmax(0, 1.1fr) minmax(230px, 0.9fr) minmax(280px, 0.95fr);
   gap: 26px;
   overflow: hidden;
@@ -2245,11 +2294,13 @@
 .footer-links a,
 .footer-contact a:not(.button) {
   display: inline-flex;
+  min-width: 0;
   align-items: center;
   gap: 8px;
   color: rgba(255, 255, 255, 0.74);
   font-size: 0.94rem;
   font-weight: 800;
+  overflow-wrap: anywhere;
   transition: color 0.24s ease, transform 0.24s ease;
 }
 

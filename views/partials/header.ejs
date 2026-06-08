@@ -19,7 +19,6 @@
       
     </div>
 
-    <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
     <div class="cursor-glow" id="cursorGlow" aria-hidden="true"></div>
 
     <header class="site-header">
@@ -32,7 +31,15 @@
           <i data-lucide="x"></i>
         </button>
         <% (typeof pages !== "undefined" ? pages : []).forEach(function(page) { %>
-          <a class="<%= activePage === page.label ? 'active' : '' %>" href="<%= page.href %>"><%= page.label %></a>
+          <%
+            const activeAliases = {
+              Products: ["Product Categories"],
+              "Where To Buy": ["How To Buy"],
+              Term: ["Terms"]
+            };
+            const isActivePage = activePage === page.label || (activeAliases[page.label] || []).includes(activePage);
+          %>
+          <a class="<%= isActivePage ? 'active' : '' %>" href="<%= page.href %>"><%= page.label %></a>
         <% }) %>
       </nav>
 

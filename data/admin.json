@@ -1,16 +1,5 @@
 {
-  "users": [
-    {
-      "id": "user_036867bb3ac4ff71",
-      "name": "ZUPPIO Super Admin",
-      "email": "admin@zuppio.local",
-      "passwordHash": "$2b$12$7VKYCv5f81Uqmd81GV2hqOUw3JKx2gESWX1eP2EF2cYu1OfrTcQJS",
-      "role": "Super Admin",
-      "status": "Active",
-      "createdAt": "2026-06-02T10:25:16.074Z",
-      "lastLoginAt": "2026-06-03T10:18:36.751Z"
-    }
-  ],
+  "users": [],
   "content": [
     {
       "id": "homepage",
@@ -51,7 +40,7 @@
   ],
   "products": [
     {
-      "id": "product_20edfdf8191297b5",
+      "id": "product_0267765112e6b010",
       "name": "Seedha Simple",
       "flavour": "Classic Salted",
       "price": "",
@@ -66,7 +55,7 @@
       "status": "Active"
     },
     {
-      "id": "product_2795b20fa8313d78",
+      "id": "product_cf57556183b7e97f",
       "name": "Mast Masaledar",
       "flavour": "Masala",
       "price": "",
@@ -81,7 +70,7 @@
       "status": "Active"
     },
     {
-      "id": "product_a61c0e89351b4b2f",
+      "id": "product_4f7baceac7648c3e",
       "name": "Italian Tadka",
       "flavour": "Italian Herbs",
       "price": "",
@@ -456,7 +445,7 @@
   "subscribers": [],
   "blogPosts": [
     {
-      "id": "blog_story_behind_zuppio_snacks",
+      "id": "blog_8b68e622a7bc1f00",
       "title": "The Story Behind ZUPPIO Snacks",
       "slug": "story-behind-zuppio-snacks",
       "description": "How ZUPPIO is building a modern Indian snack brand with bold taste and everyday trust.",
@@ -477,7 +466,7 @@
       "seoDescription": "Read the brand story behind ZUPPIO Snacks and its modern Indian FMCG vision."
     },
     {
-      "id": "blog_potato_chips_india_favorite",
+      "id": "blog_677cfb0086f9bf0e",
       "title": "Why Potato Chips Are India's Favorite Snack",
       "slug": "why-potato-chips-are-indias-favorite-snack",
       "description": "A look at why crispy potato chips work for tea breaks, parties, travel, and everyday cravings.",
@@ -498,7 +487,7 @@
       "seoDescription": "Explore why potato chips remain one of India's most loved everyday snack choices."
     },
     {
-      "id": "blog_easy_snack_recipes_zuppio_chips",
+      "id": "blog_77d9f3ec60f4e8d1",
       "title": "5 Easy Snack Recipes with ZUPPIO Chips",
       "slug": "easy-snack-recipes-with-zuppio-chips",
       "description": "Quick food ideas using ZUPPIO chips for parties, evening snacks, and fun family moments.",
@@ -519,7 +508,7 @@
       "seoDescription": "Try quick and simple snack ideas using ZUPPIO chips for parties and everyday cravings."
     },
     {
-      "id": "blog_zuppio_quality_and_taste",
+      "id": "blog_9ce107a84ff6a133",
       "title": "How ZUPPIO Focuses on Quality and Taste",
       "slug": "how-zuppio-focuses-on-quality-and-taste",
       "description": "Inside the quality-first thinking behind ZUPPIO's ingredients, flavors, and packaging.",
@@ -540,7 +529,7 @@
       "seoDescription": "Learn how ZUPPIO approaches quality, ingredients, taste, and packaging."
     },
     {
-      "id": "blog_party_gathering_snacks",
+      "id": "blog_fb8e525bec165018",
       "title": "Best Snacks for Parties and Gatherings",
       "slug": "best-snacks-for-parties-and-gatherings",
       "description": "Snack planning ideas for game nights, house parties, family visits, and festive tables.",
@@ -561,7 +550,7 @@
       "seoDescription": "Snack planning ideas for parties, gatherings, game nights, and family events."
     },
     {
-      "id": "blog_upcoming_zuppio_categories",
+      "id": "blog_5082fed8b9c85b88",
       "title": "Upcoming ZUPPIO Product Categories",
       "slug": "upcoming-zuppio-product-categories",
       "description": "A preview of ZUPPIO's future product universe across beverages, biscuits, wafers, banana chips, and ready-to-eat ideas.",
@@ -584,15 +573,19 @@
   ],
   "faqs": [
     {
-      "id": "faq_7ca09d389fba4c42",
+      "id": "faq_334f440208ae23ec",
       "question": "Where can I buy ZUPPIO?",
       "answer": "Contact the team for current retail and distributor availability.",
       "order": 1
     }
   ],
   "settings": {
+    "websiteName": "ZUPPIO",
     "brandName": "ZUPPIO",
+    "adminEmail": "zuppiosnacks176@gmail.com",
+    "contactEmail": "zuppiosnacks.pvt.ltd@gmail.com",
     "contactNumber": "+91 7011992634",
+    "defaultWhatsAppNumber": "+91 7011992634",
     "email": "zuppiosnacks.pvt.ltd@gmail.com",
     "address": "A433, Sudamapuri, Vijay Nagar, Ghaziabad, Uttar Pradesh - 201001",
     "instagram": "https://www.instagram.com/zuppiosnacks",
@@ -604,73 +597,29 @@
     "seoDescription": "ZUPPIO is a premium modern snack brand with bold chips flavors and fresh snack drops.",
     "logo": "/images/zuppio-navbar-logo.png",
     "favicon": "",
-    "footerText": "Bold chips, clean design, and modern snack energy.",
-    "websiteName": "ZUPPIO",
-    "adminEmail": "admin@zuppio.local",
-    "contactEmail": "zuppiosnacks.pvt.ltd@gmail.com",
-    "defaultWhatsAppNumber": "+91 7011992634"
+    "footerText": "Bold chips, clean design, and modern snack energy."
   },
   "auditLogs": [
     {
-      "id": "audit_4e32f0aa7166b4df",
-      "actor": "admin@zuppio.local",
-      "action": "login",
-      "target": "admin",
+      "id": "audit_8ca7b8783ea9515c",
+      "actor": "hello",
+      "action": "dealer_inquiry_create",
+      "target": "1234567898",
       "ip": "::1",
-      "createdAt": "2026-06-03T10:18:36.755Z"
+      "createdAt": "2026-06-08T07:23:35.173Z"
     },
     {
-      "id": "audit_81afdd0cec2a4499",
-      "actor": "admin@zuppio.local",
-      "action": "homepage_update",
-      "target": "homepage",
+      "id": "audit_f2976f460c59a487",
+      "actor": "akshat2709cv@gmail.com",
+      "action": "inquiry_create",
+      "target": "contact",
       "ip": "::1",
-      "createdAt": "2026-06-03T08:58:53.983Z"
-    },
-    {
-      "id": "audit_152bbb30111f9a66",
-      "actor": "admin@zuppio.local",
-      "action": "homepage_update",
-      "target": "homepage",
-      "ip": "::1",
-      "createdAt": "2026-06-03T08:58:16.503Z"
-    },
-    {
-      "id": "audit_1e44a77cb855e362",
-      "actor": "admin@zuppio.local",
-      "action": "login",
-      "target": "admin",
-      "ip": "::1",
-      "createdAt": "2026-06-03T08:57:47.743Z"
-    },
-    {
-      "id": "audit_42a7efe0a1eca322",
-      "actor": "admin@zuppio.local",
-      "action": "login",
-      "target": "admin",
-      "ip": "::1",
-      "createdAt": "2026-06-02T10:27:37.177Z"
-    },
-    {
-      "id": "audit_bb4e75bd1f778c65",
-      "actor": "admin@zuppio.local",
-      "action": "login",
-      "target": "admin",
-      "ip": "::1",
-      "createdAt": "2026-06-02T10:25:35.764Z"
-    },
-    {
-      "id": "audit_c63d7a471d1b2d65",
-      "actor": "admin@zuppio.local",
-      "action": "failed_login",
-      "target": "admin",
-      "ip": "::1",
-      "createdAt": "2026-06-02T10:24:40.372Z"
+      "createdAt": "2026-06-08T07:21:17.454Z"
     }
   ],
   "analytics": {
-    "visits": 61,
-    "productViews": 7,
+    "visits": 4,
+    "productViews": 0,
     "contactSubmissions": 0,
     "newsletterSubscribers": 0,
     "categoryClicks": 0,
@@ -679,60 +628,20 @@
     "blogViews": 0,
     "latestActivity": [
       {
-        "id": "audit_4e32f0aa7166b4df",
-        "actor": "admin@zuppio.local",
-        "action": "login",
-        "target": "admin",
+        "id": "audit_8ca7b8783ea9515c",
+        "actor": "hello",
+        "action": "dealer_inquiry_create",
+        "target": "1234567898",
         "ip": "::1",
-        "createdAt": "2026-06-03T10:18:36.755Z"
+        "createdAt": "2026-06-08T07:23:35.173Z"
       },
       {
-        "id": "audit_81afdd0cec2a4499",
-        "actor": "admin@zuppio.local",
-        "action": "homepage_update",
-        "target": "homepage",
+        "id": "audit_f2976f460c59a487",
+        "actor": "akshat2709cv@gmail.com",
+        "action": "inquiry_create",
+        "target": "contact",
         "ip": "::1",
-        "createdAt": "2026-06-03T08:58:53.983Z"
-      },
-      {
-        "id": "audit_152bbb30111f9a66",
-        "actor": "admin@zuppio.local",
-        "action": "homepage_update",
-        "target": "homepage",
-        "ip": "::1",
-        "createdAt": "2026-06-03T08:58:16.503Z"
-      },
-      {
-        "id": "audit_1e44a77cb855e362",
-        "actor": "admin@zuppio.local",
-        "action": "login",
-        "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-03T08:57:47.743Z"
-      },
-      {
-        "id": "audit_42a7efe0a1eca322",
-        "actor": "admin@zuppio.local",
-        "action": "login",
-        "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-02T10:27:37.177Z"
-      },
-      {
-        "id": "audit_bb4e75bd1f778c65",
-        "actor": "admin@zuppio.local",
-        "action": "login",
-        "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-02T10:25:35.764Z"
-      },
-      {
-        "id": "audit_c63d7a471d1b2d65",
-        "actor": "admin@zuppio.local",
-        "action": "failed_login",
-        "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-02T10:24:40.372Z"
+        "createdAt": "2026-06-08T07:21:17.454Z"
       }
     ]
   },
@@ -982,26 +891,26 @@
         "order": 1
       },
       {
-        "label": "Product Categories",
+        "label": "Products",
         "href": "/product-categories",
         "visible": true,
         "order": 2
       },
       {
-        "label": "How To Buy",
+        "label": "Where To Buy",
         "href": "/how-to-buy",
         "visible": true,
         "order": 3
       },
       {
-        "label": "About",
-        "href": "/about",
+        "label": "Blogs",
+        "href": "/blogs",
         "visible": true,
         "order": 4
       },
       {
-        "label": "Blogs",
-        "href": "/blogs",
+        "label": "About",
+        "href": "/about",
         "visible": true,
         "order": 5
       },
@@ -1012,7 +921,7 @@
         "order": 6
       },
       {
-        "label": "Terms",
+        "label": "Term",
         "href": "/terms",
         "visible": true,
         "order": 7
@@ -1035,26 +944,26 @@
         "order": 1
       },
       {
-        "label": "Product Categories",
+        "label": "Products",
         "href": "/product-categories",
         "visible": true,
         "order": 2
       },
       {
-        "label": "How To Buy",
+        "label": "Where To Buy",
         "href": "/how-to-buy",
         "visible": true,
         "order": 3
       },
       {
-        "label": "About",
-        "href": "/about",
+        "label": "Blogs",
+        "href": "/blogs",
         "visible": true,
         "order": 4
       },
       {
-        "label": "Blogs",
-        "href": "/blogs",
+        "label": "About",
+        "href": "/about",
         "visible": true,
         "order": 5
       },
@@ -1065,7 +974,7 @@
         "order": 6
       },
       {
-        "label": "Terms",
+        "label": "Term",
         "href": "/terms",
         "visible": true,
         "order": 7
@@ -1524,56 +1433,10 @@
   },
   "howToBuyPage": {
     "hero": {
-      "breadcrumbTitle": "How to Buy",
-      "commandTitle": "BUYING COMMAND CENTER",
-      "pageTitle": "HOW TO BUY"
+      "breadcrumbTitle": "How To Buy",
+      "commandTitle": "STORE FINDER",
+      "pageTitle": "WHERE TO BUY ZUPPIO"
     },
-    "benefitsTitle": "Wholesale Benefits",
-    "benefits": [
-      "Direct company pricing",
-      "Fast delivery",
-      "Distributor support",
-      "Exclusive offers"
-    ],
-    "formFields": [
-      {
-        "name": "name",
-        "label": "Name",
-        "placeholder": "Your name",
-        "required": true
-      },
-      {
-        "name": "shop",
-        "label": "Shop",
-        "placeholder": "Shop name",
-        "required": false
-      },
-      {
-        "name": "phone",
-        "label": "Phone",
-        "placeholder": "Phone number",
-        "required": true
-      },
-      {
-        "name": "city",
-        "label": "City",
-        "placeholder": "City",
-        "required": false
-      },
-      {
-        "name": "business",
-        "label": "Business",
-        "placeholder": "Business type",
-        "required": false
-      },
-      {
-        "name": "quantity",
-        "label": "Quantity",
-        "placeholder": "Quantity requirement",
-        "required": false
-      }
-    ],
-    "submitButtonText": "Submit Inquiry",
     "filters": {
       "bannerImage": "/images/logo1.png",
       "pincodePlaceholder": "Enter pincode",
@@ -1914,7 +1777,7 @@
   "submissions": {
     "contacts": [],
     "dealerInquiries": [],
-    "newsletter": [],
-    "wholesaleInquiries": []
+    "wholesaleInquiries": [],
+    "newsletter": []
   }
 }

@@ -197,7 +197,7 @@ function defaultState() {
     settings: {
       websiteName: "ZUPPIO",
       brandName: "ZUPPIO",
-      adminEmail: "admin@zuppio.local",
+      adminEmail: "zuppiosnacks176@gmail.com",
       contactEmail: "zuppiosnacks.pvt.ltd@gmail.com",
       contactNumber: "+91 7011992634",
       defaultWhatsAppNumber: "+91 7011992634",
@@ -261,12 +261,12 @@ function defaultHeader() {
     logo: "/images/zuppio-navbar-logo.png",
     navItems: [
       { label: "Home", href: "/", visible: true, order: 1 },
-      { label: "Product Categories", href: "/product-categories", visible: true, order: 2 },
-      { label: "How To Buy", href: "/how-to-buy", visible: true, order: 3 },
-      { label: "About", href: "/about", visible: true, order: 4 },
-      { label: "Blogs", href: "/blogs", visible: true, order: 5 },
+      { label: "Products", href: "/product-categories", visible: true, order: 2 },
+      { label: "Where To Buy", href: "/how-to-buy", visible: true, order: 3 },
+      { label: "Blogs", href: "/blogs", visible: true, order: 4 },
+      { label: "About", href: "/about", visible: true, order: 5 },
       { label: "Contact", href: "/contact", visible: true, order: 6 },
-      { label: "Terms", href: "/terms", visible: true, order: 7 }
+      { label: "Term", href: "/terms", visible: true, order: 7 }
     ]
   };
 }
@@ -631,7 +631,7 @@ async function writeState(state) {
 
 async function ensureAdminUser() {
   const state = await readState();
-  const email = (process.env.ADMIN_EMAIL || "admin@zuppio.local").trim().toLowerCase();
+  const email = (process.env.ADMIN_EMAIL || "zuppiosnacks176@gmail.com").trim().toLowerCase();
   if (!state.users.some((user) => user.email === email)) {
     const password = process.env.ADMIN_PASSWORD || "ChangeMe@12345";
     state.users.push({
