@@ -6,8 +6,12 @@
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
+  "engines": {
+    "node": ">=20.8.0"
+  },
   "dependencies": {
     "bcryptjs": "^3.0.3",
+    "connect-mongo": "^6.0.0",
     "cookie-parser": "^1.4.7",
     "debug": "^4.3.7",
     "dotenv": "^17.4.2",

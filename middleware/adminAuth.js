@@ -14,15 +14,24 @@ function getCsrfToken(req) {
   return req.session.csrfToken;
 }
 
+function loginViewData(req, values = {}) {
+  return {
+    title: "Admin Login | ZUPPIO",
+    error: "",
+    email: "",
+    csrfToken: getCsrfToken(req),
+    ...values
+  };
+}
+
 function csrfProtection(req, res, next) {
   if (!["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) return next();
-  const supplied = req.body._csrf || req.get("X-CSRF-Token");
+  const supplied = (req.body && req.body._csrf) || req.get("X-CSRF-Token");
   if (supplied && supplied === getCsrfToken(req)) return next();
-  return res.status(403).render("admin/login", {
-    title: "Admin Login | ZUPPIO",
+  return res.status(403).render("admin/login", loginViewData(req, {
     error: "Security token expired. Please try again.",
     email: ""
-  });
+  }));
 }
 
 function loginRateLimit(req, res, next) {
@@ -33,11 +42,10 @@ function loginRateLimit(req, res, next) {
     record.resetAt = Date.now() + 15 * 60 * 1000;
   }
   if (record.count >= 8) {
-    return res.status(429).render("admin/login", {
-      title: "Admin Login | ZUPPIO",
+    return res.status(429).render("admin/login", loginViewData(req, {
       error: "Too many login attempts. Please wait and try again.",
       email: ""
-    });
+    }));
   }
   req.loginAttemptRecord = record;
   attempts.set(key, record);
@@ -73,6 +81,7 @@ module.exports = {
   clearFailedLogins,
   csrfProtection,
   getCsrfToken,
+  loginViewData,
   loginRateLimit,
   registerFailedLogin,
   requireAdmin,

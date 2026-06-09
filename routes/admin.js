@@ -14,6 +14,7 @@ const {
 } = require("../services/adminStore");
 const {
   clearFailedLogins,
+  loginViewData,
   loginRateLimit,
   registerFailedLogin,
   requireAdmin,
@@ -67,7 +68,7 @@ router.use(function (req, res, next) {
 
 router.get("/login", function (req, res) {
   if (req.session.adminUser) return res.redirect("/admin");
-  res.render("admin/login", { title: "Admin Login | ZUPPIO", error: "", email: "" });
+  res.render("admin/login", loginViewData(req));
 });
 
 router.post("/login", loginRateLimit, async function (req, res) {
@@ -79,7 +80,7 @@ router.post("/login", loginRateLimit, async function (req, res) {
   if (!user || user.status !== "Active" || !(await bcrypt.compare(password, user.passwordHash))) {
     registerFailedLogin(req);
     await addAudit(email, "failed_login", "admin", req);
-    return res.status(401).render("admin/login", { title: "Admin Login | ZUPPIO", error: "Invalid admin credentials.", email });
+    return res.status(401).render("admin/login", loginViewData(req, { error: "Invalid admin credentials.", email }));
   }
 
   req.session.regenerate(async function (error) {

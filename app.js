@@ -4,6 +4,7 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const { MongoStore } = require("connect-mongo");
 const helmet = require("helmet");
 const logger = require("morgan");
 
@@ -14,7 +15,27 @@ const { ensureAdminUser, readState, recordVisit } = require("./services/adminSto
 const { pages } = require("./services/siteData");
 
 const app = express();
+const isProduction = process.env.NODE_ENV === "production";
+const sessionMaxAge = 1000 * 60 * 60 * 8;
+const mongoSessionUri = process.env.MONGODB_URI;
 
+if (!mongoSessionUri) {
+  throw new Error("MONGODB_URI is required for MongoDB-backed session storage.");
+}
+
+const sessionStore = MongoStore.create({
+  mongoUrl: mongoSessionUri,
+  dbName: process.env.MONGODB_DB || undefined,
+  collectionName: "sessions",
+  ttl: sessionMaxAge / 1000,
+  autoRemove: "native",
+  touchAfter: 60 * 60,
+  mongoOptions: {
+    serverSelectionTimeoutMS: 8000
+  }
+});
+
+app.set("trust proxy", 1);
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.locals.pages = pages;
@@ -59,14 +80,16 @@ app.use(cookieParser());
 app.use(
   session({
     name: "zuppio.sid",
+    store: sessionStore,
     secret: process.env.SESSION_SECRET || "replace-this-session-secret-in-production",
     resave: false,
     saveUninitialized: false,
+    proxy: isProduction,
     cookie: {
       httpOnly: true,
       sameSite: "lax",
-      secure: process.env.NODE_ENV === "production",
-      maxAge: 1000 * 60 * 60 * 8
+      secure: isProduction,
+      maxAge: sessionMaxAge
     }
   })
 );
