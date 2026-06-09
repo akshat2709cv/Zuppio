@@ -124,6 +124,78 @@
   </section>
 <% } %>
 
+<% if (kind === "product-category-page") { %>
+  <%
+    const productPage = state.productCategoryPage || {};
+    const overview = productPage.overview || {};
+    const businessPanel = productPage.businessPanel || {};
+    const sliderSlides = (productPage.suggestionSlides || []).sort(function(a, b) { return Number(a.order || 0) - Number(b.order || 0); });
+    const fallbackPreview = "/images/product-categories/zuppio-category-desktop.png";
+    function previewImage(slide) {
+      return slide.backgroundImage || (Array.isArray(slide.images) && slide.images[0]) || fallbackPreview;
+    }
+  %>
+
+  <form class="admin-card admin-form" method="post" action="/admin/product-category-page">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <div class="cms-section-heading"><h2>Product Category Page Copy</h2><p class="admin-note">Heading and business CTA content shown around the product category slider.</p></div>
+    <label>Overview Label<input name="overviewLabel" value="<%= overview.label || '' %>" /></label>
+    <label>Overview Heading<input name="overviewTitle" value="<%= overview.title || '' %>" /></label>
+    <label>Business Label<input name="businessLabel" value="<%= businessPanel.label || '' %>" /></label>
+    <label>Business Heading<input name="businessTitle" value="<%= businessPanel.title || '' %>" /></label>
+    <label class="wide">Business Description<textarea name="businessText" rows="3"><%= businessPanel.text || '' %></textarea></label>
+    <label>Business Button Text<input name="businessButtonText" value="<%= businessPanel.buttonText || '' %>" /></label>
+    <label>Business Button Link<input name="businessButtonLink" value="<%= businessPanel.buttonLink || '' %>" /></label>
+    <button class="admin-button" type="submit">Save Page Copy</button>
+  </form>
+
+  <form class="admin-card admin-form" method="post" action="/admin/product-category-page/slides" enctype="multipart/form-data">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+    <div class="cms-section-heading"><h2>Add Product Slider Slide</h2><p class="admin-note">Use either a background image URL or upload an image. Uploaded files are saved to Media Manager.</p></div>
+    <label>Slide Label<input name="label" placeholder="Coming Soon" /></label>
+    <label>Heading<input name="title" required placeholder="Slide heading" /></label>
+    <label class="wide">Subheading / Description<textarea name="text" rows="3"></textarea></label>
+    <label>Button Text<input name="buttonText" placeholder="Explore" /></label>
+    <label>Button Link<input name="buttonLink" placeholder="/product-categories" /></label>
+    <label>Sort Order<input name="order" type="number" value="<%= sliderSlides.length + 1 %>" min="0" /></label>
+    <label>Status<select name="status"><option>Active</option><option>Inactive</option></select></label>
+    <label>Overlay Strength<input name="overlayStrength" type="number" value="0.58" min="0.18" max="0.85" step="0.05" /></label>
+    <label class="wide">Background Image URL<input name="backgroundImage" data-image-preview-input="new-product-slide" placeholder="/images/admin-media/slide.jpg" /></label>
+    <label class="wide">Upload Background Image<input name="backgroundUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" data-image-preview-file="new-product-slide" /></label>
+    <picture class="admin-preview slide-admin-preview"><img data-image-preview="new-product-slide" src="<%= fallbackPreview %>" alt="New slide preview" /></picture>
+    <button class="admin-button" type="submit">Add Slide</button>
+  </form>
+
+  <section class="admin-list">
+    <% sliderSlides.forEach(function(slide, index) { %>
+      <% const previewId = "product-slide-" + slide.id; %>
+      <article class="admin-card">
+        <form class="admin-form" method="post" action="/admin/product-category-page/slides/<%= slide.id %>" enctype="multipart/form-data">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <div class="cms-section-heading"><h2><%= slide.title %></h2><p class="admin-note">Product slider slide <%= index + 1 %> · <%= slide.status || "Active" %></p></div>
+          <label>Slide Label<input name="label" value="<%= slide.label || '' %>" /></label>
+          <label>Heading<input name="title" value="<%= slide.title || '' %>" required /></label>
+          <label class="wide">Subheading / Description<textarea name="text" rows="3"><%= slide.text || '' %></textarea></label>
+          <label>Button Text<input name="buttonText" value="<%= slide.buttonText || '' %>" /></label>
+          <label>Button Link<input name="buttonLink" value="<%= slide.buttonLink || '' %>" /></label>
+          <label>Sort Order<input name="order" type="number" value="<%= slide.order || index + 1 %>" min="0" /></label>
+          <label>Status<select name="status"><option <%= selected(slide.status, "Active") %>>Active</option><option <%= selected(slide.status, "Inactive") %>>Inactive</option></select></label>
+          <label>Overlay Strength<input name="overlayStrength" type="number" value="<%= slide.overlayStrength || 0.58 %>" min="0.18" max="0.85" step="0.05" /></label>
+          <label class="wide">Background Image URL<input name="backgroundImage" value="<%= slide.backgroundImage || '' %>" data-image-preview-input="<%= previewId %>" /></label>
+          <label class="wide">Upload Replacement Background<input name="backgroundUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" data-image-preview-file="<%= previewId %>" /></label>
+          <picture class="admin-preview slide-admin-preview"><img data-image-preview="<%= previewId %>" src="<%= previewImage(slide) %>" alt="<%= slide.title %> preview" /></picture>
+          <button class="admin-button" type="submit">Save Slide</button>
+        </form>
+        <form class="admin-actions" method="post" action="/admin/product-category-page/slides/<%= slide.id %>/delete">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+          <button class="admin-button danger" type="submit">Delete Slide</button>
+        </form>
+      </article>
+    <% }) %>
+    <% if (!sliderSlides.length) { %><article class="admin-card"><p class="admin-note">No product slider slides yet. Add one above.</p></article><% } %>
+  </section>
+<% } %>
+
 <% if (kind === "users") { %>
   <form class="admin-card admin-form compact" method="post" action="/admin/users">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />

@@ -54,4 +54,30 @@
       rebuildJson(form);
     });
   });
+
+  function previewTarget(id) {
+    return document.querySelector(`[data-image-preview="${id}"]`);
+  }
+
+  document.querySelectorAll("[data-image-preview-input]").forEach(function (input) {
+    input.addEventListener("input", function () {
+      const preview = previewTarget(input.dataset.imagePreviewInput);
+      if (!preview) return;
+      preview.src = input.value || preview.getAttribute("src");
+    });
+  });
+
+  document.querySelectorAll("[data-image-preview-file]").forEach(function (input) {
+    input.addEventListener("change", function () {
+      const preview = previewTarget(input.dataset.imagePreviewFile);
+      const file = input.files && input.files[0];
+      if (!preview || !file) return;
+
+      const reader = new FileReader();
+      reader.addEventListener("load", function () {
+        preview.src = reader.result;
+      });
+      reader.readAsDataURL(file);
+    });
+  });
 })();

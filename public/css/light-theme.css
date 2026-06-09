@@ -220,6 +220,13 @@ p,
   box-shadow: var(--shadow);
 }
 
+.product-suggestion-slide.has-background {
+  background-image: var(--slide-bg-image);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 .packet-glow {
   background: linear-gradient(135deg, rgba(255, 201, 40, 0.35), rgba(255, 122, 0, 0.22), rgba(67, 193, 90, 0.14));
   opacity: 0.55;
@@ -440,6 +447,19 @@ p,
 .where-filter-brand p,
 .store-empty-message {
   color: var(--text-secondary);
+}
+
+.product-suggestion-slide.has-background .eyebrow,
+.product-suggestion-slide.has-background .product-suggestion-copy h2,
+.product-suggestion-slide.has-background .product-suggestion-copy p:not(.eyebrow) {
+  color: #ffffff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.42);
+}
+
+.product-suggestion-slide.has-background .button.secondary {
+  border-color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 255, 255, 0.92);
+  color: #17111f;
 }
 
 .faq-item button {

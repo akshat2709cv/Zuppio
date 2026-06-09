@@ -400,7 +400,7 @@
   }
 
   .product-suggestion-slide {
-    min-height: auto;
+    min-height: 390px;
     grid-template-columns: 1fr;
     gap: 18px;
     padding: 32px 36px 52px;
@@ -833,7 +833,8 @@
   }
 
   .product-suggestion-slide {
-    padding: 20px 16px 48px;
+    min-height: 430px;
+    padding: 28px 16px 68px;
   }
 
   .product-suggestion-copy h1,
@@ -845,6 +846,7 @@
   .product-suggestion-copy p:not(.eyebrow) {
     margin-bottom: 18px;
     font-size: 0.94rem;
+    line-height: 1.5;
   }
 
   .product-suggestion-art {

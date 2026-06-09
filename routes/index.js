@@ -157,6 +157,15 @@ Zuppio Snacks Private Limited reserves the right to take appropriate legal actio
 ];
 
 const DUPLICATE_WINDOW_MS = 10 * 60 * 1000;
+const EMAIL_TIMEOUT_MS = 12000;
+const DELAYED_EMAIL_MESSAGE = "Submitted successfully. Email confirmation may be delayed.";
+
+const successMessages = {
+  newsletter: "Thank you! Confirmation sent successfully.",
+  contact: "Message sent successfully.",
+  dealer: "Dealer inquiry submitted successfully.",
+  wholesale: "Wholesale inquiry submitted successfully."
+};
 
 function cleanText(value, limit = 500) {
   return String(value || "")
@@ -197,6 +206,28 @@ function formResponse(req, res, status, payload, redirectPath) {
   return res.redirect(redirectPath);
 }
 
+function responsePayload(success, message, extra = {}) {
+  return {
+    success,
+    ok: success,
+    message,
+    ...extra
+  };
+}
+
+function withTimeout(promise, timeoutMs, label) {
+  let timeoutId;
+  const timeout = new Promise((_, reject) => {
+    timeoutId = setTimeout(() => {
+      const error = new Error(`${label} timed out.`);
+      error.code = "EMAIL_TIMEOUT";
+      reject(error);
+    }, timeoutMs);
+  });
+
+  return Promise.race([promise, timeout]).finally(() => clearTimeout(timeoutId));
+}
+
 function isRecentDuplicate(items, matches) {
   const cutoff = Date.now() - DUPLICATE_WINDOW_MS;
   return items.find((item) => {
@@ -207,10 +238,20 @@ function isRecentDuplicate(items, matches) {
 
 async function notifyInquiry(type, inquiry) {
   try {
-    await sendInquiryNotification(type, inquiry);
+    await withTimeout(sendInquiryNotification(type, inquiry), EMAIL_TIMEOUT_MS, `${type} inquiry email`);
     return true;
   } catch (error) {
     console.error(`${type} inquiry email failed:`, error.message);
+    return false;
+  }
+}
+
+async function notifySnackDrop(email) {
+  try {
+    await withTimeout(sendSnackDropConfirmation(email), EMAIL_TIMEOUT_MS, "Snack drop confirmation email");
+    return true;
+  } catch (error) {
+    console.error("Snack drop email failed:", error.message);
     return false;
   }
 }
@@ -348,35 +389,26 @@ router.post("/snack-drop-alerts", async function (req, res) {
   const wantsJson = req.accepts(["json", "html"]) === "json";
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    const payload = { ok: false, message: "Please enter a valid email address." };
+    const payload = responsePayload(false, "Please enter a valid email address.");
     return wantsJson ? res.status(400).json(payload) : res.status(400).send(payload.message);
   }
 
-  try {
-    await mutate((state) => {
-      if (!state.subscribers.some((subscriber) => subscriber.email === email)) {
-        const subscriber = { id: id("subscriber"), email, status: "Active", createdAt: now() };
-        state.subscribers.unshift(subscriber);
-        state.submissions.newsletter.unshift(subscriber);
-      }
-      state.analytics.newsletterSubscribers = state.subscribers.length;
-    });
-    await sendSnackDropConfirmation(email);
-    await addAudit(email, "subscriber_create", "snack-drop", req);
-    const payload = {
-      ok: true,
-      message: "Thank you for contacting us. We will get back to you soon."
-    };
-    return wantsJson ? res.json(payload) : res.redirect("/?snackDrop=sent");
-  } catch (error) {
-    console.error("Snack drop email failed:", error.message);
-    const message =
-      error.code === "EMAIL_CONFIG_MISSING"
-        ? "Email service is not configured yet. Please try again later."
-        : "We could not send the email right now. Please try again later.";
-    const payload = { ok: false, message };
-    return wantsJson ? res.status(503).json(payload) : res.status(503).send(payload.message);
-  }
+  await mutate((state) => {
+    if (!state.subscribers.some((subscriber) => subscriber.email === email)) {
+      const subscriber = { id: id("subscriber"), email, status: "Active", createdAt: now() };
+      state.subscribers.unshift(subscriber);
+      state.submissions.newsletter.unshift(subscriber);
+    }
+    state.analytics.newsletterSubscribers = state.subscribers.length;
+  });
+  await addAudit(email, "subscriber_create", "snack-drop", req);
+
+  const notificationSent = await notifySnackDrop(email);
+  const payload = responsePayload(true, notificationSent ? successMessages.newsletter : DELAYED_EMAIL_MESSAGE, {
+    notificationSent,
+    emailDelayed: !notificationSent
+  });
+  return wantsJson ? res.json(payload) : res.redirect("/?snackDrop=sent");
 });
 
 router.post("/contact", async function (req, res) {
@@ -396,7 +428,7 @@ router.post("/contact", async function (req, res) {
   };
 
   if (!inquiry.name || !validEmail(inquiry.email) || !inquiry.message || (inquiry.phone && !validPhone(inquiry.phone))) {
-    return formResponse(req, res, 400, { ok: false, message: "Please enter a valid name, email, optional phone number, and message." }, "/contact");
+    return formResponse(req, res, 400, responsePayload(false, "Please enter a valid name, email, optional phone number, and message."), "/contact");
   }
 
   const saved = await mutate((state) => {
@@ -411,12 +443,15 @@ router.post("/contact", async function (req, res) {
   });
 
   if (saved.duplicate) {
-    return formResponse(req, res, 200, { ok: true, duplicate: true, message: "We already received this message. Our team will get back to you soon." }, "/contact?message=received");
+    return formResponse(req, res, 200, responsePayload(true, successMessages.contact, { duplicate: true }), "/contact?message=received");
   }
 
   await addAudit(inquiry.email, "contact_submission_create", inquiry.id, req);
   const notificationSent = await notifyInquiry("contact", inquiry);
-  return formResponse(req, res, 200, { ok: true, notificationSent, message: "Thank you for contacting us. We will get back to you soon." }, "/contact?message=sent");
+  return formResponse(req, res, 200, responsePayload(true, notificationSent ? successMessages.contact : DELAYED_EMAIL_MESSAGE, {
+    notificationSent,
+    emailDelayed: !notificationSent
+  }), "/contact?message=sent");
 });
 
 router.post("/dealer-inquiries", async function (req, res) {
@@ -440,7 +475,7 @@ router.post("/dealer-inquiries", async function (req, res) {
   };
 
   if (!inquiry.name || !inquiry.businessName || !validEmail(inquiry.email) || !validPhone(inquiry.phone) || !inquiry.city || !inquiry.state || !inquiry.message) {
-    return formResponse(req, res, 400, { ok: false, message: "Please enter name, business name, valid email, phone, city, state, and message." }, "/how-to-buy#dealer-inquiry");
+    return formResponse(req, res, 400, responsePayload(false, "Please enter name, business name, valid email, phone, city, state, and message."), "/how-to-buy#dealer-inquiry");
   }
 
   const saved = await mutate((state) => {
@@ -454,12 +489,15 @@ router.post("/dealer-inquiries", async function (req, res) {
   });
 
   if (saved.duplicate) {
-    return formResponse(req, res, 200, { ok: true, duplicate: true, message: "We already received this dealer inquiry. Our team will contact you soon." }, "/how-to-buy?dealer=received#dealer-inquiry");
+    return formResponse(req, res, 200, responsePayload(true, successMessages.dealer, { duplicate: true }), "/how-to-buy?dealer=received#dealer-inquiry");
   }
 
   await addAudit(inquiry.email, "dealer_inquiry_create", inquiry.id, req);
   const notificationSent = await notifyInquiry("dealer", inquiry);
-  return formResponse(req, res, 200, { ok: true, notificationSent, message: "Thank you. Our dealer team will contact you soon." }, "/how-to-buy?dealer=sent#dealer-inquiry");
+  return formResponse(req, res, 200, responsePayload(true, notificationSent ? successMessages.dealer : DELAYED_EMAIL_MESSAGE, {
+    notificationSent,
+    emailDelayed: !notificationSent
+  }), "/how-to-buy?dealer=sent#dealer-inquiry");
 });
 
 router.post("/wholesale-inquiries", async function (req, res) {
@@ -481,7 +519,7 @@ router.post("/wholesale-inquiries", async function (req, res) {
   };
 
   if (!inquiry.name || !validEmail(inquiry.email) || !validPhone(inquiry.phone) || !inquiry.productInterest || !inquiry.quantityRequirement || !inquiry.message) {
-    return formResponse(req, res, 400, { ok: false, message: "Please enter name, valid email, phone, product interest, quantity requirement, and message." }, "/how-to-buy#wholesale-inquiry");
+    return formResponse(req, res, 400, responsePayload(false, "Please enter name, valid email, phone, product interest, quantity requirement, and message."), "/how-to-buy#wholesale-inquiry");
   }
 
   const saved = await mutate((state) => {
@@ -497,12 +535,15 @@ router.post("/wholesale-inquiries", async function (req, res) {
   });
 
   if (saved.duplicate) {
-    return formResponse(req, res, 200, { ok: true, duplicate: true, message: "We already received this wholesale inquiry. Our team will contact you soon." }, "/how-to-buy?wholesale=received#wholesale-inquiry");
+    return formResponse(req, res, 200, responsePayload(true, successMessages.wholesale, { duplicate: true }), "/how-to-buy?wholesale=received#wholesale-inquiry");
   }
 
   await addAudit(inquiry.email, "wholesale_inquiry_create", inquiry.id, req);
   const notificationSent = await notifyInquiry("wholesale", inquiry);
-  return formResponse(req, res, 200, { ok: true, notificationSent, message: "Thank you. Our wholesale team will contact you soon." }, "/how-to-buy?wholesale=sent#wholesale-inquiry");
+  return formResponse(req, res, 200, responsePayload(true, notificationSent ? successMessages.wholesale : DELAYED_EMAIL_MESSAGE, {
+    notificationSent,
+    emailDelayed: !notificationSent
+  }), "/how-to-buy?wholesale=sent#wholesale-inquiry");
 });
 
 router.get("/terms/:slug", async function (req, res, next) {

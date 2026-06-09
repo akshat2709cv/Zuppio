@@ -383,124 +383,110 @@ if (window.gsap && !window.matchMedia("(prefers-reduced-motion: reduce)").matche
   });
 }
 
-document.querySelectorAll(".snack-drop-form").forEach(function (form) {
+const FORM_REQUEST_TIMEOUT_MS = 15000;
+const delayedEmailMessage = "Submitted successfully. Email confirmation may be delayed.";
+const formSuccessMessages = {
+  newsletter: "Thank you! Confirmation sent successfully.",
+  contact: "Message sent successfully.",
+  dealer: "Dealer inquiry submitted successfully.",
+  wholesale: "Wholesale inquiry submitted successfully."
+};
+
+function submitButtonFor(form) {
+  return form.querySelector("button[type='submit']") || form.querySelector("button");
+}
+
+function formType(form) {
+  if (form.classList.contains("snack-drop-form")) return "newsletter";
+  if (form.classList.contains("contact-message-form")) return "contact";
+  if (form.classList.contains("dealer-inquiry-form")) return "dealer";
+  if (form.classList.contains("wholesale-inquiry-form")) return "wholesale";
+  return "form";
+}
+
+async function submitJsonForm(form, payload) {
+  const controller = new AbortController();
+  const timeoutId = window.setTimeout(function () {
+    controller.abort();
+  }, FORM_REQUEST_TIMEOUT_MS);
+
+  try {
+    const response = await fetch(form.action, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    const text = await response.text();
+    const result = text ? JSON.parse(text) : {};
+    return { response, result };
+  } finally {
+    window.clearTimeout(timeoutId);
+  }
+}
+
+function showSubmissionResult(form, status, response, result) {
+  const type = formType(form);
+  const success = Boolean(result.success || result.ok);
+  status.className = "newsletter-status";
+
+  if (success && response.ok) {
+    status.textContent = result.emailDelayed ? delayedEmailMessage : formSuccessMessages[type] || result.message || "Submitted successfully.";
+    status.classList.add("success");
+    form.reset();
+    return;
+  }
+
+  status.textContent = result.message || "Something went wrong. Please try again later.";
+  status.classList.add("error");
+}
+
+function formPayload(form) {
+  const formData = new FormData(form);
+  const payload = {};
+  formData.forEach(function (value, key) {
+    payload[key] = String(value || "").trim();
+  });
+  return payload;
+}
+
+function bindJsonForm(form, loadingText) {
   const status = form.querySelector(".newsletter-status");
 
   form.addEventListener("submit", async function (event) {
     event.preventDefault();
     if (!status) return;
 
-    const submitButton = form.querySelector("button");
-    const formData = new FormData(form);
-    const email = String(formData.get("email") || "").trim();
-
+    const submitButton = submitButtonFor(form);
     status.className = "newsletter-status";
-    status.textContent = "Sending confirmation...";
-    submitButton.disabled = true;
+    status.textContent = loadingText;
+    if (submitButton) submitButton.disabled = true;
 
     try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({ email })
-      });
-
-      const result = await response.json();
-      status.textContent = result.message;
-      status.classList.add(result.ok ? "success" : "error");
-
-      if (result.ok) form.reset();
-    } catch (_error) {
-      status.textContent = "Something went wrong. Please try again later.";
-      status.classList.add("error");
+      const submission = await submitJsonForm(form, formPayload(form));
+      showSubmissionResult(form, status, submission.response, submission.result);
+    } catch (error) {
+      status.className = "newsletter-status error";
+      status.textContent = error.name === "AbortError" ? "Request timed out. Please try again." : "Something went wrong. Please try again later.";
     } finally {
-      submitButton.disabled = false;
+      if (submitButton) submitButton.disabled = false;
     }
   });
+}
+
+document.querySelectorAll(".snack-drop-form").forEach(function (form) {
+  bindJsonForm(form, "Sending confirmation...");
 });
 
 document.querySelectorAll(".contact-message-form").forEach(function (form) {
-  const status = form.querySelector(".newsletter-status");
-
-  form.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    if (!status) return;
-
-    const submitButton = form.querySelector("button[type='submit']");
-    const formData = new FormData(form);
-    status.className = "newsletter-status";
-    status.textContent = "Sending message...";
-    if (submitButton) submitButton.disabled = true;
-
-    try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify({
-          name: String(formData.get("name") || "").trim(),
-          email: String(formData.get("email") || "").trim(),
-          phone: String(formData.get("phone") || "").trim(),
-          subject: String(formData.get("subject") || "").trim(),
-          message: String(formData.get("message") || "").trim()
-        })
-      });
-      const result = await response.json();
-      status.textContent = result.message;
-      status.classList.add(result.ok ? "success" : "error");
-      if (result.ok) form.reset();
-    } catch (_error) {
-      status.textContent = "Something went wrong. Please try again later.";
-      status.classList.add("error");
-    } finally {
-      if (submitButton) submitButton.disabled = false;
-    }
-  });
+  bindJsonForm(form, "Sending message...");
 });
 
 document.querySelectorAll(".dealer-inquiry-form, .wholesale-inquiry-form").forEach(function (form) {
-  const status = form.querySelector(".newsletter-status");
-
-  form.addEventListener("submit", async function (event) {
-    event.preventDefault();
-    if (!status) return;
-
-    const submitButton = form.querySelector("button[type='submit']");
-    const formData = new FormData(form);
-    const payload = {};
-    formData.forEach(function (value, key) {
-      payload[key] = String(value || "").trim();
-    });
-
-    status.className = "newsletter-status";
-    status.textContent = "Sending inquiry...";
-    if (submitButton) submitButton.disabled = true;
-
-    try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
-      const result = await response.json();
-      status.textContent = result.message;
-      status.classList.add(result.ok ? "success" : "error");
-      if (result.ok) form.reset();
-    } catch (_error) {
-      status.textContent = "Something went wrong. Please try again later.";
-      status.classList.add("error");
-    } finally {
-      if (submitButton) submitButton.disabled = false;
-    }
-  });
+  bindJsonForm(form, "Sending inquiry...");
 });
 
 document.querySelectorAll("form:not([action])").forEach(function (form) {

@@ -594,6 +594,10 @@ input[type="checkbox"] {
   background: var(--admin-soft);
 }
 
+.slide-admin-preview img {
+  min-height: 220px;
+}
+
 code {
   overflow-wrap: anywhere;
   color: var(--admin-purple);

@@ -1,31 +1,45 @@
 <%- include("partials/header") %>
 
+<%
+  const categoryPage = productCategoryPage || {};
+  const overview = categoryPage.overview || { label: "Categories", title: "Choose what you want to explore." };
+  const businessPanel = categoryPage.businessPanel || {
+    label: "Business Enquiries",
+    title: "Want product, retail, or distributor details?",
+    text: "Contact the ZUPPIO team for available packs and upcoming category information.",
+    buttonText: "Contact Team",
+    buttonLink: "/contact"
+  };
+  const managedSuggestionSlides = (Array.isArray(categoryPage.suggestionSlides) ? categoryPage.suggestionSlides : [])
+    .filter(function(slide) { return slide && slide.status !== "Inactive" && slide.title; })
+    .sort(function(a, b) { return Number(a.order || 0) - Number(b.order || 0); });
+  const suggestionSlides = managedSuggestionSlides.length ? managedSuggestionSlides : [{
+    label: "Product Categories",
+    title: overview.title,
+    text: "Explore ZUPPIO product categories and upcoming launches.",
+    buttonText: "Explore Categories",
+    buttonLink: "#product-categories",
+    overlayStrength: 0.58,
+    order: 1,
+    status: "Active"
+  }];
+  function safeImageUrl(value) {
+    const url = String(value || "").trim();
+    if (!/^(\/images\/|https?:\/\/)/i.test(url)) return "";
+    return url.replace(/"/g, "%22").replace(/'/g, "%27");
+  }
+  function overlayStrength(value) {
+    const number = Number(value);
+    return Math.max(0.18, Math.min(0.85, Number.isFinite(number) ? number : 0.58));
+  }
+%>
+
 <section class="product-suggestion-section">
   <div class="swiper product-suggestion-swiper">
     <div class="swiper-wrapper">
-      <article class="swiper-slide product-suggestion-slide category-hero-slide">
-        <% const responsiveBanner = (typeof responsiveSwiperSlides !== "undefined" && responsiveSwiperSlides[0]) ? responsiveSwiperSlides[0] : {
-          desktopImage: "/images/product-categories/zuppio-category-desktop.png",
-          tabletImage: "/images/product-categories/zuppio-category-tablet.png",
-          mobileImage: "/images/product-categories/zuppio-category-mobile.png",
-          alt: "ZUPPIO product category city illustration"
-        }; %>
-        <picture>
-          <source media="(max-width: 640px)" srcset="<%= responsiveBanner.mobileImage %>" />
-          <source media="(max-width: 1024px)" srcset="<%= responsiveBanner.tabletImage %>" />
-          <img
-            src="<%= responsiveBanner.desktopImage %>"
-            alt="<%= responsiveBanner.alt %>"
-            width="1232"
-            height="864"
-            loading="lazy"
-            decoding="async"
-          />
-        </picture>
-      </article>
-
-      <% productCategoryPage.suggestionSlides.forEach(function(slide) { %>
-        <article class="swiper-slide product-suggestion-slide <%= slide.className %>">
+      <% suggestionSlides.forEach(function(slide) { %>
+        <% const backgroundImage = safeImageUrl(slide.backgroundImage); %>
+        <article class="swiper-slide product-suggestion-slide <%= slide.className || '' %> <%= backgroundImage ? 'has-background' : '' %>" style="<%- backgroundImage ? "--slide-bg-image: url('" + backgroundImage + "');" : "" %> --slide-overlay: <%= overlayStrength(slide.overlayStrength) %>;">
           <div class="product-suggestion-copy">
             <p class="eyebrow"><%= slide.label %></p>
             <h2><%= slide.title %></h2>
@@ -34,9 +48,6 @@
               <%= slide.buttonText %>
               <i data-lucide="arrow-right"></i>
             </a>
-          </div>
-          <div class="product-suggestion-art <%= slide.artClass %>" aria-hidden="true">
-            <% slide.images.forEach(function(image) { %><img src="<%= image %>" alt="" /><% }) %>
           </div>
         </article>
       <% }) %>
@@ -54,8 +65,8 @@
 
 <section class="section category-overview-section">
   <div class="section-kicker">
-    <p class="eyebrow"><%= productCategoryPage.overview.label %></p>
-    <h2><%= productCategoryPage.overview.title %></h2>
+    <p class="eyebrow"><%= overview.label %></p>
+    <h2 id="product-categories"><%= overview.title %></h2>
   </div>
 
   <div class="category-grid">
@@ -107,12 +118,12 @@
 <section class="section">
   <div class="product-contact-panel scroll-reveal">
     <div>
-      <p class="eyebrow"><%= productCategoryPage.businessPanel.label %></p>
-      <h2><%= productCategoryPage.businessPanel.title %></h2>
-      <p><%= productCategoryPage.businessPanel.text %></p>
+      <p class="eyebrow"><%= businessPanel.label %></p>
+      <h2><%= businessPanel.title %></h2>
+      <p><%= businessPanel.text %></p>
     </div>
-    <a class="button primary" href="<%= productCategoryPage.businessPanel.buttonLink %>">
-      <%= productCategoryPage.businessPanel.buttonText %>
+    <a class="button primary" href="<%= businessPanel.buttonLink %>">
+      <%= businessPanel.buttonText %>
       <i data-lucide="message-circle"></i>
     </a>
   </div>

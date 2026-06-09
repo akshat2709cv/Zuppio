@@ -26,12 +26,18 @@ function loginViewData(req, values = {}) {
 
 function csrfProtection(req, res, next) {
   if (!["POST", "PUT", "PATCH", "DELETE"].includes(req.method)) return next();
+  if (req.is("multipart/form-data") && !req.multipartBodyParsed) return next();
   const supplied = (req.body && req.body._csrf) || req.get("X-CSRF-Token");
   if (supplied && supplied === getCsrfToken(req)) return next();
   return res.status(403).render("admin/login", loginViewData(req, {
     error: "Security token expired. Please try again.",
     email: ""
   }));
+}
+
+function multipartCsrfProtection(req, res, next) {
+  req.multipartBodyParsed = true;
+  return csrfProtection(req, res, next);
 }
 
 function loginRateLimit(req, res, next) {
@@ -83,6 +89,7 @@ module.exports = {
   getCsrfToken,
   loginViewData,
   loginRateLimit,
+  multipartCsrfProtection,
   registerFailedLogin,
   requireAdmin,
   requirePermission

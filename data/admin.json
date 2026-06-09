@@ -335,7 +335,12 @@
         "images": [
           "/images/categories/beverages.svg"
         ],
-        "artClass": "category-art"
+        "artClass": "category-art",
+        "id": "suggestion-1",
+        "backgroundImage": "/images/categories/beverages.svg",
+        "overlayStrength": 0.58,
+        "order": 1,
+        "status": "Active"
       },
       {
         "className": "bakery-slide",
@@ -348,7 +353,12 @@
           "/images/categories/biscuit.svg",
           "/images/categories/wafers.svg"
         ],
-        "artClass": "combo-art"
+        "artClass": "combo-art",
+        "id": "suggestion-2",
+        "backgroundImage": "/images/categories/biscuit.svg",
+        "overlayStrength": 0.58,
+        "order": 2,
+        "status": "Active"
       },
       {
         "className": "ready-slide",
@@ -360,7 +370,12 @@
         "images": [
           "/images/categories/ready-to-eat.svg"
         ],
-        "artClass": "category-art"
+        "artClass": "category-art",
+        "id": "suggestion-3",
+        "backgroundImage": "/images/categories/ready-to-eat.svg",
+        "overlayStrength": 0.58,
+        "order": 3,
+        "status": "Active"
       }
     ],
     "businessPanel": {

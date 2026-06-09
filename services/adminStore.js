@@ -382,9 +382,9 @@ function defaultProductCategoryPage() {
   return {
     overview: { label: "Categories", title: "Choose what you want to explore." },
     suggestionSlides: [
-      { className: "beverage-slide", label: "Coming Soon", title: "Beverages for every mood.", text: "Zeera Drinks, Energy Drinks, Tighter Drinks, Water, and Aam Papad are planned for the next ZUPPIO shelf.", buttonText: "See Beverages", buttonLink: "/product-categories/beverages", images: ["/images/categories/beverages.svg"], artClass: "category-art" },
-      { className: "bakery-slide", label: "Future Crunch", title: "Biscuits, wafers, and banana chips.", text: "Baked biscuits, cream biscuits, cookies, wafer biscuits, banana chips, and flavored wafers are mapped for future launches.", buttonText: "Explore Bakery", buttonLink: "/product-categories/biscuit", images: ["/images/categories/biscuit.svg", "/images/categories/wafers.svg"], artClass: "combo-art" },
-      { className: "ready-slide", label: "Ready-To-Eat", title: "Quick meals, ZUPPIO style.", text: "Poha, Rajma Chawal, Noodles, and Creamy Chai Coffee ideas for fast everyday use.", buttonText: "View Ready-To-Eat", buttonLink: "/product-categories/ready-to-eat", images: ["/images/categories/ready-to-eat.svg"], artClass: "category-art" }
+      { id: "suggestion-beverages", className: "beverage-slide", label: "Coming Soon", title: "Beverages for every mood.", text: "Zeera Drinks, Energy Drinks, Tighter Drinks, Water, and Aam Papad are planned for the next ZUPPIO shelf.", buttonText: "See Beverages", buttonLink: "/product-categories/beverages", backgroundImage: "/images/categories/beverages.svg", overlayStrength: 0.58, order: 1, status: "Active", images: ["/images/categories/beverages.svg"], artClass: "category-art" },
+      { id: "suggestion-bakery", className: "bakery-slide", label: "Future Crunch", title: "Biscuits, wafers, and banana chips.", text: "Baked biscuits, cream biscuits, cookies, wafer biscuits, banana chips, and flavored wafers are mapped for future launches.", buttonText: "Explore Bakery", buttonLink: "/product-categories/biscuit", backgroundImage: "/images/categories/biscuit.svg", overlayStrength: 0.62, order: 2, status: "Active", images: ["/images/categories/biscuit.svg", "/images/categories/wafers.svg"], artClass: "combo-art" },
+      { id: "suggestion-ready-to-eat", className: "ready-slide", label: "Ready-To-Eat", title: "Quick meals, ZUPPIO style.", text: "Poha, Rajma Chawal, Noodles, and Creamy Chai Coffee ideas for fast everyday use.", buttonText: "View Ready-To-Eat", buttonLink: "/product-categories/ready-to-eat", backgroundImage: "/images/categories/ready-to-eat.svg", overlayStrength: 0.58, order: 3, status: "Active", images: ["/images/categories/ready-to-eat.svg"], artClass: "category-art" }
     ],
     businessPanel: {
       label: "Business Enquiries",
@@ -394,6 +394,43 @@ function defaultProductCategoryPage() {
       buttonLink: "/contact"
     }
   };
+}
+
+function clampNumber(value, fallback, min, max) {
+  const number = Number(value);
+  if (!Number.isFinite(number)) return fallback;
+  return Math.max(min, Math.min(max, number));
+}
+
+function normalizeSuggestionSlide(slide, index) {
+  const item = slide && typeof slide === "object" ? slide : {};
+  const images = Array.isArray(item.images) ? item.images.filter(Boolean) : [];
+  const backgroundImage = String(item.backgroundImage || images[0] || "").trim();
+  const title = String(item.title || item.heading || "").trim();
+
+  return {
+    id: String(item.id || `suggestion-${index + 1}`).trim(),
+    className: String(item.className || `suggestion-slide-${index + 1}`).trim(),
+    label: String(item.label || "").trim(),
+    title: title || `Product slide ${index + 1}`,
+    text: String(item.text || item.description || item.subheading || "").trim(),
+    buttonText: String(item.buttonText || item.ctaText || "Explore").trim(),
+    buttonLink: String(item.buttonLink || item.ctaLink || "/product-categories").trim(),
+    backgroundImage,
+    overlayStrength: clampNumber(item.overlayStrength, 0.58, 0.18, 0.85),
+    order: clampNumber(item.order, index + 1, 0, 9999),
+    status: String(item.status || "Active").trim() || "Active",
+    images,
+    artClass: String(item.artClass || "").trim()
+  };
+}
+
+function normalizeProductCategoryPage(page) {
+  const item = page && typeof page === "object" ? page : defaultProductCategoryPage();
+  item.suggestionSlides = (Array.isArray(item.suggestionSlides) ? item.suggestionSlides : [])
+    .map(normalizeSuggestionSlide)
+    .sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
+  return item;
 }
 
 function defaultAboutPage() {
@@ -612,6 +649,7 @@ function mergeDefaults(state, defaults) {
 function normalizeState(state) {
   const merged = mergeDefaults(state, defaultState());
   merged.productCategories = normalizeProductCategories(merged.productCategories);
+  merged.productCategoryPage = normalizeProductCategoryPage(merged.productCategoryPage);
   if (!merged.submissions) merged.submissions = { contacts: [], dealerInquiries: [], newsletter: [] };
   if (!merged.submissions.contacts) merged.submissions.contacts = merged.inquiries || [];
   if (!merged.submissions.newsletter) merged.submissions.newsletter = merged.subscribers || [];

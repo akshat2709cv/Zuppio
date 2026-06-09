@@ -16,6 +16,7 @@ const {
   clearFailedLogins,
   loginViewData,
   loginRateLimit,
+  multipartCsrfProtection,
   registerFailedLogin,
   requireAdmin,
   requirePermission
@@ -43,7 +44,7 @@ const sections = [
   { permission: "content", id: "homepage", label: "Homepage", href: "/admin/homepage" },
   { permission: "content", id: "layout", label: "Header / Footer", href: "/admin/layout" },
   { permission: "categories", id: "product-categories", label: "Product Categories Page", href: "/admin/product-categories-content" },
-  { permission: "categories", id: "product-category-pages", label: "Product Category Pages", href: "/admin/product-category-page" },
+  { permission: "categories", id: "product-category-pages", label: "Product Categories Slider", href: "/admin/product-category-page" },
   { permission: "products", id: "products", label: "Products", href: "/admin/products" },
   { permission: "content", id: "how-to-buy", label: "How To Buy / Store Locator", href: "/admin/how-to-buy-page" },
   { permission: "content", id: "about", label: "About Page", href: "/admin/about-page" },
@@ -120,8 +121,54 @@ function text(value) {
   return String(value || "").trim().slice(0, 5000);
 }
 
+function number(value, fallback = 0) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function clamp(value, fallback, min, max) {
+  return Math.max(min, Math.min(max, number(value, fallback)));
+}
+
 function csv(value) {
   return text(value).split(",").map((item) => item.trim()).filter(Boolean);
+}
+
+function imageUrl(value) {
+  const url = text(value).slice(0, 1000);
+  return /^(\/images\/|https?:\/\/)/i.test(url) ? url : "";
+}
+
+function slidePayload(req, existing = {}, uploadedPath = "") {
+  const backgroundImage = uploadedPath || imageUrl(req.body.backgroundImage) || existing.backgroundImage || "";
+  const title = text(req.body.title) || existing.title || "Product slide";
+
+  return {
+    label: text(req.body.label),
+    title,
+    text: text(req.body.text),
+    buttonText: text(req.body.buttonText) || "Explore",
+    buttonLink: text(req.body.buttonLink) || "/product-categories",
+    backgroundImage,
+    overlayStrength: clamp(req.body.overlayStrength, existing.overlayStrength || 0.58, 0.18, 0.85),
+    order: number(req.body.order, existing.order || 1),
+    status: text(req.body.status) || "Active",
+    className: existing.className || "managed-slide",
+    images: existing.images || [],
+    artClass: existing.artClass || ""
+  };
+}
+
+function recordUploadedMedia(state, req, publicPath) {
+  if (!publicPath) return;
+  state.media.unshift({
+    id: id("media"),
+    name: text(req.body.mediaName || req.body.title || req.file.originalname) || req.file.originalname,
+    url: publicPath,
+    type: req.file.mimetype,
+    size: req.file.size,
+    createdAt: now()
+  });
 }
 
 function parseJson(value, fallback) {
@@ -218,10 +265,61 @@ router.get("/product-categories-content", requirePermission("categories"), async
 router.post("/product-categories-content", requirePermission("categories"), saveJsonManager("productCategories", "product_categories_content_update"));
 
 router.get("/product-category-page", requirePermission("categories"), async function (_req, res) {
-  await renderJsonManager(res, "Product Category Page Sections | ZUPPIO Admin", "product-category-pages", "productCategoryPage", "Controls category page headings, non-banner swiper slides, and business enquiry panel.");
+  res.render("admin/manage", { title: "Product Slider | ZUPPIO Admin", active: "product-category-pages", state: await readState(), kind: "product-category-page" });
 });
 
-router.post("/product-category-page", requirePermission("categories"), saveJsonManager("productCategoryPage", "product_category_page_update"));
+router.post("/product-category-page", requirePermission("categories"), async function (req, res) {
+  await mutate((state) => {
+    state.productCategoryPage.overview = {
+      label: text(req.body.overviewLabel) || "Categories",
+      title: text(req.body.overviewTitle) || "Choose what you want to explore."
+    };
+    state.productCategoryPage.businessPanel = {
+      label: text(req.body.businessLabel) || "Business Enquiries",
+      title: text(req.body.businessTitle) || "Want product, retail, or distributor details?",
+      text: text(req.body.businessText),
+      buttonText: text(req.body.businessButtonText) || "Contact Team",
+      buttonLink: text(req.body.businessButtonLink) || "/contact"
+    };
+  });
+  await addAudit(req.session.adminUser.email, "product_category_page_update", "productCategoryPage", req);
+  res.redirect("/admin/product-category-page");
+});
+
+router.post("/product-category-page/slides", requirePermission("categories"), upload.single("backgroundUpload"), multipartCsrfProtection, async function (req, res) {
+  const uploadedPath = req.file ? `/images/admin-media/${req.file.filename}` : "";
+  await mutate((state) => {
+    if (!state.productCategoryPage.suggestionSlides) state.productCategoryPage.suggestionSlides = [];
+    const slide = {
+      id: id("slide"),
+      ...slidePayload(req, { order: state.productCategoryPage.suggestionSlides.length + 1 }, uploadedPath)
+    };
+    state.productCategoryPage.suggestionSlides.push(slide);
+    recordUploadedMedia(state, req, uploadedPath);
+  });
+  await addAudit(req.session.adminUser.email, "product_slider_slide_create", req.body.title, req);
+  res.redirect("/admin/product-category-page");
+});
+
+router.post("/product-category-page/slides/:id", requirePermission("categories"), upload.single("backgroundUpload"), multipartCsrfProtection, async function (req, res) {
+  const uploadedPath = req.file ? `/images/admin-media/${req.file.filename}` : "";
+  await mutate((state) => {
+    const slides = state.productCategoryPage.suggestionSlides || [];
+    const item = slides.find((entry) => entry.id === req.params.id);
+    if (item) Object.assign(item, slidePayload(req, item, uploadedPath));
+    recordUploadedMedia(state, req, uploadedPath);
+  });
+  await addAudit(req.session.adminUser.email, "product_slider_slide_update", req.params.id, req);
+  res.redirect("/admin/product-category-page");
+});
+
+router.post("/product-category-page/slides/:id/delete", requirePermission("categories"), async function (req, res) {
+  await mutate((state) => {
+    state.productCategoryPage.suggestionSlides = (state.productCategoryPage.suggestionSlides || []).filter((entry) => entry.id !== req.params.id);
+  });
+  await addAudit(req.session.adminUser.email, "product_slider_slide_delete", req.params.id, req);
+  res.redirect("/admin/product-category-page");
+});
 
 router.get("/layout", requirePermission("content"), async function (_req, res) {
   const state = await readState();
@@ -478,7 +576,7 @@ router.get("/media", requirePermission("media"), async function (_req, res) {
   res.render("admin/manage", { title: "Media | ZUPPIO Admin", active: "media", state: await readState(), kind: "media" });
 });
 
-router.post("/media", requirePermission("media"), upload.single("media"), async function (req, res) {
+router.post("/media", requirePermission("media"), upload.single("media"), multipartCsrfProtection, async function (req, res) {
   if (!req.file) return res.redirect("/admin/media");
   const publicPath = `/images/admin-media/${req.file.filename}`;
   await mutate((state) => {
