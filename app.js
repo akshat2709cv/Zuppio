@@ -18,22 +18,25 @@ const app = express();
 const isProduction = process.env.NODE_ENV === "production";
 const sessionMaxAge = 1000 * 60 * 60 * 8;
 const mongoSessionUri = process.env.MONGODB_URI;
+const useMemorySessionStore = process.env.SESSION_STORE === "memory" || !mongoSessionUri;
 
-if (!mongoSessionUri) {
-  throw new Error("MONGODB_URI is required for MongoDB-backed session storage.");
+const sessionStore = useMemorySessionStore
+  ? new session.MemoryStore()
+  : MongoStore.create({
+      mongoUrl: mongoSessionUri,
+      dbName: process.env.MONGODB_DB || undefined,
+      collectionName: "sessions",
+      ttl: sessionMaxAge / 1000,
+      autoRemove: "native",
+      touchAfter: 60 * 60,
+      mongoOptions: {
+        serverSelectionTimeoutMS: 8000
+      }
+    });
+
+if (useMemorySessionStore) {
+  console.warn("Using in-memory session store. Set MONGODB_URI for persistent sessions.");
 }
-
-const sessionStore = MongoStore.create({
-  mongoUrl: mongoSessionUri,
-  dbName: process.env.MONGODB_DB || undefined,
-  collectionName: "sessions",
-  ttl: sessionMaxAge / 1000,
-  autoRemove: "native",
-  touchAfter: 60 * 60,
-  mongoOptions: {
-    serverSelectionTimeoutMS: 8000
-  }
-});
 
 app.set("trust proxy", 1);
 app.set("views", path.join(__dirname, "views"));

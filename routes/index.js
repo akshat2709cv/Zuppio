@@ -9,8 +9,7 @@ const policies = [
     slug: "acceptance",
     view: "policies/acceptance",
     title: "Accuracy & Acceptance of Terms",
-    preview: `By using ZUPPIO, you agree to our digital snack universe rules.`,
-    
+    preview: `By using the ZUPPIO website, you agree to these terms and all related policies.`,
     detail:
       `Welcome to the official website of Zuppio Snacks Private Limited operating under the brand name Zuppio.
 
@@ -20,19 +19,18 @@ We make reasonable efforts to keep the information on this website accurate, upd
 
 Zuppio Snacks Private Limited reserves the right to update, modify, suspend, or remove any content from this website at any time. Continued use of the website after changes means you accept the updated terms.`,
     highlights: [
-      "Website use means acceptance of terms",
-      "Information may change anytime",
-      "Product details may vary",
-      "Content may be updated without notice",
-      "Continued use means agreement"
+      "Website use means acceptance of all policies",
+      "Do not use the website if you disagree",
+      "Product and website information may change",
+      "Content may be updated or removed without notice",
+      "Continued use means acceptance of updated terms"
     ]
   },
   {
     slug: "privacy",
     view: "policies/privacy",
     title: "Privacy & Policies",
-    preview: `Your privacy is important to us. By using this website.`,
-    
+    preview: `Learn how Zuppio collects, uses, protects, and lawfully shares information submitted through the website.`,
     detail:
       `At Zuppio Snacks Private Limited, we respect your privacy and are committed to protecting the personal information shared by users, customers, distributors, retailers, vendors, and visitors through our website.
 
@@ -52,22 +50,21 @@ We do not sell your personal information to third parties. We may share informat
 Users may contact us to request correction, update, or deletion of their personal information, subject to applicable law and business/legal record requirements. The DPDP framework emphasizes lawful purpose, consent, transparency, data minimization, and user rights such as correction and erasure.
 
 Contact for privacy-related queries:
-Email: aloosnackacustomerfeedback@gmail.com
-Address: viyaj nagar - ghaziabad - 201001`,
+Email: zuppiosnacks.pvt.ltd@gmail.com
+Address: A433, Sudamapuri, Vijay Nagar, Ghaziabad, Uttar Pradesh - 201001`,
     highlights: [
-      "Basic user data may be collected",
-      "Information used for support & communication",
+      "Voluntarily submitted personal data may be collected",
+      "Information supports enquiries, business communication, and improvement",
       "Personal data is not sold",
-      "Data shared only for legal/business purposes",
-      "Users may request data correction or deletion"
+      "Sharing is limited to lawful business or legal needs",
+      "Users may request correction, updates, or deletion"
     ]
   },
   {
     slug: "disclaimer",
     view: "policies/disclaimer",
-    title: "Disclaimer & Limitations or Uses of Site",
-    preview: `All content is provided as available without guarantees & Use the platform responsibly and respectfully.`,
-    
+    title: "Disclaimer & Limitations / Use of Site",
+    preview: `Website content is provided for general information, and users must use the platform lawfully and responsibly.`,
     detail:
       `The content available on this website is provided for general information, brand awareness, product information, business enquiries, and customer communication purposes only.
 
@@ -87,10 +84,10 @@ Using brand assets, images, or product information without written approval
 Zuppio Snacks Private Limited shall not be liable for any direct, indirect, incidental, consequential, or business loss arising from the use or inability to use this website, reliance on website content, technical errors, third-party links, or changes in product information.`,
     highlights: [
       "Content is for general information only",
-      "Website may contain errors or interruptions",
-      "Product images are for representation only",
-      "Website misuse is prohibited",
-      "Company is not liable for losses"
+      "Accuracy and uninterrupted access are not guaranteed",
+      "Product images and details may vary",
+      "Illegal, harmful, or unauthorized use is prohibited",
+      "Company liability is limited for website-related losses"
     ]
   },
   {
@@ -105,20 +102,18 @@ No visitor, retailer, distributor, agency, vendor, or third party is allowed to 
 
 Any unauthorized use of our brand identity may lead to legal action under applicable trademark and intellectual property laws.`,
     highlights: [
-      "Zuppio brand assets are protected",
-      "Unauthorized use is prohibited",
-      "Written permission is required",
-      "Logos and packaging belong to company",
-      "Trademark misuse may lead to legal action"
+      "Zuppio brand elements belong to the company",
+      "Reproduction or commercial use requires written permission",
+      "Restrictions apply to visitors and business partners",
+      "Unauthorized brand use is prohibited",
+      "Trademark misuse may result in legal action"
     ]
   },
-  
   {
     slug: "copyright",
     view: "policies/copyright",
-    title: "Copyright",
-    preview: `Original content belongs to the ZUPPIO brand & identity is officially protected.`,
-    badge: "07",
+    title: "Copyrights",
+    preview: `Zuppio website content is protected and may only be used for permitted personal or informational purposes.`,
     detail:
       `All content on this website, including text, images, product photos, packaging designs, graphics, videos, illustrations, layouts, website design, written content, marketing material, and downloadable content, is owned by or licensed to Zuppio Snacks Private Limited, unless mentioned otherwise.
 
@@ -126,19 +121,18 @@ Users may view website content for personal or informational purposes only. No c
 
 If any third-party content, image, or reference is used on the website, it remains the property of its respective owner.`,
     highlights: [
-      "Website content is company-owned",
-      "Personal viewing only allowed",
-      "Copying without permission is prohibited",
-      "Commercial use is restricted",
-      "Third-party content belongs to owners"
+      "Website content is owned by or licensed to Zuppio",
+      "Viewing is limited to personal or informational purposes",
+      "Copying or republication requires written consent",
+      "Commercial use requires written consent",
+      "Third-party content remains with its owner"
     ]
   },
   {
     slug: "jurisdictions",
     view: "policies/jurisdictions",
-    title: "Jurisdictions",
-    preview: `Legal matters follow applicable local laws.`,
-    badge: "09",
+    title: "Jurisdiction",
+    preview: `Website-related legal matters are governed by Indian law and the competent courts in Ghaziabad.`,
     detail:
       `These Terms & Conditions, Privacy Policy, Disclaimer, and other website-related matters shall be governed by the laws of India.
 
@@ -148,12 +142,11 @@ Zuppio Snacks Private Limited reserves the right to take appropriate legal actio
     highlights: [
       "Governed by Indian laws",
       "Ghaziabad courts have jurisdiction",
-      "Legal action may be taken for misuse",
-      "Terms apply to all users",
-      "Fraud or violations may face penalties"
+      "Applies to website, brand, product, and business interactions",
+      "Legal action may be taken for content or intellectual-property misuse",
+      "Fraud, misleading representation, and violations may be pursued"
     ]
-  },
-  
+  }
 ];
 
 const DUPLICATE_WINDOW_MS = 10 * 60 * 1000;
@@ -166,6 +159,80 @@ const successMessages = {
   dealer: "Dealer inquiry submitted successfully.",
   wholesale: "Wholesale inquiry submitted successfully."
 };
+
+const supplementalBlogPosts = [
+  {
+    id: "blog_display_flavor_lineup",
+    title: "ZUPPIO Flavor Lineup for Every Snack Mood",
+    slug: "zuppio-flavor-lineup-for-every-snack-mood",
+    description: "Explore the crunchy flavor mix that makes ZUPPIO packs perfect for home, travel, shops, and party tables.",
+    category: "Product Stories",
+    tags: ["flavors", "chips", "lineup"],
+    image: "/images/banner.jpeg",
+    status: "Published",
+    content: [
+      "A strong snack shelf needs choice. ZUPPIO keeps its flavor lineup focused on familiar Indian cravings, bright packaging, and an easy pick-up feel for customers.",
+      "The goal is simple: every pack should look clear on the shelf and taste dependable when opened. That balance helps retailers sell confidently and helps families choose quickly.",
+      "As the brand grows, new flavors can be added around the same idea of bold taste, clean presentation, and consistent crunch."
+    ],
+    seoDescription: "Explore ZUPPIO flavor lineup ideas for Indian snack moods."
+  },
+  {
+    id: "blog_display_retail_shelf",
+    title: "How Retailers Can Display ZUPPIO Snacks",
+    slug: "how-retailers-can-display-zuppio-snacks",
+    description: "Simple display ideas for shops that want ZUPPIO packs to look sharp, visible, and easy to buy.",
+    category: "Business & Partners",
+    tags: ["retail", "display", "dealer"],
+    image: "/images/zuppio-footer-product-showcase.png",
+    status: "Published",
+    content: [
+      "Good snack display is about visibility. Keep packs upright, group flavors together, and place fast-moving chips near the counter or high-traffic shelves.",
+      "Bright ZUPPIO packs are built to catch attention, so a clean row with clear pricing can make the product feel more trustworthy and easier to choose.",
+      "Retailers can also pair chips with beverages or quick party items to create a natural snack basket for customers."
+    ],
+    seoDescription: "Retail display ideas for ZUPPIO snacks and dealers."
+  },
+  {
+    id: "blog_display_tea_time",
+    title: "Tea-Time Snack Ideas With ZUPPIO Chips",
+    slug: "tea-time-snack-ideas-with-zuppio-chips",
+    description: "Easy pairings for evening tea, office breaks, and relaxed family snack moments.",
+    category: "Recipes",
+    tags: ["tea time", "recipes", "chips"],
+    image: "/images/yellow.png",
+    status: "Published",
+    content: [
+      "Tea-time snacks should be quick, crisp, and easy to share. Serve ZUPPIO chips with chutney dips, masala peanuts, chopped salad, or a light sandwich plate.",
+      "For a fast chaat-style bowl, add chips just before serving with onion, tomato, coriander, lemon, and a pinch of chaat masala.",
+      "The best part is speed. You can create a full snack plate in minutes while keeping the crunch fresh."
+    ],
+    seoDescription: "Tea-time snack ideas using ZUPPIO chips."
+  },
+  {
+    id: "blog_display_fmcg_growth",
+    title: "Building a Modern Indian FMCG Snack Brand",
+    slug: "building-a-modern-indian-fmcg-snack-brand",
+    description: "Why packaging, quality, distribution, and repeat taste matter for ZUPPIO's long-term growth.",
+    category: "Quality & Process",
+    tags: ["fmcg", "quality", "brand"],
+    image: "/images/home-hero-zuppio.jpeg",
+    status: "Published",
+    content: [
+      "A modern FMCG snack brand has to win in many places at once: taste, pack appeal, retailer confidence, supply consistency, and customer memory.",
+      "ZUPPIO's direction is built around clean product communication and snack formats people already understand. That makes growth practical without losing personality.",
+      "With steady quality and a clear shelf presence, the brand can expand into new categories while keeping the same promise of enjoyable snacking."
+    ],
+    seoDescription: "How ZUPPIO is building a modern Indian FMCG snack brand."
+  }
+];
+
+function displayBlogPosts(adminState) {
+  const publishedPosts = (adminState.blogPosts || []).filter((post) => post.status === "Published");
+  const existingSlugs = new Set(publishedPosts.map((post) => post.slug));
+  const extras = supplementalBlogPosts.filter((post) => !existingSlugs.has(post.slug));
+  return [...publishedPosts, ...extras];
+}
 
 function cleanText(value, limit = 500) {
   return String(value || "")
@@ -278,12 +345,13 @@ async function renderPage(req, res, view, title, activePage, extra = {}) {
     productCategories: managedProductCategories,
     productCategoryPage: adminState.productCategoryPage,
     homepage: adminState.homepage,
+    blogPageContent: adminState.blogPage,
     contactPage: adminState.contactPage,
     aboutPage: adminState.aboutPage,
     howToBuy: adminState.howToBuy || adminState.howToBuyPage,
     howToBuyPage: adminState.howToBuyPage,
     responsiveSwiperSlides: adminState.swiperSlides.filter((slide) => slide.status === "Active"),
-    managedBlogPosts: adminState.blogPosts.filter((post) => post.status === "Published"),
+    managedBlogPosts: displayBlogPosts(adminState),
     siteFaqs: adminState.faqs || [],
     siteSettings: adminState.settings,
     policies: adminState.policies.items || policies,
@@ -332,20 +400,22 @@ router.get("/where-to-buy", function (_req, res) {
 });
 
 router.get("/blogs", async function (req, res) {
+  const requestedPage = Number.parseInt(req.query.page, 10);
   await renderPage(req, res, "blogs", "Blogs | ZUPPIO", "Blogs", {
     seoKey: "blogs",
+    currentBlogPage: Number.isFinite(requestedPage) && requestedPage > 0 ? requestedPage : 1,
     pageHero: { breadcrumbTitle: "Blogs", commandTitle: "BLOG COMMAND CENTER", pageTitle: "BLOGS" }
   });
 });
 
 router.get("/blogs/:slug", async function (req, res, next) {
   const adminState = await readState();
-  const blog = (adminState.blogPosts || []).find((post) => post.slug === req.params.slug && post.status === "Published");
+  const blog = displayBlogPosts(adminState).find((post) => post.slug === req.params.slug && post.status === "Published");
 
   if (!blog) return next();
 
   await renderPage(req, res, "blog-detail", `${blog.title} | ZUPPIO Blog`, "Blogs", {
-    seoKey: "blogs",
+    seoKey: "blogDetail",
     blog,
     metaDescription: blog.seoDescription || blog.description || "Read ZUPPIO snack stories, food ideas, recipes, and brand updates."
   });

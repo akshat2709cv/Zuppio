@@ -1,22 +1,26 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
   <title id="title">Wafers category</title>
-  <desc id="desc">Layered wafer sticks and wafers.</desc>
+  <desc id="desc">Cream wafers stacked at an angle.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#271052"/>
-      <stop offset="1" stop-color="#07010f"/>
+    <linearGradient id="wafer" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0" stop-color="#fff1c6"/>
+      <stop offset="1" stop-color="#d49b55"/>
     </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#8f5b25" flood-opacity=".16"/>
+    </filter>
   </defs>
-  <rect width="640" height="420" rx="46" fill="url(#bg)"/>
-  <circle cx="490" cy="112" r="110" fill="#7b2ff7" opacity=".22"/>
-  <g transform="translate(138 100) rotate(-8 180 100)">
-    <rect x="0" y="80" width="346" height="62" rx="16" fill="#f0c176" stroke="#7a451a" stroke-width="7"/>
-    <rect x="26" y="44" width="346" height="62" rx="16" fill="#ffd58c" stroke="#7a451a" stroke-width="7"/>
-    <rect x="52" y="8" width="346" height="62" rx="16" fill="#ffe0a3" stroke="#7a451a" stroke-width="7"/>
-    <path d="M82 18v42M130 15v44M178 12v46M226 10v48M274 10v46M322 12v42" stroke="#ad6d2d" stroke-width="4" opacity=".55"/>
-  </g>
-  <g stroke="#ffcc00" stroke-linecap="round" opacity=".7">
-    <path d="M130 306h118" stroke-width="10"/>
-    <path d="M376 318h92" stroke-width="8"/>
+  <g filter="url(#shadow)" transform="translate(126 88) rotate(-8 198 126)">
+    <ellipse cx="230" cy="232" rx="190" ry="28" fill="#be7e3b" opacity=".14"/>
+    <g stroke="#b67838" stroke-width="4">
+      <rect x="82" y="112" width="308" height="70" rx="10" fill="url(#wafer)"/>
+      <rect x="104" y="70" width="308" height="70" rx="10" fill="url(#wafer)"/>
+      <rect x="126" y="30" width="308" height="70" rx="10" fill="url(#wafer)"/>
+    </g>
+    <g stroke="#c99052" stroke-width="3" opacity=".55">
+      <path d="M142 42l240 46M174 34l240 46M206 28l240 46"/>
+      <path d="M166 102l240 46M134 122l240 46M112 156l240 46"/>
+      <path d="M172 32l-34 70M224 34l-34 70M276 36l-34 70M328 38l-34 70M380 42l-34 70"/>
+    </g>
   </g>
 </svg>

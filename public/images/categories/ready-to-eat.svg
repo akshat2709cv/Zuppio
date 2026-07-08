@@ -1,25 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
   <title id="title">Ready-to-eat category</title>
-  <desc id="desc">Ready meal bowl, noodles, and chai coffee cup.</desc>
+  <desc id="desc">A yellow meal cup with noodles and vegetables.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#15331f"/>
-      <stop offset="1" stop-color="#07010f"/>
+    <linearGradient id="cup" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffe16a"/>
+      <stop offset="1" stop-color="#ff9c16"/>
     </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#a06700" flood-opacity=".18"/>
+    </filter>
   </defs>
-  <rect width="640" height="420" rx="46" fill="url(#bg)"/>
-  <circle cx="156" cy="94" r="90" fill="#22c55e" opacity=".18"/>
-  <ellipse cx="304" cy="274" rx="164" ry="54" fill="#120915"/>
-  <path d="M150 178h308l-38 116H188z" fill="#ffcc00"/>
-  <path d="M170 196h268l-20 56H190z" fill="#fff1a3" opacity=".8"/>
-  <g stroke="#c46b13" stroke-width="8" stroke-linecap="round" fill="none">
-    <path d="M210 228c36-24 68 24 104 0s68 24 104 0"/>
-    <path d="M236 252c30-18 56 18 86 0s56 18 86 0"/>
+  <g filter="url(#shadow)">
+    <ellipse cx="318" cy="324" rx="168" ry="29" fill="#d49828" opacity=".17"/>
+    <path d="M218 134h222l-32 180H250z" fill="url(#cup)" stroke="#d97800" stroke-width="5"/>
+    <ellipse cx="329" cy="134" rx="128" ry="38" fill="#ffffff" stroke="#d97800" stroke-width="5"/>
+    <path d="M228 132c48 31 153 31 202 0" fill="#fff5cc"/>
+    <path d="M266 210c50 28 92 28 136 0M264 244c48 25 92 25 134 0" fill="none" stroke="#9b4a09" stroke-width="10" stroke-linecap="round"/>
+    <g fill="none" stroke="#e37510" stroke-width="8" stroke-linecap="round">
+      <path d="M250 126c70-38 133-38 206 0"/>
+      <path d="M262 144c56-24 111-24 168 0"/>
+    </g>
+    <g>
+      <circle cx="284" cy="126" r="9" fill="#3aa647"/>
+      <circle cx="350" cy="118" r="8" fill="#f05423"/>
+      <circle cx="392" cy="132" r="7" fill="#3aa647"/>
+      <path d="M424 126c20-42 58-46 86-22" fill="none" stroke="#2b8d52" stroke-width="14" stroke-linecap="round"/>
+    </g>
   </g>
-  <g transform="translate(450 116)">
-    <rect x="0" y="44" width="78" height="96" rx="24" fill="#2dd4bf"/>
-    <path d="M78 70c34 0 34 44 0 44" fill="none" stroke="#2dd4bf" stroke-width="16"/>
-    <rect x="12" y="58" width="54" height="46" rx="16" fill="#07101f" opacity=".5"/>
-  </g>
-  <path d="M188 332h286" stroke="#ffffff" stroke-width="4" opacity=".18"/>
 </svg>

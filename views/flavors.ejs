@@ -11,21 +11,19 @@
     buttonLink: "/contact"
   };
   const managedSuggestionSlides = (Array.isArray(categoryPage.suggestionSlides) ? categoryPage.suggestionSlides : [])
-    .filter(function(slide) { return slide && slide.status !== "Inactive" && slide.title; })
+    .filter(function(slide) { return slide && slide.status !== "Inactive" && slide.backgroundImage; })
     .sort(function(a, b) { return Number(a.order || 0) - Number(b.order || 0); });
   const suggestionSlides = managedSuggestionSlides.length ? managedSuggestionSlides : [{
-    label: "Product Categories",
-    title: overview.title,
-    text: "Explore ZUPPIO product categories and upcoming launches.",
-    buttonText: "Explore Categories",
-    buttonLink: "#product-categories",
+    title: "Product Categories Banner",
+    backgroundImage: "/images/product-categories/zuppio-category-desktop.png",
+    mobileBackgroundImage: "/images/product-categories/zuppio-category-mobile.png",
     overlayStrength: 0.58,
     order: 1,
     status: "Active"
   }];
   function safeImageUrl(value) {
     const url = String(value || "").trim();
-    if (!/^(\/images\/|https?:\/\/)/i.test(url)) return "";
+    if (!/^(\/images\/|\/uploads\/cms\/|https?:\/\/)/i.test(url)) return "";
     return url.replace(/"/g, "%22").replace(/'/g, "%27");
   }
   function overlayStrength(value) {
@@ -39,26 +37,12 @@
     <div class="swiper-wrapper">
       <% suggestionSlides.forEach(function(slide) { %>
         <% const backgroundImage = safeImageUrl(slide.backgroundImage); %>
-        <article class="swiper-slide product-suggestion-slide <%= slide.className || '' %> <%= backgroundImage ? 'has-background' : '' %>" style="<%- backgroundImage ? "--slide-bg-image: url('" + backgroundImage + "');" : "" %> --slide-overlay: <%= overlayStrength(slide.overlayStrength) %>;">
-          <div class="product-suggestion-copy">
-            <p class="eyebrow"><%= slide.label %></p>
-            <h2><%= slide.title %></h2>
-            <p><%= slide.text %></p>
-            <a class="button secondary" href="<%= slide.buttonLink %>">
-              <%= slide.buttonText %>
-              <i data-lucide="arrow-right"></i>
-            </a>
-          </div>
+        <% const mobileBackgroundImage = safeImageUrl(slide.mobileBackgroundImage || slide.mobileImage); %>
+        <article class="swiper-slide product-suggestion-slide product-banner-slide <%= slide.className || '' %> <%= backgroundImage ? 'has-background' : '' %> <%= mobileBackgroundImage ? 'has-mobile-background' : '' %>" style="<%- backgroundImage ? "--slide-bg-image: url('" + backgroundImage + "');" : "" %> <%- mobileBackgroundImage ? "--slide-mobile-bg-image: url('" + mobileBackgroundImage + "');" : "" %> --slide-overlay: <%= overlayStrength(slide.overlayStrength) %>;" aria-label="<%= slide.title || 'Product banner' %>">
+          <span class="sr-only"><%= slide.title || "Product banner" %></span>
         </article>
       <% }) %>
     </div>
-
-    <button class="suggestion-arrow suggestion-prev" type="button" aria-label="Previous product suggestion">
-      <i data-lucide="chevron-left"></i>
-    </button>
-    <button class="suggestion-arrow suggestion-next" type="button" aria-label="Next product suggestion">
-      <i data-lucide="chevron-right"></i>
-    </button>
     <div class="swiper-pagination suggestion-pagination"></div>
   </div>
 </section>
@@ -72,55 +56,35 @@
   <div class="category-grid">
     <% productCategories.forEach(function(category, index) { %>
       <% const categoryLink = "/product-categories/" + (category.slug || category.id); %>
-      <article class="category-card scroll-reveal" id="<%= category.id %>" style="--delay: <%= index * 70 %>ms">
+      <a class="category-card category-card-<%= category.slug || category.id %> scroll-reveal" id="<%= category.id %>" href="<%= categoryLink %>" aria-label="View <%= category.name %> category" style="--delay: <%= index * 70 %>ms">
         <span class="category-status <%= category.status === 'Available' ? 'available' : '' %>"><%= category.status %></span>
-        <img class="category-image" src="<%= category.image %>" alt="<%= category.name %> category" />
+        <div class="category-image-panel">
+          <img class="category-image" src="<%= category.image %>" alt="<%= category.name %> category" />
+        </div>
         <div>
           <h2><%= category.name %></h2>
           <p><%= category.summary %></p>
         </div>
         <div class="category-card-actions">
-          <a class="button secondary category-view-link" href="<%= categoryLink %>">
-            View Category
+          <span class="category-view-link">
+            <span>View Category</span>
             <i data-lucide="arrow-right"></i>
-          </a>
-          <button class="category-menu-toggle" type="button" aria-label="Show <%= category.name %> products" aria-expanded="false">
-            <i data-lucide="ellipsis"></i>
-          </button>
+          </span>
         </div>
-        <div class="category-product-menu" hidden>
-          <% (category.groups || []).forEach(function(group) { %>
-            <div class="product-group">
-              <h3><%= group.name %></h3>
-              <div class="product-pill-grid">
-                <% group.products.forEach(function(product) { %>
-                  <div class="product-pill <%= product.status === 'Available' ? 'available' : '' %>">
-                    <% if (product.image) { %>
-                      <img src="<%= product.image %>" alt="<%= product.name %> pack" />
-                    <% } else { %>
-                      <span class="product-dot" aria-hidden="true"></span>
-                    <% } %>
-                    <div>
-                      <strong><%= product.name %></strong>
-                      <small><%= product.status %></small>
-                    </div>
-                  </div>
-                <% }) %>
-              </div>
-            </div>
-          <% }) %>
-        </div>
-      </article>
+      </a>
     <% }) %>
   </div>
 </section>
 
 <section class="section">
-  <div class="product-contact-panel scroll-reveal">
+  <div class="product-contact-panel category-contact-panel scroll-reveal">
     <div>
       <p class="eyebrow"><%= businessPanel.label %></p>
       <h2><%= businessPanel.title %></h2>
       <p><%= businessPanel.text %></p>
+    </div>
+    <div class="category-contact-products" aria-hidden="true">
+      <img class="category-contact-mascot" src="/images/product-categories/zuppio-chips-cartoon-mascot.png" alt="" />
     </div>
     <a class="button primary" href="<%= businessPanel.buttonLink %>">
       <%= businessPanel.buttonText %>

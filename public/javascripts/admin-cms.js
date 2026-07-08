@@ -55,6 +55,61 @@
     });
   });
 
+  function renderEmptyPreview(list) {
+    list.innerHTML = "";
+    const empty = document.createElement("span");
+    empty.className = "cms-image-empty";
+    empty.textContent = "No image selected";
+    list.appendChild(empty);
+  }
+
+  function appendPreview(list, source) {
+    const image = document.createElement("img");
+    image.src = source;
+    image.alt = "Selected image preview";
+    list.appendChild(image);
+  }
+
+  function emitValueChange(input) {
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+  }
+
+  document.querySelectorAll("[data-admin-image-field]").forEach(function (field) {
+    const valueInput = field.querySelector("[data-image-value]");
+    const fileInput = field.querySelector("[data-image-file]");
+    const previewList = field.querySelector("[data-image-preview-list]");
+    const removeButton = field.querySelector("[data-image-remove]");
+
+    if (!valueInput || !fileInput || !previewList) return;
+
+    fileInput.addEventListener("change", function () {
+      const files = Array.from(fileInput.files || []);
+      if (!files.length) return;
+
+      previewList.innerHTML = "";
+      files.forEach(function (file) {
+        const reader = new FileReader();
+        reader.addEventListener("load", function () {
+          appendPreview(previewList, reader.result);
+        });
+        reader.readAsDataURL(file);
+      });
+
+      if (removeButton) removeButton.hidden = false;
+    });
+
+    if (removeButton) {
+      removeButton.addEventListener("click", function () {
+        valueInput.value = "";
+        fileInput.value = "";
+        renderEmptyPreview(previewList);
+        removeButton.hidden = true;
+        emitValueChange(valueInput);
+      });
+    }
+  });
+
   function previewTarget(id) {
     return document.querySelector(`[data-image-preview="${id}"]`);
   }

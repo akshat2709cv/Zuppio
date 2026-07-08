@@ -4,16 +4,49 @@
   const navItems = (state.header.navItems || []).concat([{ label: "", href: "", order: (state.header.navItems || []).length + 1, visible: false }]);
   const exploreLinks = (state.footer.exploreLinks || []).concat([{ label: "", href: "", order: (state.footer.exploreLinks || []).length + 1, visible: false }]);
   const socialLinks = (state.footer.socialLinks || []).concat([{ label: "", url: "", icon: "", visible: false }]);
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+  function renderImagePreview(value, label) {
+    if (!value) return '<span class="cms-image-empty">No image selected</span>';
+    return '<img src="' + escapeHtml(value) + '" alt="' + escapeHtml(label) + ' preview" />';
+  }
+  function renderImageUploadControl(options) {
+    return `
+      <div class="cms-image-field wide" data-admin-image-field>
+        <input type="hidden" name="${escapeHtml(options.valueName)}" value="${escapeHtml(options.value || "")}" data-image-value />
+        <div class="cms-image-field-header">
+          <strong>${escapeHtml(options.label)}</strong>
+          <span>Current Image Preview</span>
+        </div>
+        <div class="cms-image-preview-list" data-image-preview-list>
+          ${renderImagePreview(options.value || "", options.label)}
+        </div>
+        <div class="admin-actions cms-image-actions">
+          <label class="admin-button ghost cms-file-button" for="${escapeHtml(options.id)}">
+            Choose Image
+            <input id="${escapeHtml(options.id)}" name="${escapeHtml(options.fileName)}" type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml" data-image-file hidden />
+          </label>
+          <button class="admin-button danger" type="button" data-image-remove ${options.value ? "" : "hidden"}>Remove Image</button>
+        </div>
+      </div>
+    `;
+  }
 %>
 
 <section class="admin-card">
   <div class="cms-section-heading">
     <p class="admin-kicker">Global Website Layout</p>
     <h2>Header / Footer</h2>
-    <p class="admin-note">Update the live navbar, footer brand details, social links, and footer background. Use the Media Manager for uploads, then paste the generated image path here.</p>
+    <p class="admin-note">Update the live navbar, footer brand details, social links, and footer background.</p>
   </div>
   <% if (message) { %><div class="admin-alert success"><%= message %></div><% } %>
-  <form class="admin-form compact" method="post" action="/admin/layout">
+  <form class="admin-form compact" method="post" action="/admin/layout" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
 
     <section class="cms-group">
@@ -21,7 +54,7 @@
         <h2>Header</h2>
         <p class="admin-note">Logo and main navigation menu shown on the public website.</p>
       </div>
-      <label class="wide">Logo Image Path<input name="logo" value="<%= state.header.logo %>" /></label>
+      <%- renderImageUploadControl({ label: "Logo Image", value: state.header.logo || "", valueName: "logo", fileName: "logoUpload", id: "layout-logo-image" }) %>
       <div class="admin-table-wrap wide">
         <table class="admin-table">
           <thead><tr><th>Label</th><th>URL</th><th>Order</th><th>Show</th></tr></thead>
@@ -50,7 +83,7 @@
       <label>Email<input name="email" value="<%= state.footer.email %>" /></label>
       <label class="wide">WhatsApp Link<input name="whatsappLink" value="<%= state.footer.whatsappLink %>" /></label>
       <label class="wide">Copyright Text<input name="copyrightText" value="<%= state.footer.copyrightText %>" /></label>
-      <label class="wide">Footer Background Image<input name="backgroundImage" value="<%= state.footer.backgroundImage || '' %>" /></label>
+      <%- renderImageUploadControl({ label: "Footer Background Image", value: state.footer.backgroundImage || "", valueName: "backgroundImage", fileName: "backgroundUpload", id: "layout-footer-background" }) %>
     </section>
 
     <section class="cms-group">
@@ -88,7 +121,7 @@
               <tr>
                 <td><input name="socialLabel" value="<%= item.label %>" placeholder="Instagram" /></td>
                 <td><input name="socialUrl" value="<%= item.url %>" placeholder="https://..." /></td>
-                <td><input name="socialIcon" value="<%= item.icon %>" placeholder="/images/icon.png" /></td>
+                <td><%- renderImageUploadControl({ label: item.label ? item.label + " Icon" : "Social Icon", value: item.icon || "", valueName: "socialIcon", fileName: "socialIconUpload" + index, id: "layout-social-icon-" + index }) %></td>
                 <td><input type="checkbox" name="socialVisible<%= index %>" <%= item.visible ? "checked" : "" %> /></td>
               </tr>
             <% }) %>

@@ -1,30 +1,36 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
   <title id="title">Beverages category</title>
-  <desc id="desc">Modern beverage bottles and cans.</desc>
+  <desc id="desc">Two colorful beverage bottles for future ZUPPIO drinks.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#073344"/>
-      <stop offset="1" stop-color="#07010f"/>
+    <linearGradient id="blueBottle" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#7efff0"/>
+      <stop offset="1" stop-color="#22c6d8"/>
     </linearGradient>
-    <linearGradient id="bottle" x1="0" x2="0" y1="0" y2="1">
-      <stop offset="0" stop-color="#60f3e4"/>
-      <stop offset="1" stop-color="#1782ff"/>
+    <linearGradient id="orangeBottle" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffd74d"/>
+      <stop offset="1" stop-color="#ff8a00"/>
     </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="16" flood-color="#128a8f" flood-opacity=".18"/>
+    </filter>
   </defs>
-  <rect width="640" height="420" rx="46" fill="url(#bg)"/>
-  <circle cx="150" cy="92" r="90" fill="#2dd4bf" opacity=".2"/>
-  <circle cx="512" cy="300" r="118" fill="#7b2ff7" opacity=".17"/>
-  <g transform="translate(176 74)">
-    <rect x="30" y="52" width="96" height="238" rx="34" fill="url(#bottle)"/>
-    <rect x="54" y="6" width="48" height="58" rx="16" fill="#dffcff"/>
-    <rect x="47" y="132" width="62" height="70" rx="18" fill="#07101f" opacity=".78"/>
-    <path d="M62 168h34" stroke="#ffcc00" stroke-width="8" stroke-linecap="round"/>
+  <g filter="url(#shadow)">
+    <ellipse cx="320" cy="330" rx="170" ry="30" fill="#45cdbd" opacity=".16"/>
+    <g transform="translate(218 58)">
+      <rect x="0" y="56" width="100" height="232" rx="32" fill="url(#blueBottle)"/>
+      <rect x="26" y="10" width="48" height="60" rx="14" fill="#eaffff"/>
+      <rect x="19" y="132" width="62" height="64" rx="18" fill="#111820" opacity=".86"/>
+      <path d="M36 164h28" stroke="#ffcf2e" stroke-width="8" stroke-linecap="round"/>
+      <path d="M12 88h76" stroke="#fff" stroke-width="10" opacity=".28"/>
+    </g>
+    <g transform="translate(332 58)">
+      <rect x="0" y="56" width="100" height="232" rx="32" fill="url(#orangeBottle)"/>
+      <rect x="26" y="10" width="48" height="60" rx="14" fill="#fff7df"/>
+      <rect x="19" y="132" width="62" height="64" rx="18" fill="#111820" opacity=".86"/>
+      <path d="M36 164h28" stroke="#2fd5c4" stroke-width="8" stroke-linecap="round"/>
+      <path d="M12 88h76" stroke="#fff" stroke-width="10" opacity=".28"/>
+    </g>
+    <path d="M142 182c30-16 60-17 88-4" fill="none" stroke="#8fdcc6" stroke-width="12" stroke-linecap="round" opacity=".55"/>
+    <path d="M452 204c22-14 45-17 68-7" fill="none" stroke="#8fdcc6" stroke-width="12" stroke-linecap="round" opacity=".55"/>
   </g>
-  <g transform="translate(342 118)">
-    <rect x="0" y="18" width="118" height="206" rx="22" fill="#ffcc00"/>
-    <rect x="0" y="18" width="118" height="36" rx="16" fill="#fff1a3"/>
-    <rect x="20" y="88" width="78" height="60" rx="16" fill="#140912"/>
-    <path d="M40 120h38" stroke="#2dd4bf" stroke-width="8" stroke-linecap="round"/>
-  </g>
-  <path d="M126 350h388" stroke="#ffffff" stroke-width="4" opacity=".18"/>
 </svg>

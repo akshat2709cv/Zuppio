@@ -10,12 +10,14 @@
     productCategoryPage: "Product Category Pages",
     contactPage: "Contact Page",
     aboutPage: "About Page",
+    blogPage: "Blog Page Header",
     howToBuy: "How To Buy / Store Locator",
     policies: "Policies / Terms",
     seo: "SEO Settings"
   };
   const sectionHints = {
     hero: "Hero section fields and page introduction.",
+    heroImageNote: "Read-only note: the public blog hero artwork stays fixed; update the text fields only.",
     aboutPreview: "Homepage about feature cards.",
     categoryShowcase: "Homepage product category slider/cards.",
     faq: "Homepage FAQ section content.",
@@ -34,6 +36,7 @@
     suggestionSlides: "Category page suggestion slides.",
     businessCta: "Business inquiry CTA copy."
   };
+  let imageFieldCounter = 0;
   function escapeHtml(value) {
     return String(value ?? "")
       .replace(/&/g, "&amp;")
@@ -46,14 +49,64 @@
     const raw = String(value || "Content").replace(/([a-z])([A-Z])/g, "$1 $2").replace(/[-_]/g, " ");
     return raw.charAt(0).toUpperCase() + raw.slice(1);
   }
+  function isImageField(path, key, value) {
+    if (typeof value !== "string") return false;
+    const loweredKey = String(key || "").toLowerCase();
+    const loweredPath = String(path || "").toLowerCase();
+    const isNamedImage = /(image|logo|banner|backgroundimage|ogimage|favicon|thumbnail|photo)/.test(loweredKey);
+    const isImageArrayItem = /(^|\.)images?\.\d+($|\.)/.test(loweredPath);
+    const looksLikeImagePath = /^(\/images\/|\/uploads\/cms\/|https?:\/\/).*\.(jpe?g|png|webp|svg)(\?.*)?$/i.test(String(value || ""));
+    return isNamedImage || isImageArrayItem || looksLikeImagePath;
+  }
   function isTextarea(key, value) {
     const lowered = String(key || "").toLowerCase();
     return String(value ?? "").length > 90 || /(description|subtitle|content|message|detail|paragraph|preview|text|answer|body|copyright)/.test(lowered);
+  }
+  function renderImagePreview(value, label) {
+    if (!value) return `<span class="cms-image-empty">No image selected</span>`;
+    return `<img src="${escapeHtml(value)}" alt="${escapeHtml(label)} preview" />`;
+  }
+  function imageHelpText(path) {
+    if (/^categoryShowcase\.cards\.\d+\.image$/.test(String(path || ""))) {
+      return "Recommended upload: 1200 x 800 px WebP/JPG, using a 3:2 or 16:10 crop. Homepage category tiles use this image as a full background.";
+    }
+    return "";
+  }
+  function renderImagePrimitive(path, key, value) {
+    imageFieldCounter += 1;
+    const safePath = escapeHtml(path);
+    const label = escapeHtml(labelize(key));
+    const helpText = imageHelpText(path);
+    const fieldName = `cmsImageFile${imageFieldCounter}`;
+    const inputId = `cms-image-${imageFieldCounter}`;
+    const imageValue = String(value ?? "");
+    return `
+      <div class="cms-image-field wide" data-admin-image-field>
+        <input type="hidden" data-image-value data-json-path="${safePath}" data-json-type="string" value="${escapeHtml(imageValue)}" />
+        <input type="hidden" name="cmsImageUpload" value="${escapeHtml(fieldName)}|${safePath}" />
+        <div class="cms-image-field-header">
+          <strong>${label}</strong>
+          <span>Current Image Preview</span>
+        </div>
+        <div class="cms-image-preview-list" data-image-preview-list>
+          ${renderImagePreview(imageValue, label)}
+        </div>
+        ${helpText ? `<p class="admin-note">${escapeHtml(helpText)}</p>` : ""}
+        <div class="admin-actions cms-image-actions">
+          <label class="admin-button ghost cms-file-button" for="${inputId}">
+            Choose Image
+            <input id="${inputId}" name="${escapeHtml(fieldName)}" type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml" data-image-file hidden />
+          </label>
+          <button class="admin-button danger" type="button" data-image-remove ${imageValue ? "" : "hidden"}>Remove Image</button>
+        </div>
+      </div>
+    `;
   }
   function renderPrimitive(path, key, value) {
     const safePath = escapeHtml(path);
     const label = escapeHtml(labelize(key));
     const type = typeof value;
+    if (isImageField(path, key, value)) return renderImagePrimitive(path, key, value);
     if (type === "boolean") {
       return `<label class="toggle-label cms-label"><input type="checkbox" data-json-path="${safePath}" data-json-type="boolean" ${value ? "checked" : ""} /> <span>${label}</span></label>`;
     }
@@ -120,7 +173,7 @@
     <p class="admin-note"><%= help %></p>
   </div>
   <% if (message) { %><div class="admin-alert <%= message.includes('Invalid') ? '' : 'success' %>"><%= message %></div><% } %>
-  <form class="admin-form" method="post" action="<%= formAction %>" data-admin-json-form>
+  <form class="admin-form" method="post" action="<%= formAction %>" enctype="multipart/form-data" data-admin-json-form>
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
     <textarea name="value" data-json-output data-root-type="<%= rootType %>" hidden><%= value %></textarea>
     <div class="cms-editor">

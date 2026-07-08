@@ -8,7 +8,7 @@
       "role": "Super Admin",
       "status": "Active",
       "createdAt": "2026-06-08T08:17:45.421Z",
-      "lastLoginAt": "2026-06-08T11:58:18.252Z"
+      "lastLoginAt": "2026-06-23T06:42:03.633Z"
     }
   ],
   "content": [
@@ -102,8 +102,8 @@
       "slug": "potato-chips",
       "name": "Potato Chips",
       "title": "Potato Chips",
-      "image": "/images/categories/potato-chips.svg",
-      "banner": "/images/categories/potato-chips.svg",
+      "image": "/images/product-categories/potato-chips-category-banner.png",
+      "banner": "/images/product-categories/potato-chips-category-banner.png",
       "summary": "Aloo Snack packs with crisp potato crunch and bold ZUPPIO flavors.",
       "description": "Crisp aloo snack packs made for everyday munching, tea breaks, and party bowls with bold ZUPPIO flavor energy.",
       "status": "Available",
@@ -156,8 +156,8 @@
       "slug": "beverages",
       "name": "Beverages",
       "title": "Beverages",
-      "image": "/images/categories/beverages.svg",
-      "banner": "/images/categories/beverages.svg",
+      "image": "/images/product-categories/beverages-category-banner.png",
+      "banner": "/images/product-categories/beverages-category-banner.png",
       "summary": "Refreshing drinks planned for everyday moments and high-energy occasions.",
       "description": "Refreshing beverage ideas are being shaped for everyday hydration, energy moments, and flavorful Indian refreshment.",
       "status": "Coming Soon",
@@ -195,7 +195,7 @@
       "slug": "biscuit",
       "name": "Biscuit",
       "title": "Biscuit",
-      "image": "/images/categories/biscuit.svg",
+      "image": "/images/product-categories/biscuit-category-lineup.png",
       "banner": "/images/categories/biscuit.svg",
       "summary": "Baked, cream, cookie, and wafer biscuit formats for future snack shelves.",
       "description": "A future biscuit range covering baked, cream, cookie, and wafer formats for simple, reliable snack shelves.",
@@ -230,7 +230,7 @@
       "slug": "banana-chips",
       "name": "Banana Chips",
       "title": "Banana Chips",
-      "image": "/images/categories/banana-chips.svg",
+      "image": "/images/product-categories/banana-chips-category-card.png",
       "banner": "/images/categories/banana-chips.svg",
       "summary": "Crunchy banana chips with classic salted and aloo-inspired ideas.",
       "description": "Crispy banana chips are planned for classic salted crunch and ZUPPIO-style flavor twists.",
@@ -257,7 +257,7 @@
       "slug": "wafers",
       "name": "Wafers",
       "title": "Wafers",
-      "image": "/images/categories/wafers.svg",
+      "image": "/images/product-categories/wafers-category-card.png",
       "banner": "/images/categories/wafers.svg",
       "summary": "Light wafer snacks with the familiar ZUPPIO flavor personality.",
       "description": "Light, crisp wafer snacks are planned with familiar ZUPPIO flavor energy and easy shareability.",
@@ -288,7 +288,7 @@
       "slug": "ready-to-eat",
       "name": "Ready-To-Eat",
       "title": "Ready-To-Eat",
-      "image": "/images/categories/ready-to-eat.svg",
+      "image": "/images/product-categories/ready-to-eat-category-card.png",
       "banner": "/images/categories/ready-to-eat.svg",
       "summary": "Convenient meal and beverage formats for fast, everyday consumption.",
       "description": "Convenient ready-to-eat food ideas are being prepared for quick meals, travel, and busy everyday routines.",
@@ -326,56 +326,76 @@
     },
     "suggestionSlides": [
       {
-        "className": "beverage-slide",
-        "label": "Coming Soon",
-        "title": "Beverages for every mood.",
-        "text": "Zeera Drinks, Energy Drinks, Tighter Drinks, Water, and Aam Papad are planned for the next ZUPPIO shelf.",
-        "buttonText": "See Beverages",
-        "buttonLink": "/product-categories/beverages",
-        "images": [
-          "/images/categories/beverages.svg"
-        ],
-        "artClass": "category-art",
-        "id": "suggestion-1",
-        "backgroundImage": "/images/categories/beverages.svg",
-        "overlayStrength": 0.58,
+        "id": "suggestion-beverages",
+        "className": "banner-slide-1",
+        "label": "",
+        "title": "Mast Masaledar ZUPPIO Banner",
+        "text": "",
+        "buttonText": "",
+        "buttonLink": "/product-categories/potato-chips",
+        "backgroundImage": "/images/product-categories/zuppio-slider-mast-masaledar-desktop.png",
+        "mobileBackgroundImage": "/images/product-categories/zuppio-slider-mast-masaledar-mobile.png",
+        "overlayStrength": 0,
         "order": 1,
-        "status": "Active"
+        "status": "Active",
+        "images": [
+          "/images/product-categories/zuppio-slider-mast-masaledar-desktop.png"
+        ],
+        "artClass": ""
       },
       {
-        "className": "bakery-slide",
-        "label": "Future Crunch",
-        "title": "Biscuits, wafers, and banana chips.",
-        "text": "Baked biscuits, cream biscuits, cookies, wafer biscuits, banana chips, and flavored wafers are mapped for future launches.",
-        "buttonText": "Explore Bakery",
-        "buttonLink": "/product-categories/biscuit",
-        "images": [
-          "/images/categories/biscuit.svg",
-          "/images/categories/wafers.svg"
-        ],
-        "artClass": "combo-art",
-        "id": "suggestion-2",
-        "backgroundImage": "/images/categories/biscuit.svg",
-        "overlayStrength": 0.58,
+        "id": "suggestion-bakery",
+        "className": "banner-slide-2",
+        "label": "",
+        "title": "Seedha Simple ZUPPIO Banner",
+        "text": "",
+        "buttonText": "",
+        "buttonLink": "/product-categories/potato-chips",
+        "backgroundImage": "/images/product-categories/zuppio-slider-seedha-simple-desktop.png",
+        "mobileBackgroundImage": "/images/product-categories/zuppio-slider-seedha-simple-mobile.jpeg",
+        "overlayStrength": 0,
         "order": 2,
-        "status": "Active"
+        "status": "Active",
+        "images": [
+          "/images/product-categories/zuppio-slider-seedha-simple-desktop.png"
+        ],
+        "artClass": ""
       },
       {
-        "className": "ready-slide",
-        "label": "Ready-To-Eat",
-        "title": "Quick meals, ZUPPIO style.",
-        "text": "Poha, Rajma Chawal, Noodles, and Creamy Chai Coffee ideas for fast everyday use.",
-        "buttonText": "View Ready-To-Eat",
-        "buttonLink": "/product-categories/ready-to-eat",
-        "images": [
-          "/images/categories/ready-to-eat.svg"
-        ],
-        "artClass": "category-art",
-        "id": "suggestion-3",
-        "backgroundImage": "/images/categories/ready-to-eat.svg",
-        "overlayStrength": 0.58,
+        "id": "suggestion-ready-to-eat",
+        "className": "banner-slide-3",
+        "label": "",
+        "title": "Code Crunch Repeat ZUPPIO Banner",
+        "text": "",
+        "buttonText": "",
+        "buttonLink": "/product-categories/potato-chips",
+        "backgroundImage": "/images/product-categories/zuppio-slider-code-crunch-desktop.png",
+        "mobileBackgroundImage": "/images/product-categories/zuppio-slider-code-crunch-mobile.png",
+        "overlayStrength": 0,
         "order": 3,
-        "status": "Active"
+        "status": "Active",
+        "images": [
+          "/images/product-categories/zuppio-slider-code-crunch-desktop.png"
+        ],
+        "artClass": ""
+      },
+      {
+        "id": "suggestion-potato-chips",
+        "className": "banner-slide-4",
+        "label": "",
+        "title": "Product Banner 4",
+        "text": "",
+        "buttonText": "Explore",
+        "buttonLink": "/product-categories/potato-chips",
+        "backgroundImage": "/images/product-categories/zuppio-category-desktop.png",
+        "mobileBackgroundImage": "",
+        "overlayStrength": 0.18,
+        "order": 4,
+        "status": "Active",
+        "images": [
+          "/images/product-categories/zuppio-category-desktop.png"
+        ],
+        "artClass": ""
       }
     ],
     "businessPanel": {
@@ -465,8 +485,59 @@
       "status": "Active"
     }
   ],
-  "media": [],
+  "media": [
+    {
+      "id": "media_5e80b06700aa17a2",
+      "name": "homepage categoryShowcase.cards.0.image",
+      "url": "/uploads/cms/1781685435134-51287de577ab981b-chatgpt-image-jun-17-2026-at-12-20-20-pm.png",
+      "type": "image/png",
+      "size": 2161416,
+      "createdAt": "2026-06-17T08:37:15.296Z"
+    }
+  ],
   "inquiries": [
+    {
+      "id": "contact_eb23487ebbb1d25e",
+      "type": "contact",
+      "source": "Contact Form",
+      "name": "akshat",
+      "email": "aksh270911@gmail.com",
+      "phone": "1738293726",
+      "subject": "",
+      "message": "jsfvjasbd",
+      "ip": "10.29.249.3",
+      "status": "Read",
+      "createdAt": "2026-06-09T07:10:07.712Z",
+      "updatedAt": "2026-06-09T07:11:13.635Z"
+    },
+    {
+      "id": "contact_d86225b785701cec",
+      "type": "contact",
+      "source": "Contact Form",
+      "name": "Codex Test",
+      "email": "codex-test-contact-1780988329388@example.com",
+      "phone": "7011992634",
+      "subject": "Form status test",
+      "message": "Testing contact form status handling.",
+      "ip": "::ffff:127.0.0.1",
+      "status": "New",
+      "createdAt": "2026-06-09T06:58:49.861Z",
+      "updatedAt": "2026-06-09T06:58:49.861Z"
+    },
+    {
+      "id": "contact_b70b558ff8068575",
+      "type": "contact",
+      "source": "Contact Form",
+      "name": "aki",
+      "email": "aksh270911@gmail.com",
+      "phone": "986363754",
+      "subject": "nothing",
+      "message": "na",
+      "ip": "10.29.249.3",
+      "status": "New",
+      "createdAt": "2026-06-09T06:32:22.953Z",
+      "updatedAt": "2026-06-09T06:32:22.953Z"
+    },
     {
       "id": "contact_96e53ee5245bbf59",
       "type": "contact",
@@ -497,7 +568,20 @@
     }
   ],
   "feedback": [],
-  "subscribers": [],
+  "subscribers": [
+    {
+      "id": "subscriber_3a7aedbdd1cb63ec",
+      "email": "codex-test-newsletter-1780988329388@example.com",
+      "status": "Active",
+      "createdAt": "2026-06-09T06:58:49.727Z"
+    },
+    {
+      "id": "subscriber_fe953dc2a0edb661",
+      "email": "aksh270911@gmail.com",
+      "status": "Active",
+      "createdAt": "2026-06-09T06:28:08.163Z"
+    }
+  ],
   "blogPosts": [
     {
       "id": "blog_aba72b51d1412c58",
@@ -510,7 +594,7 @@
         "snacks",
         "zuppio"
       ],
-      "image": "/images/home-hero-zuppio.png",
+      "image": "/images/blogs/story-behind-zuppio-snacks.jpg",
       "status": "Published",
       "content": [
         "ZUPPIO began with a simple belief: everyday snacks should feel exciting, trustworthy, and easy to love. The brand brings together bold Indian flavor energy, modern packaging, and a growing vision for food products that fit naturally into daily routines.",
@@ -531,7 +615,7 @@
         "india",
         "snacks"
       ],
-      "image": "/images/categories/potato-chips.svg",
+      "image": "/images/blogs/why-potato-chips-are-indias-favorite-snack.jpg",
       "status": "Published",
       "content": [
         "Potato chips have a special place in Indian snacking because they fit almost every moment. They work with tea, movie nights, road trips, office breaks, and quick get-togethers.",
@@ -552,7 +636,7 @@
         "chips",
         "party snacks"
       ],
-      "image": "/images/yellow.png",
+      "image": "/images/blogs/easy-snack-recipes-with-zuppio-chips.jpg",
       "status": "Published",
       "content": [
         "ZUPPIO chips can do more than sit beside a cold drink. Try crushed chips over chaat for extra crunch, layer them into a quick sandwich, or use them as a topping for cheesy nacho-style plates.",
@@ -573,7 +657,7 @@
         "taste",
         "ingredients"
       ],
-      "image": "/images/zuppio-front.jpeg",
+      "image": "/images/blogs/how-zuppio-focuses-on-quality-and-taste.jpg",
       "status": "Published",
       "content": [
         "Quality starts with clear choices. ZUPPIO focuses on ingredients, consistent taste, hygienic handling, and packaging that supports a reliable snacking experience.",
@@ -594,7 +678,7 @@
         "gatherings",
         "food ideas"
       ],
-      "image": "/images/purple.png",
+      "image": "/images/blogs/best-snacks-for-parties-and-gatherings.jpg",
       "status": "Published",
       "content": [
         "Great party snacks should be easy to serve, easy to refill, and fun to eat. Chips, wafers, dips, quick chaat bowls, and bite-sized sides all work well because guests can enjoy them without slowing the conversation.",
@@ -655,6 +739,166 @@
     "footerText": "Bold chips, clean design, and modern snack energy."
   },
   "auditLogs": [
+    {
+      "id": "audit_3e033db692e2137b",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "login",
+      "target": "admin",
+      "ip": "::1",
+      "createdAt": "2026-06-23T06:42:03.714Z"
+    },
+    {
+      "id": "audit_947c433488be4ac5",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "homepage_update",
+      "target": "homepage",
+      "ip": "::1",
+      "createdAt": "2026-06-17T08:37:15.445Z"
+    },
+    {
+      "id": "audit_3631a14d6edc2244",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "homepage_update",
+      "target": "homepage",
+      "ip": "::1",
+      "createdAt": "2026-06-17T07:01:25.134Z"
+    },
+    {
+      "id": "audit_3fe67e9df5e10022",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "login",
+      "target": "admin",
+      "ip": "::1",
+      "createdAt": "2026-06-17T06:51:48.837Z"
+    },
+    {
+      "id": "audit_1cc948d98bba431b",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "login",
+      "target": "admin",
+      "ip": "10.26.190.130",
+      "createdAt": "2026-06-10T11:23:04.427Z"
+    },
+    {
+      "id": "audit_24ec414ad2c88959",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "failed_login",
+      "target": "admin",
+      "ip": "10.26.190.130",
+      "createdAt": "2026-06-10T11:22:33.910Z"
+    },
+    {
+      "id": "audit_7145dc271586d9c0",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "failed_login",
+      "target": "admin",
+      "ip": "10.31.236.4",
+      "createdAt": "2026-06-10T11:22:30.018Z"
+    },
+    {
+      "id": "audit_8e03d9af39e3a603",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "login",
+      "target": "admin",
+      "ip": "10.29.249.3",
+      "createdAt": "2026-06-10T05:09:02.403Z"
+    },
+    {
+      "id": "audit_21842fc85cce8372",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "contact_inquiry_read",
+      "target": "contact_eb23487ebbb1d25e",
+      "ip": "10.29.249.3",
+      "createdAt": "2026-06-09T07:11:14.786Z"
+    },
+    {
+      "id": "audit_449f7d288fa24bb0",
+      "actor": "aksh270911@gmail.com",
+      "action": "contact_submission_create",
+      "target": "contact_eb23487ebbb1d25e",
+      "ip": "10.29.249.3",
+      "createdAt": "2026-06-09T07:10:10.470Z"
+    },
+    {
+      "id": "audit_05d7a3594aa138cf",
+      "actor": "aksh270911@gmail.com",
+      "action": "subscriber_create",
+      "target": "snack-drop",
+      "ip": "10.28.65.4",
+      "createdAt": "2026-06-09T07:07:18.121Z"
+    },
+    {
+      "id": "audit_e5877df1faad0c19",
+      "actor": "codex-test-wholesale-1780988329388@example.com",
+      "action": "wholesale_inquiry_create",
+      "target": "wholesale_9b077f6fbb501181",
+      "ip": "::ffff:127.0.0.1",
+      "createdAt": "2026-06-09T06:58:50.665Z"
+    },
+    {
+      "id": "audit_a061e7ad19e9b5db",
+      "actor": "codex-test-dealer-1780988329388@example.com",
+      "action": "dealer_inquiry_create",
+      "target": "dealer_05a3c2d84fccc3c3",
+      "ip": "::ffff:127.0.0.1",
+      "createdAt": "2026-06-09T06:58:50.374Z"
+    },
+    {
+      "id": "audit_9128169dee71aa8c",
+      "actor": "codex-test-contact-1780988329388@example.com",
+      "action": "contact_submission_create",
+      "target": "contact_d86225b785701cec",
+      "ip": "::ffff:127.0.0.1",
+      "createdAt": "2026-06-09T06:58:50.146Z"
+    },
+    {
+      "id": "audit_62d853da7c11fb9c",
+      "actor": "codex-test-newsletter-1780988329388@example.com",
+      "action": "subscriber_create",
+      "target": "snack-drop",
+      "ip": "::ffff:127.0.0.1",
+      "createdAt": "2026-06-09T06:58:49.809Z"
+    },
+    {
+      "id": "audit_25d7da8c6dd57bb2",
+      "actor": "akshat2709cv@gmail.com",
+      "action": "dealer_inquiry_create",
+      "target": "dealer_afb64718747d6a12",
+      "ip": "10.30.23.9",
+      "createdAt": "2026-06-09T06:39:49.025Z"
+    },
+    {
+      "id": "audit_00c642c3114a1179",
+      "actor": "aksh270911@gmail.com",
+      "action": "contact_submission_create",
+      "target": "contact_b70b558ff8068575",
+      "ip": "10.29.249.3",
+      "createdAt": "2026-06-09T06:32:25.705Z"
+    },
+    {
+      "id": "audit_09fbe01706830a4c",
+      "actor": "aksh270911@gmail.com",
+      "action": "dealer_inquiry_create",
+      "target": "dealer_b054ed7b2fdea5e3",
+      "ip": "10.30.23.9",
+      "createdAt": "2026-06-09T06:31:08.070Z"
+    },
+    {
+      "id": "audit_a7b1d92ef862f23b",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "login",
+      "target": "admin",
+      "ip": "10.28.65.4",
+      "createdAt": "2026-06-09T06:25:04.992Z"
+    },
+    {
+      "id": "audit_450c4b4608b84926",
+      "actor": "zuppiosnacks176@gmail.com",
+      "action": "login",
+      "target": "admin",
+      "ip": "10.29.249.3",
+      "createdAt": "2026-06-09T06:24:51.108Z"
+    },
     {
       "id": "audit_45dbcb10439b1c34",
       "actor": "zuppiosnacks176@gmail.com",
@@ -793,146 +1037,178 @@
     }
   ],
   "analytics": {
-    "visits": 84,
-    "productViews": 7,
-    "contactSubmissions": 2,
-    "newsletterSubscribers": 0,
+    "visits": 1193,
+    "productViews": 260,
+    "contactSubmissions": 5,
+    "newsletterSubscribers": 2,
     "categoryClicks": 0,
     "qrClicks": 0,
     "whatsappClicks": 0,
     "blogViews": 0,
     "latestActivity": [
       {
-        "id": "audit_45dbcb10439b1c34",
+        "id": "audit_3e033db692e2137b",
         "actor": "zuppiosnacks176@gmail.com",
         "action": "login",
         "target": "admin",
         "ip": "::1",
-        "createdAt": "2026-06-08T11:58:18.378Z"
+        "createdAt": "2026-06-23T06:42:03.714Z"
       },
       {
-        "id": "audit_531458a8c2746b5d",
+        "id": "audit_947c433488be4ac5",
+        "actor": "zuppiosnacks176@gmail.com",
+        "action": "homepage_update",
+        "target": "homepage",
+        "ip": "::1",
+        "createdAt": "2026-06-17T08:37:15.445Z"
+      },
+      {
+        "id": "audit_3631a14d6edc2244",
+        "actor": "zuppiosnacks176@gmail.com",
+        "action": "homepage_update",
+        "target": "homepage",
+        "ip": "::1",
+        "createdAt": "2026-06-17T07:01:25.134Z"
+      },
+      {
+        "id": "audit_3fe67e9df5e10022",
         "actor": "zuppiosnacks176@gmail.com",
         "action": "login",
         "target": "admin",
         "ip": "::1",
-        "createdAt": "2026-06-08T11:48:56.099Z"
+        "createdAt": "2026-06-17T06:51:48.837Z"
       },
       {
-        "id": "audit_649efab1af77b5cd",
+        "id": "audit_1cc948d98bba431b",
         "actor": "zuppiosnacks176@gmail.com",
         "action": "login",
         "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-08T11:47:48.659Z"
+        "ip": "10.26.190.130",
+        "createdAt": "2026-06-10T11:23:04.427Z"
       },
       {
-        "id": "audit_9a0d037cc97f1f0e",
+        "id": "audit_24ec414ad2c88959",
+        "actor": "zuppiosnacks176@gmail.com",
+        "action": "failed_login",
+        "target": "admin",
+        "ip": "10.26.190.130",
+        "createdAt": "2026-06-10T11:22:33.910Z"
+      },
+      {
+        "id": "audit_7145dc271586d9c0",
+        "actor": "zuppiosnacks176@gmail.com",
+        "action": "failed_login",
+        "target": "admin",
+        "ip": "10.31.236.4",
+        "createdAt": "2026-06-10T11:22:30.018Z"
+      },
+      {
+        "id": "audit_8e03d9af39e3a603",
         "actor": "zuppiosnacks176@gmail.com",
         "action": "login",
         "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-08T11:46:20.901Z"
+        "ip": "10.29.249.3",
+        "createdAt": "2026-06-10T05:09:02.403Z"
       },
       {
-        "id": "audit_9653e81abce199d7",
-        "actor": "zuppiosnacks176@gmail.com",
-        "action": "login",
-        "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-08T11:45:22.274Z"
-      },
-      {
-        "id": "audit_9ecbe8fc4730661b",
-        "actor": "zuppiosnacks176@gmail.com",
-        "action": "login",
-        "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-08T11:22:06.789Z"
-      },
-      {
-        "id": "audit_d99c64134607cab6",
+        "id": "audit_21842fc85cce8372",
         "actor": "zuppiosnacks176@gmail.com",
         "action": "contact_inquiry_read",
-        "target": "contact_96e53ee5245bbf59",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:21:20.855Z"
+        "target": "contact_eb23487ebbb1d25e",
+        "ip": "10.29.249.3",
+        "createdAt": "2026-06-09T07:11:14.786Z"
       },
       {
-        "id": "audit_0ebcaf5fc9baa651",
-        "actor": "ugdewvv@gmail.com",
+        "id": "audit_449f7d288fa24bb0",
+        "actor": "aksh270911@gmail.com",
         "action": "contact_submission_create",
-        "target": "contact_96e53ee5245bbf59",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:21:12.794Z"
+        "target": "contact_eb23487ebbb1d25e",
+        "ip": "10.29.249.3",
+        "createdAt": "2026-06-09T07:10:10.470Z"
       },
       {
-        "id": "audit_5865a33d9c1db1f5",
-        "actor": "akshat270bsj@gmail.com",
+        "id": "audit_05d7a3594aa138cf",
+        "actor": "aksh270911@gmail.com",
+        "action": "subscriber_create",
+        "target": "snack-drop",
+        "ip": "10.28.65.4",
+        "createdAt": "2026-06-09T07:07:18.121Z"
+      },
+      {
+        "id": "audit_e5877df1faad0c19",
+        "actor": "codex-test-wholesale-1780988329388@example.com",
+        "action": "wholesale_inquiry_create",
+        "target": "wholesale_9b077f6fbb501181",
+        "ip": "::ffff:127.0.0.1",
+        "createdAt": "2026-06-09T06:58:50.665Z"
+      },
+      {
+        "id": "audit_a061e7ad19e9b5db",
+        "actor": "codex-test-dealer-1780988329388@example.com",
         "action": "dealer_inquiry_create",
-        "target": "dealer_0fe6c1e441378aa7",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:20:31.500Z"
+        "target": "dealer_05a3c2d84fccc3c3",
+        "ip": "::ffff:127.0.0.1",
+        "createdAt": "2026-06-09T06:58:50.374Z"
       },
       {
-        "id": "audit_e3e1be0c13dc7555",
-        "actor": "zuppiosnacks176@gmail.com",
-        "action": "contact_inquiry_replied",
-        "target": "contact_bede66ce31b52c7f",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:19:08.814Z"
+        "id": "audit_9128169dee71aa8c",
+        "actor": "codex-test-contact-1780988329388@example.com",
+        "action": "contact_submission_create",
+        "target": "contact_d86225b785701cec",
+        "ip": "::ffff:127.0.0.1",
+        "createdAt": "2026-06-09T06:58:50.146Z"
       },
       {
-        "id": "audit_f68c3416ca2f6ff7",
-        "actor": "zuppiosnacks176@gmail.com",
-        "action": "contact_inquiry_read",
-        "target": "contact_bede66ce31b52c7f",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:19:07.148Z"
+        "id": "audit_62d853da7c11fb9c",
+        "actor": "codex-test-newsletter-1780988329388@example.com",
+        "action": "subscriber_create",
+        "target": "snack-drop",
+        "ip": "::ffff:127.0.0.1",
+        "createdAt": "2026-06-09T06:58:49.809Z"
       },
       {
-        "id": "audit_735953ce94fc5391",
-        "actor": "zuppiosnacks176@gmail.com",
-        "action": "contact_inquiry_replied",
-        "target": "contact_bede66ce31b52c7f",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:19:04.767Z"
+        "id": "audit_25d7da8c6dd57bb2",
+        "actor": "akshat2709cv@gmail.com",
+        "action": "dealer_inquiry_create",
+        "target": "dealer_afb64718747d6a12",
+        "ip": "10.30.23.9",
+        "createdAt": "2026-06-09T06:39:49.025Z"
       },
       {
-        "id": "audit_37df654d6ac5369b",
-        "actor": "zuppiosnacks176@gmail.com",
-        "action": "contact_inquiry_replied",
-        "target": "contact_bede66ce31b52c7f",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:18:57.522Z"
+        "id": "audit_00c642c3114a1179",
+        "actor": "aksh270911@gmail.com",
+        "action": "contact_submission_create",
+        "target": "contact_b70b558ff8068575",
+        "ip": "10.29.249.3",
+        "createdAt": "2026-06-09T06:32:25.705Z"
       },
       {
-        "id": "audit_1c65668fc79e08a3",
+        "id": "audit_09fbe01706830a4c",
+        "actor": "aksh270911@gmail.com",
+        "action": "dealer_inquiry_create",
+        "target": "dealer_b054ed7b2fdea5e3",
+        "ip": "10.30.23.9",
+        "createdAt": "2026-06-09T06:31:08.070Z"
+      },
+      {
+        "id": "audit_a7b1d92ef862f23b",
         "actor": "zuppiosnacks176@gmail.com",
         "action": "login",
         "target": "admin",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:18:43.842Z"
+        "ip": "10.28.65.4",
+        "createdAt": "2026-06-09T06:25:04.992Z"
       },
       {
-        "id": "audit_5adaaaa5bfe1aea0",
-        "actor": "akshat2709cv@gmail.com",
-        "action": "contact_submission_create",
-        "target": "contact_bede66ce31b52c7f",
-        "ip": "::1",
-        "createdAt": "2026-06-08T08:18:23.813Z"
-      },
-      {
-        "id": "audit_39c7eb3f75bf97e3",
-        "actor": "akshat2709cv@gmail.com",
-        "action": "inquiry_create",
-        "target": "contact",
-        "ip": "::1",
-        "createdAt": "2026-06-08T07:35:09.685Z"
+        "id": "audit_450c4b4608b84926",
+        "actor": "zuppiosnacks176@gmail.com",
+        "action": "login",
+        "target": "admin",
+        "ip": "10.29.249.3",
+        "createdAt": "2026-06-09T06:24:51.108Z"
       }
     ],
-    "dealerInquiries": 1,
-    "wholesaleInquiries": 0
+    "dealerInquiries": 4,
+    "wholesaleInquiries": 1
   },
   "seo": {
     "home": {
@@ -1034,7 +1310,7 @@
         {
           "id": "potato-chips",
           "name": "Potato Chips",
-          "image": "/images/categories/potato-chips.svg",
+          "image": "/uploads/cms/1781685435134-51287de577ab981b-chatgpt-image-jun-17-2026-at-12-20-20-pm.png",
           "description": "Aloo Snack packs with crisp potato crunch and signature ZUPPIO flavors.",
           "status": "Available Now",
           "badge": "Available Now",
@@ -1044,7 +1320,7 @@
         {
           "id": "banana-chips",
           "name": "Banana Chips",
-          "image": "/images/categories/banana-chips.svg",
+          "image": "/images/product-categories/banana-chips-category-card.png",
           "description": "Crunchy banana chips crafted for traditional and modern snacking.",
           "status": "Coming Soon",
           "badge": "Future Expansion",
@@ -1054,7 +1330,7 @@
         {
           "id": "wafers",
           "name": "Wafers",
-          "image": "/images/categories/wafers.svg",
+          "image": "/images/product-categories/wafers-category-card.png",
           "description": "Light and crispy wafer snacks with exciting flavor possibilities.",
           "status": "Coming Soon",
           "badge": "Future Expansion",
@@ -1064,7 +1340,7 @@
         {
           "id": "ready-to-eat",
           "name": "Ready-To-Eat",
-          "image": "/images/categories/ready-to-eat.svg",
+          "image": "/images/product-categories/ready-to-eat-category-card.png",
           "description": "Convenient snack and meal solutions for everyday consumption.",
           "status": "Coming Soon",
           "badge": "Future Expansion",
@@ -2000,73 +2276,127 @@
       {
         "slug": "acceptance",
         "title": "Accuracy & Acceptance of Terms",
-        "preview": "By using ZUPPIO, you agree to our digital snack universe rules.",
-        "detail": "Welcome to the official website of Zuppio Snacks Private Limited operating under the brand name Zuppio.\n\nBy accessing, browsing, or using this website, you agree to follow and be bound by these Terms & Conditions, Privacy Policy, Disclaimer, and all applicable laws and regulations.",
+        "preview": "By using the ZUPPIO website, you agree to these terms and all related policies.",
+        "detail": "Welcome to the official website of Zuppio Snacks Private Limited operating under the brand name Zuppio.\n\nBy accessing, browsing, or using this website, you agree to follow and be bound by these Terms & Conditions, Privacy Policy, Disclaimer, and all applicable laws and regulations. If you do not agree with any part of these terms, you should not use this website.\n\nWe make reasonable efforts to keep the information on this website accurate, updated, and complete. However, product details, packaging, flavours, prices, availability, offers, images, and other information may change from time to time without prior notice.\n\nZuppio Snacks Private Limited reserves the right to update, modify, suspend, or remove any content from this website at any time. Continued use of the website after changes means you accept the updated terms.",
         "highlights": [
-          "Website use means acceptance of terms",
-          "Information may change anytime",
-          "Product details may vary"
+          "Website use means acceptance of all policies",
+          "Do not use the website if you disagree",
+          "Product and website information may change",
+          "Content may be updated or removed without notice",
+          "Continued use means acceptance of updated terms"
         ]
       },
       {
         "slug": "privacy",
         "title": "Privacy & Policies",
-        "preview": "Your privacy is important to us. By using this website.",
-        "detail": "At Zuppio Snacks Private Limited, we respect your privacy and are committed to protecting the personal information shared through our website.",
+        "preview": "Learn how Zuppio collects, uses, protects, and lawfully shares information submitted through the website.",
+        "detail": "At Zuppio Snacks Private Limited, we respect your privacy and are committed to protecting the personal information shared by users, customers, distributors, retailers, vendors, and visitors through our website.\n\nWe may collect basic information such as your name, mobile number, email address, city, business details, enquiry details, feedback, and other information voluntarily submitted through forms, calls, emails, WhatsApp, or website interactions.\n\nThis information may be used for:\n\nCustomer support and enquiry response\nDistributor, retailer, or business communication\nProduct feedback and service improvement\nMarketing communication, only where legally permitted\nOrder, supply, or business-related coordination\nWebsite performance and user experience improvement\n\nWe do not sell your personal information to third parties. We may share information only with trusted service providers, business partners, legal authorities, or internal teams when required for lawful business purposes.\n\nUsers may contact us to request correction, update, or deletion of their personal information, subject to applicable law and business/legal record requirements. The DPDP framework emphasizes lawful purpose, consent, transparency, data minimization, and user rights such as correction and erasure.\n\nContact for privacy-related queries:\nEmail: zuppiosnacks.pvt.ltd@gmail.com\nAddress: A433, Sudamapuri, Vijay Nagar, Ghaziabad, Uttar Pradesh - 201001",
         "highlights": [
-          "Basic user data may be collected",
+          "Voluntarily submitted personal data may be collected",
+          "Information supports enquiries, business communication, and improvement",
           "Personal data is not sold",
-          "Users may request data correction or deletion"
+          "Sharing is limited to lawful business or legal needs",
+          "Users may request correction, updates, or deletion"
         ]
       },
       {
         "slug": "disclaimer",
-        "title": "Disclaimer & Limitations or Uses of Site",
-        "preview": "All content is provided as available without guarantees.",
-        "detail": "The content available on this website is provided for general information, brand awareness, product information, business enquiries, and customer communication purposes only.",
+        "title": "Disclaimer & Limitations / Use of Site",
+        "preview": "Website content is provided for general information, and users must use the platform lawfully and responsibly.",
+        "detail": "The content available on this website is provided for general information, brand awareness, product information, business enquiries, and customer communication purposes only.\n\nWhile we try to provide accurate and updated information, Zuppio Snacks Private Limited does not guarantee that the website will always be error-free, uninterrupted, fully updated, or free from technical issues.\n\nProduct images shown on the website are for representation purposes only. Actual product packaging, colour, weight, appearance, design, or availability may vary due to printing, manufacturing, supply chain, or design updates.\n\nUsers agree not to misuse this website in any way, including but not limited to:\n\nCopying website content without permission\nUploading harmful code, spam, or malware\nMisrepresenting identity or business details\nUsing the website for illegal or fraudulent purposes\nDamaging, disabling, or interfering with website operations\nUsing brand assets, images, or product information without written approval\n\nZuppio Snacks Private Limited shall not be liable for any direct, indirect, incidental, consequential, or business loss arising from the use or inability to use this website, reliance on website content, technical errors, third-party links, or changes in product information.",
         "highlights": [
           "Content is for general information only",
-          "Website may contain errors",
-          "Website misuse is prohibited"
+          "Accuracy and uninterrupted access are not guaranteed",
+          "Product images and details may vary",
+          "Illegal, harmful, or unauthorized use is prohibited",
+          "Company liability is limited for website-related losses"
         ]
       },
       {
         "slug": "Trademarks",
         "title": "Trademarks",
         "preview": "All trademarks, logos, and brand elements displayed on this website are the property of Zuppio Snacks Private Limited.",
-        "detail": "The name Zuppio, brand logo, product names, flavour names, packaging designs, taglines, graphics, icons, labels, slogans, and other brand elements displayed on this website are the property of Zuppio Snacks Private Limited.",
+        "detail": "The name Zuppio, brand logo, product names, flavour names, packaging designs, taglines, graphics, icons, labels, slogans, and other brand elements displayed on this website are the property of Zuppio Snacks Private Limited, unless otherwise stated.\n\nNo visitor, retailer, distributor, agency, vendor, or third party is allowed to use, reproduce, copy, modify, publish, distribute, advertise, or commercially exploit any Zuppio trademark, brand name, design, or logo without prior written permission from the company.\n\nAny unauthorized use of our brand identity may lead to legal action under applicable trademark and intellectual property laws.",
         "highlights": [
-          "Zuppio brand assets are protected",
-          "Unauthorized use is prohibited",
-          "Written permission is required"
+          "Zuppio brand elements belong to the company",
+          "Reproduction or commercial use requires written permission",
+          "Restrictions apply to visitors and business partners",
+          "Unauthorized brand use is prohibited",
+          "Trademark misuse may result in legal action"
         ]
       },
       {
         "slug": "copyright",
-        "title": "Copyright",
-        "preview": "Original content belongs to the ZUPPIO brand and identity is officially protected.",
-        "detail": "All content on this website, including text, images, product photos, packaging designs, graphics, videos, illustrations, layouts, website design, written content, marketing material, and downloadable content, is owned by or licensed to Zuppio Snacks Private Limited.",
+        "title": "Copyrights",
+        "preview": "Zuppio website content is protected and may only be used for permitted personal or informational purposes.",
+        "detail": "All content on this website, including text, images, product photos, packaging designs, graphics, videos, illustrations, layouts, website design, written content, marketing material, and downloadable content, is owned by or licensed to Zuppio Snacks Private Limited, unless mentioned otherwise.\n\nUsers may view website content for personal or informational purposes only. No content may be copied, reproduced, republished, uploaded, posted, transmitted, edited, sold, or used for commercial purposes without written consent from Zuppio Snacks Private Limited.\n\nIf any third-party content, image, or reference is used on the website, it remains the property of its respective owner.",
         "highlights": [
-          "Website content is company-owned",
-          "Copying without permission is prohibited",
-          "Commercial use is restricted"
+          "Website content is owned by or licensed to Zuppio",
+          "Viewing is limited to personal or informational purposes",
+          "Copying or republication requires written consent",
+          "Commercial use requires written consent",
+          "Third-party content remains with its owner"
         ]
       },
       {
         "slug": "jurisdictions",
-        "title": "Jurisdictions",
-        "preview": "Legal matters follow applicable local laws.",
-        "detail": "These Terms & Conditions, Privacy Policy, Disclaimer, and other website-related matters shall be governed by the laws of India.",
+        "title": "Jurisdiction",
+        "preview": "Website-related legal matters are governed by Indian law and the competent courts in Ghaziabad.",
+        "detail": "These Terms & Conditions, Privacy Policy, Disclaimer, and other website-related matters shall be governed by the laws of India.\n\nAny dispute, claim, or legal matter arising out of the use of this website, brand communication, product information, or related business interaction shall be subject to the jurisdiction of the competent courts located in Ghaziabad, Uttar Pradesh, India, unless otherwise required by applicable law.\n\nZuppio Snacks Private Limited reserves the right to take appropriate legal action in case of misuse of website content, brand assets, trademarks, copyrighted material, misleading representation, fraud, or violation of these terms.",
         "highlights": [
           "Governed by Indian laws",
           "Ghaziabad courts have jurisdiction",
-          "Legal action may be taken for misuse"
+          "Applies to website, brand, product, and business interactions",
+          "Legal action may be taken for content or intellectual-property misuse",
+          "Fraud, misleading representation, and violations may be pursued"
         ]
       }
     ]
   },
   "submissions": {
     "contacts": [
+      {
+        "id": "contact_eb23487ebbb1d25e",
+        "type": "contact",
+        "source": "Contact Form",
+        "name": "akshat",
+        "email": "aksh270911@gmail.com",
+        "phone": "1738293726",
+        "subject": "",
+        "message": "jsfvjasbd",
+        "ip": "10.29.249.3",
+        "status": "Read",
+        "createdAt": "2026-06-09T07:10:07.712Z",
+        "updatedAt": "2026-06-09T07:11:13.635Z"
+      },
+      {
+        "id": "contact_d86225b785701cec",
+        "type": "contact",
+        "source": "Contact Form",
+        "name": "Codex Test",
+        "email": "codex-test-contact-1780988329388@example.com",
+        "phone": "7011992634",
+        "subject": "Form status test",
+        "message": "Testing contact form status handling.",
+        "ip": "::ffff:127.0.0.1",
+        "status": "New",
+        "createdAt": "2026-06-09T06:58:49.861Z",
+        "updatedAt": "2026-06-09T06:58:49.861Z"
+      },
+      {
+        "id": "contact_b70b558ff8068575",
+        "type": "contact",
+        "source": "Contact Form",
+        "name": "aki",
+        "email": "aksh270911@gmail.com",
+        "phone": "986363754",
+        "subject": "nothing",
+        "message": "na",
+        "ip": "10.29.249.3",
+        "status": "New",
+        "createdAt": "2026-06-09T06:32:22.953Z",
+        "updatedAt": "2026-06-09T06:32:22.953Z"
+      },
       {
         "id": "contact_96e53ee5245bbf59",
         "type": "contact",
@@ -2098,6 +2428,60 @@
     ],
     "dealerInquiries": [
       {
+        "id": "dealer_05a3c2d84fccc3c3",
+        "type": "dealer",
+        "source": "Where To Buy Dealer Inquiry",
+        "name": "Codex Test",
+        "businessName": "Codex Test Store",
+        "email": "codex-test-dealer-1780988329388@example.com",
+        "phone": "7011992634",
+        "city": "Noida",
+        "state": "Uttar Pradesh",
+        "address": "",
+        "businessType": "",
+        "message": "Testing dealer form status handling.",
+        "ip": "::ffff:127.0.0.1",
+        "status": "New",
+        "createdAt": "2026-06-09T06:58:50.188Z",
+        "updatedAt": "2026-06-09T06:58:50.188Z"
+      },
+      {
+        "id": "dealer_afb64718747d6a12",
+        "type": "dealer",
+        "source": "Where To Buy Dealer Inquiry",
+        "name": "hdwjhd",
+        "businessName": "nbsbds",
+        "email": "akshat2709cv@gmail.com",
+        "phone": "634864638",
+        "city": "ghaziabad",
+        "state": "uttarpradesh",
+        "address": "",
+        "businessType": "Wholesaler",
+        "message": "heh",
+        "ip": "10.30.23.9",
+        "status": "New",
+        "createdAt": "2026-06-09T06:39:46.275Z",
+        "updatedAt": "2026-06-09T06:39:46.275Z"
+      },
+      {
+        "id": "dealer_b054ed7b2fdea5e3",
+        "type": "dealer",
+        "source": "Where To Buy Dealer Inquiry",
+        "name": "hero",
+        "businessName": "batballcompany",
+        "email": "aksh270911@gmail.com",
+        "phone": "2637894361",
+        "city": "ghaziabad",
+        "state": "uttarpradesh",
+        "address": "",
+        "businessType": "Retailer",
+        "message": "heli i am batball",
+        "ip": "10.30.23.9",
+        "status": "New",
+        "createdAt": "2026-06-09T06:31:05.319Z",
+        "updatedAt": "2026-06-09T06:31:05.319Z"
+      },
+      {
         "id": "dealer_0fe6c1e441378aa7",
         "type": "dealer",
         "source": "Where To Buy Dealer Inquiry",
@@ -2116,7 +2500,45 @@
         "updatedAt": "2026-06-08T08:20:31.494Z"
       }
     ],
-    "wholesaleInquiries": [],
-    "newsletter": []
+    "wholesaleInquiries": [
+      {
+        "id": "wholesale_9b077f6fbb501181",
+        "type": "wholesale",
+        "source": "Where To Buy Wholesale Inquiry",
+        "name": "Codex Test",
+        "businessName": "Codex Test Wholesale",
+        "email": "codex-test-wholesale-1780988329388@example.com",
+        "phone": "7011992634",
+        "productInterest": "Chips",
+        "quantityRequirement": "10 cartons",
+        "message": "Testing wholesale form status handling.",
+        "ip": "::ffff:127.0.0.1",
+        "status": "New",
+        "createdAt": "2026-06-09T06:58:50.420Z",
+        "updatedAt": "2026-06-09T06:58:50.420Z"
+      }
+    ],
+    "newsletter": [
+      {
+        "id": "subscriber_3a7aedbdd1cb63ec",
+        "email": "codex-test-newsletter-1780988329388@example.com",
+        "status": "Active",
+        "createdAt": "2026-06-09T06:58:49.727Z"
+      },
+      {
+        "id": "subscriber_fe953dc2a0edb661",
+        "email": "aksh270911@gmail.com",
+        "status": "Active",
+        "createdAt": "2026-06-09T06:28:08.163Z"
+      }
+    ]
+  },
+  "blogPage": {
+    "hero": {
+      "label": "OUR BLOGS",
+      "title": "ZUPPIO BITES",
+      "subtitle": "Discover tasty stories, snack ideas, and everything behind your favorite Zuppio snacks."
+    },
+    "heroImageNote": "Hero artwork is fixed in the website design: left chips bowl and right ZUPPIO packet stay the same. Edit only the hero text fields above from admin."
   }
 }

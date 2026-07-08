@@ -1,49 +1,75 @@
     </main>
 
-    <footer class="footer">
-      <div class="footer-brand">
-        <a class="footer-logo" href="/">
-          <span></span>
-          ZUPPIO
-        </a>
-        <p><%= siteFooter && siteFooter.brandText ? siteFooter.brandText : "Bold chips, clean design, and modern snack energy for India's next-gen crunch crowd." %></p>
+    <%
+      function footerCssImage(value) {
+        const url = String(value || "").trim();
+        if (!/^(\/images\/|\/uploads\/cms\/|https?:\/\/)/i.test(url)) return "";
+        return url.replace(/["'()\\]/g, "");
+      }
+      const footerBackgroundImage = footerCssImage(siteFooter && siteFooter.backgroundImage);
+    %>
 
-        <div class="social-links" aria-label="Social media links">
-          <% (siteFooter && siteFooter.socialLinks ? siteFooter.socialLinks : []).filter(function(item) { return item.visible !== false; }).forEach(function(item) { %>
-            <a class="social-link" href="<%= item.url %>" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO <%= item.label %>">
-              <img class="social-img" src="<%= item.icon %>" alt="" />
-            </a>
-          <% }) %>
+    <div class="footer-shell">
+      <footer class="footer" style="<%= footerBackgroundImage ? "--footer-image: url('" + footerBackgroundImage + "')" : "" %>">
+        <div class="footer-product-scene" aria-hidden="true">
+          <img class="footer-product-showcase" src="/images/zuppio-footer-product-cutout.png" alt="" />
         </div>
-      </div>
 
-      <nav class="footer-links" aria-label="Footer quick links">
-        <h2>Explore</h2>
-        <div>
-          <% (siteFooter && siteFooter.exploreLinks ? siteFooter.exploreLinks : pages).filter(function(item) { return item.visible !== false; }).forEach(function(item) { %>
-            <a href="<%= item.href %>"><%= item.label %></a>
-          <% }) %>
+        <div class="footer-brand">
+          <a class="footer-logo" href="/" aria-label="ZUPPIO home">
+            <img src="<%= siteHeader && siteHeader.logo ? siteHeader.logo : '/images/zuppio-navbar-logo.png' %>" alt="ZUPPIO" />
+          </a>
+          <p><%= siteFooter && siteFooter.brandText ? siteFooter.brandText : "Bold chips, clean design, and modern snack energy for India's next-gen crunch crowd." %></p>
+
+          <div class="social-links" aria-label="Social media links">
+            <% (siteFooter && siteFooter.socialLinks ? siteFooter.socialLinks : []).filter(function(item) { return item.visible !== false; }).forEach(function(item) { %>
+              <a class="social-link" href="<%= item.url %>" target="_blank" rel="noopener noreferrer" aria-label="Open ZUPPIO <%= item.label %>">
+                <img class="social-img" src="<%= item.icon %>" alt="" />
+              </a>
+            <% }) %>
+          </div>
         </div>
-      </nav>
 
-      <div class="footer-contact">
-        <h2>Connect</h2>
-        <a href="tel:<%= siteFooter && siteFooter.phone ? siteFooter.phone.replace(/\s/g, '') : '+917011992634' %>">
-          <i data-lucide="phone"></i>
-          <%= siteFooter && siteFooter.phone ? siteFooter.phone : "+91 7011992634" %>
-        </a>
-        <a href="mailto:<%= siteFooter && siteFooter.email ? siteFooter.email : 'zuppiosnacks.pvt.ltd@gmail.com' %>">
-          <i data-lucide="mail"></i>
-          <%= siteFooter && siteFooter.email ? siteFooter.email : "zuppiosnacks.pvt.ltd@gmail.com" %>
-        </a>
-        <a class="button primary" href="/contact">
-          Contact Team
-          <i data-lucide="arrow-right"></i>
-        </a>
+        <nav class="footer-links" aria-label="Footer quick links">
+          <h2>Explore</h2>
+          <div>
+            <% (siteFooter && siteFooter.exploreLinks ? siteFooter.exploreLinks : pages).filter(function(item) { return item.visible !== false; }).forEach(function(item) { %>
+              <a href="<%= item.href %>">
+                <span><%= item.label %></span>
+                <% if (item.label === "Term") { %><span class="footer-mobile-link-label">Terms &amp; Conditions</span><% } %>
+              </a>
+            <% }) %>
+          </div>
+        </nav>
+
+        <div class="footer-contact">
+          <h2>Connect</h2>
+          <a href="tel:<%= siteFooter && siteFooter.phone ? siteFooter.phone.replace(/\s/g, '') : '+917011992634' %>">
+            <i data-lucide="phone"></i>
+            <%= siteFooter && siteFooter.phone ? siteFooter.phone : "+91 7011992634" %>
+          </a>
+          <a href="mailto:<%= siteFooter && siteFooter.email ? siteFooter.email : 'zuppiosnacks.pvt.ltd@gmail.com' %>">
+            <i data-lucide="mail"></i>
+            <%= siteFooter && siteFooter.email ? siteFooter.email : "zuppiosnacks.pvt.ltd@gmail.com" %>
+          </a>
+          <a class="button primary" href="/contact">
+            Contact Team
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+
+        <div class="footer-orange-edge" aria-hidden="true"></div>
+      </footer>
+
+      <div class="footer-legal">
+        <p>&copy; <%= new Date().getFullYear() %> <%= siteFooter && siteFooter.copyrightText ? siteFooter.copyrightText : "ZUPPIO Snacks Private Limited. All rights reserved." %></p>
+        <nav aria-label="Legal links">
+          <a href="/terms/privacy">Privacy Policy</a>
+          <span aria-hidden="true"></span>
+          <a href="/terms">Terms &amp; Conditions</a>
+        </nav>
       </div>
-
-      <p class="footer-bottom">&copy; <%= new Date().getFullYear() %> <%= siteFooter && siteFooter.copyrightText ? siteFooter.copyrightText : "ZUPPIO Snacks Private Limited. All rights reserved." %></p>
-    </footer>
+    </div>
 
     <a class="whatsapp-float" href="<%= siteFooter && siteFooter.whatsappLink ? siteFooter.whatsappLink : 'https://wa.me/917011992634?text=Hello%20ZUPPIO%20Team%2C%20I%20want%20to%20know%20more%20about%20your%20products' %>" target="_blank" rel="noopener noreferrer" aria-label="Chat with ZUPPIO on WhatsApp">
       <i data-lucide="message-circle"></i>

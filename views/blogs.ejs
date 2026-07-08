@@ -1,22 +1,124 @@
 <%- include("partials/header") %>
 
-<%- include("partials/page-hero") %>
+<%
+  const blogPosts = Array.isArray(managedBlogPosts) ? managedBlogPosts : [];
+  const fallbackImages = [
+    "/images/home-hero-zuppio.png",
+    "/images/banner.jpeg",
+    "/images/yellow.png",
+    "/images/purple.png",
+    "/images/zuppio-front.jpeg",
+    "/images/home-hero-zuppio.jpeg"
+  ];
+  const categoryAliases = {
+    "Brand Story": "Product Stories",
+    "Snack Culture": "Lifestyle",
+    "Quality": "Quality & Process",
+    "Food Ideas": "Lifestyle",
+    "Product Updates": "Product Stories"
+  };
+  const categories = ["All Blogs", "Recipes", "Product Stories", "Quality & Process", "Lifestyle", "Business & Partners"];
+  const heroContent = blogPageContent && blogPageContent.hero ? blogPageContent.hero : {};
+  const heroLabel = heroContent.label || "OUR BLOGS";
+  const heroTitle = heroContent.title || "ZUPPIO BITES";
+  const heroSubtitle = heroContent.subtitle || "Discover tasty stories, snack ideas, and everything behind your favorite Zuppio snacks.";
+  function displayCategory(category) {
+    return categoryAliases[category] || category || "Product Stories";
+  }
+  function formatDate(index) {
+    const date = new Date(2024, 4, Math.max(1, 20 - (index * 2)));
+    return date.toLocaleDateString("en-US", { month: "short", day: "2-digit", year: "numeric" });
+  }
+  function readTime(index) {
+    return `${3 + (index % 3)} min read`;
+  }
+  const postsPerPage = 6;
+  const totalPages = Math.max(1, Math.ceil(blogPosts.length / postsPerPage));
+  const currentPage = Math.min(Math.max(Number(currentBlogPage) || 1, 1), totalPages);
+  const pageStart = (currentPage - 1) * postsPerPage;
+  const visibleBlogPosts = blogPosts.slice(pageStart, pageStart + postsPerPage);
+  let paginationItems = [];
+  if (totalPages <= 5) {
+    paginationItems = Array.from({ length: totalPages }, function(_, index) { return index + 1; });
+  } else if (currentPage <= 3) {
+    paginationItems = [1, 2, 3, "ellipsis", totalPages];
+  } else if (currentPage >= totalPages - 2) {
+    paginationItems = [1, "ellipsis", totalPages - 2, totalPages - 1, totalPages];
+  } else {
+    paginationItems = [1, "ellipsis-left", currentPage, "ellipsis-right", totalPages];
+  }
+%>
 
-<section class="section blog-grid">
-  <% managedBlogPosts.forEach(function(blog, index) { %>
-    <a class="blog-card glass-card scroll-reveal flavor-<%= ["purple", "yellow", "green"][index % 3] %>" href="/blogs/<%= blog.slug %>" style="--delay: <%= index * 90 %>ms">
-      <img src="<%= blog.image || '/images/home-hero-zuppio.png' %>" alt="<%= blog.title %>" />
-      <h2><%= blog.title %></h2>
-      <strong class="blog-read-more">
-        Read More
-        <i data-lucide="arrow-up-right"></i>
-      </strong>
-    </a>
-  <% }) %>
-  <% if (!managedBlogPosts.length) { %>
-    <article class="blog-card glass-card scroll-reveal flavor-purple">
-      <h2>No posts yet</h2>
-    </article>
+<section class="blog-list-hero" aria-labelledby="blogs-page-title">
+  <div class="blog-list-hero-inner">
+    <p><%= heroLabel %></p>
+    <h1 id="blogs-page-title"><%= heroTitle %></h1>
+    <span><%= heroSubtitle %></span>
+  </div>
+</section>
+
+<section class="blog-catalog section" aria-label="ZUPPIO blog posts">
+  <div class="blog-toolbar">
+    <div class="blog-filter-row" aria-label="Blog categories">
+      <% categories.forEach(function(category, index) { %>
+        <a class="blog-filter-pill <%= index === 0 ? 'active' : '' %>" href="/blogs<%= index === 0 ? '' : '#blog-grid' %>"><%= category %></a>
+      <% }) %>
+    </div>
+    <label class="blog-search" aria-label="Search blogs">
+      <input type="search" placeholder="Search blogs..." />
+      <i data-lucide="search"></i>
+    </label>
+  </div>
+
+  <div class="blog-grid blog-grid-fmcg" id="blog-grid">
+    <% visibleBlogPosts.forEach(function(blog, pageIndex) { %>
+      <%
+        const index = pageStart + pageIndex;
+        const cardImage = blog.image || fallbackImages[index % fallbackImages.length];
+        const category = displayCategory(blog.category);
+      %>
+      <a class="blog-card blog-card-fmcg scroll-reveal" href="/blogs/<%= blog.slug %>" style="--delay: <%= index * 70 %>ms">
+        <img src="<%= cardImage %>" alt="<%= blog.title %>" />
+        <div class="blog-card-body">
+          <div class="blog-card-meta">
+            <span class="blog-category-badge"><%= category %></span>
+            <small><%= formatDate(index) %> &bull; <%= readTime(index) %></small>
+          </div>
+          <h2><%= blog.title %></h2>
+          <p><%= blog.description || "Fresh ZUPPIO stories, product updates, and snack ideas for every crunchy moment." %></p>
+          <strong class="blog-read-more">
+            Read More
+            <i data-lucide="arrow-up-right"></i>
+          </strong>
+        </div>
+      </a>
+    <% }) %>
+    <% if (!blogPosts.length) { %>
+      <article class="blog-card blog-card-fmcg blog-empty-card">
+        <div class="blog-card-body">
+          <h2>No posts yet</h2>
+          <p>New ZUPPIO stories will appear here soon.</p>
+        </div>
+      </article>
+    <% } %>
+  </div>
+
+  <% if (totalPages > 1) { %>
+    <nav class="blog-pagination" aria-label="Blog pagination">
+      <% paginationItems.forEach(function(item) { %>
+        <% if (typeof item === "number") { %>
+          <a class="<%= item === currentPage ? 'active' : '' %>" href="/blogs?page=<%= item %>#blog-grid" aria-label="Go to blog page <%= item %>"><%= item %></a>
+        <% } else { %>
+          <span aria-hidden="true">...</span>
+        <% } %>
+      <% }) %>
+      <% if (currentPage < totalPages) { %>
+        <a class="blog-pagination-next" href="/blogs?page=<%= currentPage + 1 %>#blog-grid">
+          Next
+          <i data-lucide="chevron-right"></i>
+        </a>
+      <% } %>
+    </nav>
   <% } %>
 </section>
 

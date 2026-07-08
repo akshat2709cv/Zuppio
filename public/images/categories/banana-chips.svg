@@ -1,20 +1,30 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
   <title id="title">Banana chips category</title>
-  <desc id="desc">Banana chips and banana slices.</desc>
+  <desc id="desc">Banana chips with green leaves and a small banana.</desc>
   <defs>
-    <linearGradient id="bg" x1="0" x2="1" y1="0" y2="1">
-      <stop offset="0" stop-color="#403200"/>
-      <stop offset="1" stop-color="#07010f"/>
+    <linearGradient id="banana" x1="0" x2="1">
+      <stop offset="0" stop-color="#ffe57a"/>
+      <stop offset="1" stop-color="#ffc52b"/>
     </linearGradient>
+    <filter id="shadow" x="-25%" y="-25%" width="150%" height="150%">
+      <feDropShadow dx="0" dy="16" stdDeviation="15" flood-color="#8c6b00" flood-opacity=".18"/>
+    </filter>
   </defs>
-  <rect width="640" height="420" rx="46" fill="url(#bg)"/>
-  <circle cx="158" cy="98" r="94" fill="#ffcc00" opacity=".18"/>
-  <path d="M176 278c96-8 175-80 201-188 34 56 20 151-48 214-60 56-138 72-199 43 14-40 28-60 46-69z" fill="#ffcc00"/>
-  <path d="M210 286c71-20 126-74 151-151 10 52-16 117-72 156-36 25-76 33-115 28 9-15 20-26 36-33z" fill="#ffe981"/>
-  <g fill="#ffe88c" stroke="#9b6c00" stroke-width="5">
-    <ellipse cx="160" cy="312" rx="58" ry="25" transform="rotate(-12 160 312)"/>
-    <ellipse cx="310" cy="330" rx="64" ry="28" transform="rotate(8 310 330)"/>
-    <ellipse cx="472" cy="298" rx="60" ry="26" transform="rotate(-15 472 298)"/>
+  <g filter="url(#shadow)">
+    <ellipse cx="310" cy="318" rx="190" ry="30" fill="#eabf3d" opacity=".18"/>
+    <path d="M270 152c88 60 169 47 210-32 20 70-33 147-116 151-67 4-122-36-146-93z" fill="url(#banana)" stroke="#c98612" stroke-width="5"/>
+    <path d="M460 116c22 10 30 24 22 43" fill="none" stroke="#7c4b12" stroke-width="9" stroke-linecap="round"/>
+    <g fill="#3d9b39">
+      <path d="M210 112c-58 2-94 34-108 82 54 2 94-28 108-82z"/>
+      <path d="M252 93c-56-21-100-8-132 31 48 24 95 13 132-31z"/>
+      <path d="M260 126c-28-44-68-58-116-46 22 44 63 62 116 46z"/>
+    </g>
+    <g fill="#ffe076" stroke="#d79919" stroke-width="4">
+      <ellipse cx="122" cy="300" rx="58" ry="23" transform="rotate(-10 122 300)"/>
+      <ellipse cx="188" cy="320" rx="60" ry="24" transform="rotate(8 188 320)"/>
+      <ellipse cx="254" cy="296" rx="64" ry="25" transform="rotate(-6 254 296)"/>
+      <ellipse cx="340" cy="322" rx="60" ry="24" transform="rotate(10 340 322)"/>
+      <ellipse cx="432" cy="298" rx="66" ry="25" transform="rotate(-8 432 298)"/>
+    </g>
   </g>
-  <path d="M486 104c-32 12-66 36-84 70" stroke="#22c55e" stroke-width="16" stroke-linecap="round" opacity=".9"/>
 </svg>

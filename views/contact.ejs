@@ -1,6 +1,22 @@
 <%- include("partials/header") %>
 
-<%- include("partials/page-hero", { pageHero: contactPage.hero }) %>
+<div class="terms-page shared-snack-hero-wrap">
+  <%- include("partials/snack-page-hero", {
+    snackHero: {
+      id: "contact-page-title",
+      breadcrumbTitle: contactPage.hero.breadcrumbTitle,
+      commandTitle: contactPage.hero.commandTitle,
+      pageTitle: contactPage.hero.pageTitle,
+      intro: "Connect with the ZUPPIO team for customer support, products, retail, distribution, and business enquiries.",
+      badgesLabel: "Contact options",
+      badges: [
+        { icon: "headphones", label: "Helpful\nSupport" },
+        { icon: "message-circle", label: "WhatsApp\nReady" },
+        { icon: "handshake", label: "Business\nEnquiries" }
+      ]
+    }
+  }) %>
+</div>
 
 <section class="section contact-details-section">
   <div class="contact-info-panel scroll-reveal">

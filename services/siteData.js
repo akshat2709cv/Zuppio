@@ -47,10 +47,10 @@ const productCategories = [
     slug: "potato-chips",
     name: "Potato Chips",
     title: "Potato Chips",
-    image: "/images/categories/potato-chips.svg",
-    banner: "/images/categories/potato-chips.svg",
+    image: "/images/product-categories/potato-chips-category-banner.png",
+    banner: "/images/product-categories/potato-chips-category-banner.png",
     summary: "Aloo Snack packs with crisp potato crunch and bold ZUPPIO flavors.",
-    description: "Crisp aloo snack packs made for everyday munching, tea breaks, and party bowls with bold ZUPPIO flavor energy.",
+    description: "Crispy, flavorful aloo snacks for every tea break, party, and everyday craving.",
     status: "Available",
     featured: true,
     products: [
@@ -74,21 +74,20 @@ const productCategories = [
     slug: "beverages",
     name: "Beverages",
     title: "Beverages",
-    image: "/images/categories/beverages.svg",
-    banner: "/images/categories/beverages.svg",
+    image: "/images/product-categories/beverages-category-banner.png",
+    banner: "/images/product-categories/beverages-category-banner.png",
     summary: "Refreshing drinks planned for everyday moments and high-energy occasions.",
     description: "Refreshing beverage ideas are being shaped for everyday hydration, energy moments, and flavorful Indian refreshment.",
     status: "Coming Soon",
     products: [],
     groups: [
       {
-        name: "Coming Soon",
+        name: "Beverage Range",
         products: [
-          { name: "Zeera Drinks", status: "Coming Soon" },
-          { name: "Energy Drinks", status: "Coming Soon" },
-          { name: "Tighter Drinks", status: "Coming Soon" },
-          { name: "Water", status: "Coming Soon" },
-          { name: "Aam Papad", status: "Coming Soon" }
+          { name: "Cola Drink", status: "Coming Soon" },
+          { name: "Orange Drink", status: "Coming Soon" },
+          { name: "Energy Drink", status: "Coming Soon" },
+          { name: "Lemon Soda", status: "Coming Soon" }
         ]
       }
     ]
@@ -98,7 +97,7 @@ const productCategories = [
     slug: "biscuit",
     name: "Biscuit",
     title: "Biscuit",
-    image: "/images/categories/biscuit.svg",
+    image: "/images/product-categories/biscuit-category-lineup.png",
     banner: "/images/categories/biscuit.svg",
     summary: "Baked, cream, cookie, and wafer biscuit formats for future snack shelves.",
     description: "A future biscuit range covering baked, cream, cookie, and wafer formats for simple, reliable snack shelves.",
@@ -108,10 +107,12 @@ const productCategories = [
       {
         name: "Biscuit Range",
         products: [
-          { name: "Baked Biscuit", status: "Coming Soon" },
-          { name: "Cream Biscuit", status: "Coming Soon" },
-          { name: "Cookies", status: "Coming Soon" },
-          { name: "Wafer Biscuits", status: "Coming Soon" }
+          { name: "Chocolate Cream Biscuit", status: "Coming Soon" },
+          { name: "Orange Cream Biscuit", status: "Coming Soon" },
+          { name: "Digestive Biscuits", status: "Coming Soon" },
+          { name: "Elaichi Cream Biscuit", status: "Coming Soon" },
+          { name: "Homemade Cookies", status: "Coming Soon" },
+          { name: "Coconut Biscuit", status: "Coming Soon" }
         ]
       }
     ]
@@ -121,18 +122,18 @@ const productCategories = [
     slug: "banana-chips",
     name: "Banana Chips",
     title: "Banana Chips",
-    image: "/images/categories/banana-chips.svg",
+    image: "/images/product-categories/banana-chips-category-card.png",
     banner: "/images/categories/banana-chips.svg",
-    summary: "Crunchy banana chips with classic salted and aloo-inspired ideas.",
-    description: "Crispy banana chips are planned for classic salted crunch and ZUPPIO-style flavor twists.",
+    summary: "Crunchy banana chips with salted and masala snack flavors.",
+    description: "Crispy banana chips are planned for classic salted crunch and masala-style flavor twists.",
     status: "Coming Soon",
     products: [],
     groups: [
       {
-        name: "Coming Soon",
+        name: "Banana Chips Range",
         products: [
           { name: "Salted Banana Chips", status: "Coming Soon" },
-          { name: "Aloo Banana Chips", status: "Coming Soon" }
+          { name: "Masala Banana Chips", status: "Coming Soon" }
         ]
       }
     ]
@@ -142,7 +143,7 @@ const productCategories = [
     slug: "wafers",
     name: "Wafers",
     title: "Wafers",
-    image: "/images/categories/wafers.svg",
+    image: "/images/product-categories/wafers-category-card.png",
     banner: "/images/categories/wafers.svg",
     summary: "Light wafer snacks with the familiar ZUPPIO flavor personality.",
     description: "Light, crisp wafer snacks are planned with familiar ZUPPIO flavor energy and easy shareability.",
@@ -152,9 +153,10 @@ const productCategories = [
       {
         name: "Wafer Flavors",
         products: [
-          { name: "Seedha Simple Wafers", status: "Coming Soon" },
-          { name: "Mast Masaledar Wafers", status: "Coming Soon" },
-          { name: "Italian Tadka Wafers", status: "Coming Soon" }
+          { name: "Chocolate Wafers", status: "Coming Soon" },
+          { name: "Strawberry Wafers", status: "Coming Soon" },
+          { name: "Pineapple Wafers", status: "Coming Soon" },
+          { name: "Orange Wafers", status: "Coming Soon" }
         ]
       }
     ]
@@ -164,9 +166,9 @@ const productCategories = [
     slug: "ready-to-eat",
     name: "Ready-To-Eat",
     title: "Ready-To-Eat",
-    image: "/images/categories/ready-to-eat.svg",
+    image: "/images/product-categories/ready-to-eat-category-card.png",
     banner: "/images/categories/ready-to-eat.svg",
-    summary: "Convenient meal and beverage formats for fast, everyday consumption.",
+    summary: "Convenient ready-to-eat meal and dessert formats for everyday consumption.",
     description: "Convenient ready-to-eat food ideas are being prepared for quick meals, travel, and busy everyday routines.",
     status: "Coming Soon",
     products: [],
@@ -174,10 +176,9 @@ const productCategories = [
       {
         name: "Meal Range",
         products: [
-          { name: "Poha", status: "Coming Soon" },
           { name: "Rajma Chawal", status: "Coming Soon" },
-          { name: "Noodles", status: "Coming Soon" },
-          { name: "Creamy Chai Coffee", status: "Coming Soon" }
+          { name: "Poha", status: "Coming Soon" },
+          { name: "Gulab Jamun", status: "Coming Soon" }
         ]
       }
     ]
@@ -204,6 +205,29 @@ function normalizeProductCategory(category = {}, fallback = {}) {
   const title = category.title || category.name || fallback.title || fallback.name || "Product Category";
   const status = category.status || fallback.status || "Coming Soon";
   const groups = Array.isArray(category.groups) ? category.groups : fallback.groups || [];
+  const categoryBannerMigrations = {
+    "potato-chips": {
+      old: "/images/categories/potato-chips.svg",
+      next: "/images/product-categories/potato-chips-category-banner.png"
+    },
+    beverages: {
+      old: "/images/categories/beverages.svg",
+      next: "/images/product-categories/beverages-category-banner.png"
+    }
+  };
+  const categoryImageMigrations = {
+    ...categoryBannerMigrations,
+    biscuit: {
+      old: "/images/categories/biscuit.svg",
+      next: "/images/product-categories/biscuit-category-lineup.png"
+    }
+  };
+  const imageValue = category.image || fallback.image || category.banner || fallback.banner || "";
+  const imageMigration = categoryImageMigrations[slug];
+  const image = imageMigration && imageValue === imageMigration.old ? imageMigration.next : imageValue;
+  const bannerValue = category.banner || fallback.banner || category.image || fallback.image || "";
+  const bannerMigration = categoryBannerMigrations[slug];
+  const banner = bannerMigration && bannerValue === bannerMigration.old ? bannerMigration.next : bannerValue;
   const products = Array.isArray(category.products)
     ? category.products
     : Array.isArray(fallback.products)
@@ -219,8 +243,8 @@ function normalizeProductCategory(category = {}, fallback = {}) {
     slug,
     name: category.name || category.title || fallback.name || title,
     title,
-    image: category.image || fallback.image || category.banner || fallback.banner || "",
-    banner: category.banner || fallback.banner || category.image || fallback.image || "",
+    image,
+    banner,
     summary: category.summary || fallback.summary || category.description || fallback.description || "",
     description: category.description || fallback.description || category.summary || fallback.summary || "",
     status,

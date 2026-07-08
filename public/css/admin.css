@@ -453,6 +453,74 @@ input[type="checkbox"] {
   font-weight: 950;
 }
 
+.cms-image-field {
+  display: grid;
+  gap: 12px;
+  border: 1px solid var(--admin-line);
+  border-radius: 12px;
+  padding: 12px;
+  background: #fff;
+}
+
+.cms-image-field-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.cms-image-field-header strong {
+  color: var(--admin-text);
+}
+
+.cms-image-field-header span {
+  color: var(--admin-muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+}
+
+.cms-image-preview-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 10px;
+}
+
+.cms-image-preview-list img {
+  width: 100%;
+  min-height: 96px;
+  border: 1px solid var(--admin-line);
+  border-radius: 10px;
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  background: var(--admin-soft);
+}
+
+.cms-image-empty {
+  display: grid;
+  min-height: 96px;
+  place-items: center;
+  border: 1px dashed var(--admin-line-strong);
+  border-radius: 10px;
+  background: var(--admin-soft);
+  color: var(--admin-muted);
+  font-size: 0.86rem;
+  font-weight: 850;
+}
+
+.cms-file-button input {
+  display: none;
+}
+
+.admin-table .cms-image-field {
+  min-width: 220px;
+  padding: 10px;
+}
+
+.admin-table .cms-image-preview-list {
+  grid-template-columns: minmax(90px, 1fr);
+}
+
 .admin-table-wrap {
   max-width: 100%;
   overflow-x: auto;

@@ -5,6 +5,48 @@
   function selected(value, expected) { return String(value || "") === expected ? "selected" : ""; }
   function checked(value) { return value ? "checked" : ""; }
   function inquiryStatus(value) { return ["Read", "Replied"].includes(value) ? value : "New"; }
+  function escapeHtml(value) {
+    return String(value ?? "")
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+  function imageList(value) {
+    if (Array.isArray(value)) return value.filter(Boolean);
+    return String(value || "").split(",").map(function(item) { return item.trim(); }).filter(Boolean);
+  }
+  function renderImagePreviews(images, label) {
+    if (!images.length) return '<span class="cms-image-empty">No image selected</span>';
+    return images.map(function(image) {
+      return '<img src="' + escapeHtml(image) + '" alt="' + escapeHtml(label) + ' preview" />';
+    }).join("");
+  }
+  function renderImageUploadControl(options) {
+    const images = imageList(options.value);
+    const hiddenValue = images.join(", ");
+    const inputId = options.id;
+    return `
+      <div class="cms-image-field wide" data-admin-image-field>
+        <input type="hidden" name="${escapeHtml(options.valueName)}" value="${escapeHtml(hiddenValue)}" data-image-value />
+        <div class="cms-image-field-header">
+          <strong>${escapeHtml(options.label)}</strong>
+          <span>Current Image Preview</span>
+        </div>
+        <div class="cms-image-preview-list" data-image-preview-list>
+          ${renderImagePreviews(images, options.label)}
+        </div>
+        <div class="admin-actions cms-image-actions">
+          <label class="admin-button ghost cms-file-button" for="${escapeHtml(inputId)}">
+            Choose Image
+            <input id="${escapeHtml(inputId)}" name="${escapeHtml(options.fileName)}" type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml" data-image-file ${options.multiple ? "multiple" : ""} hidden />
+          </label>
+          <button class="admin-button danger" type="button" data-image-remove ${images.length ? "" : "hidden"}>Remove Image</button>
+        </div>
+      </div>
+    `;
+  }
   const categoryNames = (state.productCategories || []).map(function(category) { return category.name; });
   const submissions = state.submissions || {};
 %>
@@ -24,7 +66,7 @@
 <% } %>
 
 <% if (kind === "products") { %>
-  <form class="admin-card admin-form compact" method="post" action="/admin/products">
+  <form class="admin-card admin-form compact" method="post" action="/admin/products" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
     <div class="cms-section-heading"><h2>Add Product</h2><p class="admin-note">Create products that can later be surfaced on public category pages.</p></div>
     <label>Product Name<input name="name" required /></label>
@@ -35,7 +77,7 @@
     <label>Weight<input name="weight" placeholder="52 g" /></label>
     <label>Status<select name="status"><option>Active</option><option>Draft</option><option>Archived</option></select></label>
     <label class="toggle-label"><input type="checkbox" name="featured" /> <span>Featured product</span></label>
-    <label class="wide">Product Image Paths<input name="images" placeholder="/images/yellow.png, /images/admin-media/file.png" /></label>
+    <%- renderImageUploadControl({ label: "Product Images", value: [], valueName: "images", fileName: "productImages", id: "new-product-images", multiple: true }) %>
     <label class="wide">Description<textarea name="description" rows="4"></textarea></label>
     <label class="wide">Offer / Badge Text<input name="offers" /></label>
     <button class="admin-button" type="submit">Add Product</button>
@@ -44,7 +86,7 @@
   <section class="admin-list">
     <% state.products.forEach(function(product) { %>
       <article class="admin-card">
-        <form class="admin-form compact" method="post" action="/admin/products/<%= product.id %>">
+        <form class="admin-form compact" method="post" action="/admin/products/<%= product.id %>" enctype="multipart/form-data">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div class="cms-section-heading"><h2><%= product.name %></h2><p class="admin-note"><%= product.category %> · <%= product.status %></p></div>
           <label>Product Name<input name="name" value="<%= product.name %>" /></label>
@@ -55,7 +97,7 @@
           <label>Weight<input name="weight" value="<%= product.weight || product.packetSize || '' %>" /></label>
           <label>Status<select name="status"><option <%= selected(product.status, "Active") %>>Active</option><option <%= selected(product.status, "Draft") %>>Draft</option><option <%= selected(product.status, "Archived") %>>Archived</option></select></label>
           <label class="toggle-label"><input type="checkbox" name="featured" <%= checked(product.featured) %> /> <span>Featured product</span></label>
-          <label class="wide">Product Image Paths<input name="images" value="<%= list(product.images) %>" /></label>
+          <%- renderImageUploadControl({ label: "Product Images", value: product.images, valueName: "images", fileName: "productImages", id: "product-images-" + product.id, multiple: true }) %>
           <label class="wide">Description<textarea name="description" rows="4"><%= product.description %></textarea></label>
           <label class="wide">Offer / Badge Text<input name="offers" value="<%= product.offers %>" /></label>
           <button class="admin-button" type="submit">Save Product</button>
@@ -91,7 +133,7 @@
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
     <div class="cms-section-heading"><h2>Upload Media</h2><p class="admin-note">Organize uploads by naming them clearly: Logo, Product image, Category icon, Blog image, QR code, Banner, Footer background, or General upload.</p></div>
     <label>Name<input name="name" placeholder="Product image - Seedha Simple" /></label>
-    <label>Image File<input name="media" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" required /></label>
+    <label>Image File<input name="media" type="file" accept="image/jpeg,image/png,image/webp,image/svg+xml" required /></label>
     <button class="admin-button" type="submit">Upload Image</button>
   </form>
   <section class="media-grid">
@@ -109,13 +151,13 @@
 <% if (kind === "swiper") { %>
   <section class="admin-list">
     <% state.swiperSlides.forEach(function(slide) { %>
-      <form class="admin-card admin-form" method="post" action="/admin/swiper/<%= slide.id %>">
+      <form class="admin-card admin-form" method="post" action="/admin/swiper/<%= slide.id %>" enctype="multipart/form-data">
         <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-        <div class="cms-section-heading"><h2><%= slide.title %></h2><p class="admin-note">Responsive banner image paths for desktop, tablet, and mobile.</p></div>
+        <div class="cms-section-heading"><h2><%= slide.title %></h2><p class="admin-note">Responsive banner images for desktop, tablet, and mobile.</p></div>
         <label>Title<input name="title" value="<%= slide.title %>" /></label><label>Status<input name="status" value="<%= slide.status %>" /></label>
-        <label class="wide">Desktop Image<input name="desktopImage" value="<%= slide.desktopImage %>" /></label>
-        <label class="wide">Tablet Image<input name="tabletImage" value="<%= slide.tabletImage %>" /></label>
-        <label class="wide">Mobile Image<input name="mobileImage" value="<%= slide.mobileImage %>" /></label>
+        <%- renderImageUploadControl({ label: "Desktop Image", value: slide.desktopImage || "", valueName: "desktopImage", fileName: "desktopUpload", id: "swiper-desktop-" + slide.id, multiple: false }) %>
+        <%- renderImageUploadControl({ label: "Tablet Image", value: slide.tabletImage || "", valueName: "tabletImage", fileName: "tabletUpload", id: "swiper-tablet-" + slide.id, multiple: false }) %>
+        <%- renderImageUploadControl({ label: "Mobile Image", value: slide.mobileImage || "", valueName: "mobileImage", fileName: "mobileUpload", id: "swiper-mobile-" + slide.id, multiple: false }) %>
         <label class="wide">Alt Text<input name="alt" value="<%= slide.alt %>" /></label>
         <picture class="admin-preview"><source media="(max-width: 640px)" srcset="<%= slide.mobileImage %>" /><source media="(max-width: 1024px)" srcset="<%= slide.tabletImage %>" /><img src="<%= slide.desktopImage %>" alt="<%= slide.alt %>" /></picture>
         <button class="admin-button" type="submit">Save Responsive Slide</button>
@@ -130,15 +172,11 @@
     const overview = productPage.overview || {};
     const businessPanel = productPage.businessPanel || {};
     const sliderSlides = (productPage.suggestionSlides || []).sort(function(a, b) { return Number(a.order || 0) - Number(b.order || 0); });
-    const fallbackPreview = "/images/product-categories/zuppio-category-desktop.png";
-    function previewImage(slide) {
-      return slide.backgroundImage || (Array.isArray(slide.images) && slide.images[0]) || fallbackPreview;
-    }
   %>
 
   <form class="admin-card admin-form" method="post" action="/admin/product-category-page">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-    <div class="cms-section-heading"><h2>Product Category Page Copy</h2><p class="admin-note">Heading and business CTA content shown around the product category slider.</p></div>
+    <div class="cms-section-heading"><h2>Product Category Page Copy</h2><p class="admin-note">Heading and business CTA content shown below the product banner slider.</p></div>
     <label>Overview Label<input name="overviewLabel" value="<%= overview.label || '' %>" /></label>
     <label>Overview Heading<input name="overviewTitle" value="<%= overview.title || '' %>" /></label>
     <label>Business Label<input name="businessLabel" value="<%= businessPanel.label || '' %>" /></label>
@@ -151,7 +189,7 @@
 
   <form class="admin-card admin-form" method="post" action="/admin/product-category-page/slides" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-    <div class="cms-section-heading"><h2>Add Product Slider Slide</h2><p class="admin-note">Use either a background image URL or upload an image. Uploaded files are saved to Media Manager.</p></div>
+    <div class="cms-section-heading"><h2>Add Product Banner Slide</h2><p class="admin-note">Upload a finished banner image. Public slider shows only the image, no text overlay. Recommended size: 2400 x 860 px. Minimum: 1200 x 430 px.</p></div>
     <label>Slide Label<input name="label" placeholder="Coming Soon" /></label>
     <label>Heading<input name="title" required placeholder="Slide heading" /></label>
     <label class="wide">Subheading / Description<textarea name="text" rows="3"></textarea></label>
@@ -160,9 +198,8 @@
     <label>Sort Order<input name="order" type="number" value="<%= sliderSlides.length + 1 %>" min="0" /></label>
     <label>Status<select name="status"><option>Active</option><option>Inactive</option></select></label>
     <label>Overlay Strength<input name="overlayStrength" type="number" value="0.58" min="0.18" max="0.85" step="0.05" /></label>
-    <label class="wide">Background Image URL<input name="backgroundImage" data-image-preview-input="new-product-slide" placeholder="/images/admin-media/slide.jpg" /></label>
-    <label class="wide">Upload Background Image<input name="backgroundUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" data-image-preview-file="new-product-slide" /></label>
-    <picture class="admin-preview slide-admin-preview"><img data-image-preview="new-product-slide" src="<%= fallbackPreview %>" alt="New slide preview" /></picture>
+    <%- renderImageUploadControl({ label: "Background Image", value: "", valueName: "backgroundImage", fileName: "backgroundUpload", id: "new-product-slide", multiple: false }) %>
+    <label class="wide">Mobile Background Image URL<input name="mobileBackgroundImage" placeholder="/images/product-categories/mobile-banner.png" /></label>
     <button class="admin-button" type="submit">Add Slide</button>
   </form>
 
@@ -172,7 +209,7 @@
       <article class="admin-card">
         <form class="admin-form" method="post" action="/admin/product-category-page/slides/<%= slide.id %>" enctype="multipart/form-data">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-          <div class="cms-section-heading"><h2><%= slide.title %></h2><p class="admin-note">Product slider slide <%= index + 1 %> · <%= slide.status || "Active" %></p></div>
+          <div class="cms-section-heading"><h2><%= slide.title %></h2><p class="admin-note">Product banner slide <%= index + 1 %> · <%= slide.status || "Active" %>. Recommended image size: 2400 x 860 px.</p></div>
           <label>Slide Label<input name="label" value="<%= slide.label || '' %>" /></label>
           <label>Heading<input name="title" value="<%= slide.title || '' %>" required /></label>
           <label class="wide">Subheading / Description<textarea name="text" rows="3"><%= slide.text || '' %></textarea></label>
@@ -181,9 +218,8 @@
           <label>Sort Order<input name="order" type="number" value="<%= slide.order || index + 1 %>" min="0" /></label>
           <label>Status<select name="status"><option <%= selected(slide.status, "Active") %>>Active</option><option <%= selected(slide.status, "Inactive") %>>Inactive</option></select></label>
           <label>Overlay Strength<input name="overlayStrength" type="number" value="<%= slide.overlayStrength || 0.58 %>" min="0.18" max="0.85" step="0.05" /></label>
-          <label class="wide">Background Image URL<input name="backgroundImage" value="<%= slide.backgroundImage || '' %>" data-image-preview-input="<%= previewId %>" /></label>
-          <label class="wide">Upload Replacement Background<input name="backgroundUpload" type="file" accept="image/png,image/jpeg,image/webp,image/gif,image/svg+xml" data-image-preview-file="<%= previewId %>" /></label>
-          <picture class="admin-preview slide-admin-preview"><img data-image-preview="<%= previewId %>" src="<%= previewImage(slide) %>" alt="<%= slide.title %> preview" /></picture>
+          <%- renderImageUploadControl({ label: "Background Image", value: slide.backgroundImage || "", valueName: "backgroundImage", fileName: "backgroundUpload", id: previewId, multiple: false }) %>
+          <label class="wide">Mobile Background Image URL<input name="mobileBackgroundImage" value="<%= slide.mobileBackgroundImage || slide.mobileImage || '' %>" /></label>
           <button class="admin-button" type="submit">Save Slide</button>
         </form>
         <form class="admin-actions" method="post" action="/admin/product-category-page/slides/<%= slide.id %>/delete">
@@ -381,19 +417,38 @@
 <% } %>
 
 <% if (kind === "blog") { %>
-  <form class="admin-card admin-form compact" method="post" action="/admin/blog">
+  <form class="admin-card admin-form compact" method="post" action="/admin/blog" enctype="multipart/form-data">
     <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
     <div class="cms-section-heading"><h2>Add Blog Post</h2><p class="admin-note">Blog content for ZUPPIO stories, snack ideas, recipes, and launches.</p></div>
-    <label>Blog Title<input name="title" required /></label><label>Slug<input name="slug" required /></label><label>Category<input name="category" /></label><label>Tags<input name="tags" placeholder="snacks, recipes" /></label><label>Status<select name="status"><option>Draft</option><option>Published</option><option>Unpublished</option></select></label><label class="wide">Blog Image<input name="image" /></label><label class="wide">Short Description<textarea name="description" rows="3"></textarea></label><label class="wide">Full Blog Content<textarea name="content" rows="8"></textarea></label><label class="wide">SEO Title<input name="seoTitle" /></label><label class="wide">SEO Description<textarea name="seoDescription" rows="3"></textarea></label>
+    <label>Blog Title<input name="title" required /></label>
+    <label>Slug<input name="slug" required /></label>
+    <label>Category<input name="category" /></label>
+    <label>Tags<input name="tags" placeholder="snacks, recipes" /></label>
+    <label>Status<select name="status"><option>Draft</option><option>Published</option><option>Unpublished</option></select></label>
+    <%- renderImageUploadControl({ label: "Blog Image", value: "", valueName: "image", fileName: "blogImage", id: "new-blog-image", multiple: false }) %>
+    <label class="wide">Short Description<textarea name="description" rows="3"></textarea></label>
+    <label class="wide">Full Blog Content<textarea name="content" rows="8"></textarea></label>
+    <label class="wide">SEO Title<input name="seoTitle" /></label>
+    <label class="wide">SEO Description<textarea name="seoDescription" rows="3"></textarea></label>
     <button class="admin-button" type="submit">Add Blog Post</button>
   </form>
   <section class="admin-list">
     <% state.blogPosts.forEach(function(post) { %>
       <article class="admin-card">
-        <form class="admin-form compact" method="post" action="/admin/blog/<%= post.id %>">
+        <form class="admin-form compact" method="post" action="/admin/blog/<%= post.id %>" enctype="multipart/form-data">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
           <div class="cms-section-heading"><h2><%= post.title %></h2><p class="admin-note"><%= post.category %> · <%= post.status %></p></div>
-          <label>Blog Title<input name="title" value="<%= post.title %>" /></label><label>Slug<input name="slug" value="<%= post.slug %>" /></label><label>Category<input name="category" value="<%= post.category %>" /></label><label>Tags<input name="tags" value="<%= list(post.tags) %>" /></label><label>Status<select name="status"><option <%= selected(post.status, "Draft") %>>Draft</option><option <%= selected(post.status, "Published") %>>Published</option><option <%= selected(post.status, "Unpublished") %>>Unpublished</option></select></label><label class="wide">Blog Image<input name="image" value="<%= post.image %>" /></label><label class="wide">Short Description<textarea name="description" rows="3"><%= post.description %></textarea></label><label class="wide">Full Blog Content<textarea name="content" rows="8"><%= Array.isArray(post.content) ? post.content.join('\n\n') : (post.content || '') %></textarea></label><label class="wide">SEO Title<input name="seoTitle" value="<%= post.seoTitle || '' %>" /></label><label class="wide">SEO Description<textarea name="seoDescription" rows="3"><%= post.seoDescription || '' %></textarea></label><button class="admin-button" type="submit">Save Blog</button>
+          <label>Blog Title<input name="title" value="<%= post.title %>" /></label>
+          <label>Slug<input name="slug" value="<%= post.slug %>" /></label>
+          <label>Category<input name="category" value="<%= post.category %>" /></label>
+          <label>Tags<input name="tags" value="<%= list(post.tags) %>" /></label>
+          <label>Status<select name="status"><option <%= selected(post.status, "Draft") %>>Draft</option><option <%= selected(post.status, "Published") %>>Published</option><option <%= selected(post.status, "Unpublished") %>>Unpublished</option></select></label>
+          <%- renderImageUploadControl({ label: "Blog Image", value: post.image || "", valueName: "image", fileName: "blogImage", id: "blog-image-" + post.id, multiple: false }) %>
+          <label class="wide">Short Description<textarea name="description" rows="3"><%= post.description %></textarea></label>
+          <label class="wide">Full Blog Content<textarea name="content" rows="8"><%= Array.isArray(post.content) ? post.content.join('\n\n') : (post.content || '') %></textarea></label>
+          <label class="wide">SEO Title<input name="seoTitle" value="<%= post.seoTitle || '' %>" /></label>
+          <label class="wide">SEO Description<textarea name="seoDescription" rows="3"><%= post.seoDescription || '' %></textarea></label>
+          <button class="admin-button" type="submit">Save Blog</button>
         </form>
         <form class="admin-actions" method="post" action="/admin/blog/<%= post.id %>/delete"><input type="hidden" name="_csrf" value="<%= csrfToken %>" /><button class="admin-button danger" type="submit">Delete Blog</button></form>
       </article>

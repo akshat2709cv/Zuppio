@@ -53,7 +53,7 @@ function defaultBlogPosts() {
       description: "How ZUPPIO is building a modern Indian snack brand with bold taste and everyday trust.",
       category: "Brand Story",
       tags: ["brand", "snacks", "zuppio"],
-      image: "/images/home-hero-zuppio.png",
+      image: "/images/blogs/story-behind-zuppio-snacks.jpg",
       status: "Published",
       content: [
         "ZUPPIO began with a simple belief: everyday snacks should feel exciting, trustworthy, and easy to love. The brand brings together bold Indian flavor energy, modern packaging, and a growing vision for food products that fit naturally into daily routines.",
@@ -70,7 +70,7 @@ function defaultBlogPosts() {
       description: "A look at why crispy potato chips work for tea breaks, parties, travel, and everyday cravings.",
       category: "Snack Culture",
       tags: ["potato chips", "india", "snacks"],
-      image: "/images/categories/potato-chips.svg",
+      image: "/images/blogs/why-potato-chips-are-indias-favorite-snack.jpg",
       status: "Published",
       content: [
         "Potato chips have a special place in Indian snacking because they fit almost every moment. They work with tea, movie nights, road trips, office breaks, and quick get-togethers.",
@@ -87,7 +87,7 @@ function defaultBlogPosts() {
       description: "Quick food ideas using ZUPPIO chips for parties, evening snacks, and fun family moments.",
       category: "Recipes",
       tags: ["recipes", "chips", "party snacks"],
-      image: "/images/yellow.png",
+      image: "/images/blogs/easy-snack-recipes-with-zuppio-chips.jpg",
       status: "Published",
       content: [
         "ZUPPIO chips can do more than sit beside a cold drink. Try crushed chips over chaat for extra crunch, layer them into a quick sandwich, or use them as a topping for cheesy nacho-style plates.",
@@ -104,7 +104,7 @@ function defaultBlogPosts() {
       description: "Inside the quality-first thinking behind ZUPPIO's ingredients, flavors, and packaging.",
       category: "Quality",
       tags: ["quality", "taste", "ingredients"],
-      image: "/images/zuppio-front.jpeg",
+      image: "/images/blogs/how-zuppio-focuses-on-quality-and-taste.jpg",
       status: "Published",
       content: [
         "Quality starts with clear choices. ZUPPIO focuses on ingredients, consistent taste, hygienic handling, and packaging that supports a reliable snacking experience.",
@@ -121,7 +121,7 @@ function defaultBlogPosts() {
       description: "Snack planning ideas for game nights, house parties, family visits, and festive tables.",
       category: "Food Ideas",
       tags: ["party snacks", "gatherings", "food ideas"],
-      image: "/images/purple.png",
+      image: "/images/blogs/best-snacks-for-parties-and-gatherings.jpg",
       status: "Published",
       content: [
         "Great party snacks should be easy to serve, easy to refill, and fun to eat. Chips, wafers, dips, quick chaat bowls, and bite-sized sides all work well because guests can enjoy them without slowing the conversation.",
@@ -149,6 +149,40 @@ function defaultBlogPosts() {
       seoDescription: "Preview upcoming ZUPPIO categories including beverages, biscuits, wafers, banana chips, and ready-to-eat products."
     }
   ];
+}
+
+const blogImageMigrations = {
+  "story-behind-zuppio-snacks": {
+    image: "/images/blogs/story-behind-zuppio-snacks.jpg",
+    oldImages: ["/images/home-hero-zuppio.png"]
+  },
+  "why-potato-chips-are-indias-favorite-snack": {
+    image: "/images/blogs/why-potato-chips-are-indias-favorite-snack.jpg",
+    oldImages: ["/images/categories/potato-chips.svg"]
+  },
+  "easy-snack-recipes-with-zuppio-chips": {
+    image: "/images/blogs/easy-snack-recipes-with-zuppio-chips.jpg",
+    oldImages: ["/images/yellow.png"]
+  },
+  "how-zuppio-focuses-on-quality-and-taste": {
+    image: "/images/blogs/how-zuppio-focuses-on-quality-and-taste.jpg",
+    oldImages: ["/images/zuppio-front.jpeg"]
+  },
+  "best-snacks-for-parties-and-gatherings": {
+    image: "/images/blogs/best-snacks-for-parties-and-gatherings.jpg",
+    oldImages: ["/images/purple.png"]
+  }
+};
+
+function migrateDefaultBlogImages(blogPosts) {
+  if (!Array.isArray(blogPosts)) return;
+  blogPosts.forEach((post) => {
+    const migration = blogImageMigrations[post.slug];
+    if (!migration) return;
+    if (!post.image || migration.oldImages.includes(post.image)) {
+      post.image = migration.image;
+    }
+  });
 }
 
 function defaultState() {
@@ -235,6 +269,7 @@ function defaultState() {
     },
     seo: defaultSeo(),
     homepage: defaultHomepage(),
+    blogPage: defaultBlogPage(),
     header: defaultHeader(),
     footer: defaultFooter(),
     contactPage: defaultContactPage(),
@@ -275,6 +310,17 @@ function defaultHeader() {
       { label: "Contact", href: "/contact", visible: true, order: 6 },
       { label: "Term", href: "/terms", visible: true, order: 7 }
     ]
+  };
+}
+
+function defaultBlogPage() {
+  return {
+    hero: {
+      label: "OUR BLOGS",
+      title: "ZUPPIO BITES",
+      subtitle: "Discover tasty stories, snack ideas, and everything behind your favorite Zuppio snacks."
+    },
+    heroImageNote: "Hero artwork is fixed in the website design: left chips bowl and right ZUPPIO packet stay the same. Edit only the hero text fields above from admin."
   };
 }
 
@@ -329,10 +375,10 @@ function defaultHomepage() {
       title: "EXPLORE THE ZUPPIO PRODUCT UNIVERSE",
       cards: [
         { id: "potato-chips", name: "Potato Chips", image: "/images/categories/potato-chips.svg", description: "Aloo Snack packs with crisp potato crunch and signature ZUPPIO flavors.", status: "Available Now", badge: "Available Now", color: "yellow", link: "/product-categories/potato-chips" },
-        { id: "banana-chips", name: "Banana Chips", image: "/images/categories/banana-chips.svg", description: "Crunchy banana chips crafted for traditional and modern snacking.", status: "Coming Soon", badge: "Future Expansion", color: "green", link: "/product-categories/banana-chips" },
-        { id: "wafers", name: "Wafers", image: "/images/categories/wafers.svg", description: "Light and crispy wafer snacks with exciting flavor possibilities.", status: "Coming Soon", badge: "Future Expansion", color: "purple", link: "/product-categories/wafers" },
-        { id: "ready-to-eat", name: "Ready-To-Eat", image: "/images/categories/ready-to-eat.svg", description: "Convenient snack and meal solutions for everyday consumption.", status: "Coming Soon", badge: "Future Expansion", color: "green", link: "/product-categories/ready-to-eat" },
-        { id: "biscuit", name: "Biscuit", image: "/images/categories/biscuit.svg", description: "Cream, cookie, and baked biscuit varieties for every age group.", status: "Coming Soon", badge: "Future Expansion", color: "yellow", link: "/product-categories/biscuit" },
+        { id: "banana-chips", name: "Banana Chips", image: "/images/product-categories/banana-chips-category-card.png", description: "Crunchy banana chips crafted for traditional and modern snacking.", status: "Coming Soon", badge: "Future Expansion", color: "green", link: "/product-categories/banana-chips" },
+        { id: "wafers", name: "Wafers", image: "/images/product-categories/wafers-category-card.png", description: "Light and crispy wafer snacks with exciting flavor possibilities.", status: "Coming Soon", badge: "Future Expansion", color: "purple", link: "/product-categories/wafers" },
+        { id: "ready-to-eat", name: "Ready-To-Eat", image: "/images/product-categories/ready-to-eat-category-card.png", description: "Convenient snack and meal solutions for everyday consumption.", status: "Coming Soon", badge: "Future Expansion", color: "green", link: "/product-categories/ready-to-eat" },
+        { id: "biscuit", name: "Biscuit", image: "/images/product-categories/biscuit-category-lineup.png", description: "Cream, cookie, and baked biscuit varieties for every age group.", status: "Coming Soon", badge: "Future Expansion", color: "yellow", link: "/product-categories/biscuit" },
         { id: "beverages", name: "Beverages", image: "/images/categories/beverages.svg", description: "Refreshing drink options designed for future ZUPPIO expansion.", status: "Coming Soon", badge: "Future Expansion", color: "purple", link: "/product-categories/beverages" }
       ]
     },
@@ -382,9 +428,10 @@ function defaultProductCategoryPage() {
   return {
     overview: { label: "Categories", title: "Choose what you want to explore." },
     suggestionSlides: [
-      { id: "suggestion-beverages", className: "beverage-slide", label: "Coming Soon", title: "Beverages for every mood.", text: "Zeera Drinks, Energy Drinks, Tighter Drinks, Water, and Aam Papad are planned for the next ZUPPIO shelf.", buttonText: "See Beverages", buttonLink: "/product-categories/beverages", backgroundImage: "/images/categories/beverages.svg", overlayStrength: 0.58, order: 1, status: "Active", images: ["/images/categories/beverages.svg"], artClass: "category-art" },
-      { id: "suggestion-bakery", className: "bakery-slide", label: "Future Crunch", title: "Biscuits, wafers, and banana chips.", text: "Baked biscuits, cream biscuits, cookies, wafer biscuits, banana chips, and flavored wafers are mapped for future launches.", buttonText: "Explore Bakery", buttonLink: "/product-categories/biscuit", backgroundImage: "/images/categories/biscuit.svg", overlayStrength: 0.62, order: 2, status: "Active", images: ["/images/categories/biscuit.svg", "/images/categories/wafers.svg"], artClass: "combo-art" },
-      { id: "suggestion-ready-to-eat", className: "ready-slide", label: "Ready-To-Eat", title: "Quick meals, ZUPPIO style.", text: "Poha, Rajma Chawal, Noodles, and Creamy Chai Coffee ideas for fast everyday use.", buttonText: "View Ready-To-Eat", buttonLink: "/product-categories/ready-to-eat", backgroundImage: "/images/categories/ready-to-eat.svg", overlayStrength: 0.58, order: 3, status: "Active", images: ["/images/categories/ready-to-eat.svg"], artClass: "category-art" }
+      { id: "suggestion-beverages", className: "banner-slide-1", label: "", title: "Product Banner 1", text: "", buttonText: "", buttonLink: "/product-categories/beverages", backgroundImage: "/images/product-categories/zuppio-slider-mast-masaledar-desktop.png", mobileBackgroundImage: "/images/product-categories/zuppio-slider-mast-masaledar-mobile.png", overlayStrength: 0, order: 1, status: "Active", images: ["/images/product-categories/zuppio-slider-mast-masaledar-desktop.png"], artClass: "" },
+      { id: "suggestion-bakery", className: "banner-slide-2", label: "", title: "Seedha Simple ZUPPIO Banner", text: "", buttonText: "", buttonLink: "/product-categories/potato-chips", backgroundImage: "/images/product-categories/zuppio-slider-seedha-simple-desktop.png", mobileBackgroundImage: "/images/product-categories/zuppio-slider-seedha-simple-mobile.jpeg", overlayStrength: 0, order: 2, status: "Active", images: ["/images/product-categories/zuppio-slider-seedha-simple-desktop.png"], artClass: "" },
+      { id: "suggestion-ready-to-eat", className: "banner-slide-3", label: "", title: "Code Crunch Repeat ZUPPIO Banner", text: "", buttonText: "", buttonLink: "/product-categories/potato-chips", backgroundImage: "/images/product-categories/zuppio-slider-code-crunch-desktop.png", mobileBackgroundImage: "/images/product-categories/zuppio-slider-code-crunch-mobile.png", overlayStrength: 0, order: 3, status: "Active", images: ["/images/product-categories/zuppio-slider-code-crunch-desktop.png"], artClass: "" },
+      { id: "suggestion-potato-chips", className: "banner-slide-4", label: "", title: "Product Banner 4", text: "", buttonText: "", buttonLink: "/product-categories/potato-chips", backgroundImage: "/images/product-categories/zuppio-category-desktop.png", overlayStrength: 0, order: 4, status: "Active", images: ["/images/product-categories/zuppio-category-desktop.png"], artClass: "" }
     ],
     businessPanel: {
       label: "Business Enquiries",
@@ -406,6 +453,7 @@ function normalizeSuggestionSlide(slide, index) {
   const item = slide && typeof slide === "object" ? slide : {};
   const images = Array.isArray(item.images) ? item.images.filter(Boolean) : [];
   const backgroundImage = String(item.backgroundImage || images[0] || "").trim();
+  const mobileBackgroundImage = String(item.mobileBackgroundImage || item.mobileImage || "").trim();
   const title = String(item.title || item.heading || "").trim();
 
   return {
@@ -414,10 +462,11 @@ function normalizeSuggestionSlide(slide, index) {
     label: String(item.label || "").trim(),
     title: title || `Product slide ${index + 1}`,
     text: String(item.text || item.description || item.subheading || "").trim(),
-    buttonText: String(item.buttonText || item.ctaText || "Explore").trim(),
+    buttonText: String(item.buttonText || item.ctaText || "").trim(),
     buttonLink: String(item.buttonLink || item.ctaLink || "/product-categories").trim(),
     backgroundImage,
-    overlayStrength: clampNumber(item.overlayStrength, 0.58, 0.18, 0.85),
+    mobileBackgroundImage,
+    overlayStrength: clampNumber(item.overlayStrength, 0, 0, 0.85),
     order: clampNumber(item.order, index + 1, 0, 9999),
     status: String(item.status || "Active").trim() || "Active",
     images,
@@ -427,6 +476,85 @@ function normalizeSuggestionSlide(slide, index) {
 
 function normalizeProductCategoryPage(page) {
   const item = page && typeof page === "object" ? page : defaultProductCategoryPage();
+  const defaultSlides = defaultProductCategoryPage().suggestionSlides;
+  const firstBanner = defaultSlides[0];
+  const secondBanner = defaultSlides[1];
+  const thirdBanner = defaultSlides[2];
+  const legacySlideIds = new Set(["suggestion-1", "suggestion-2", "suggestion-3"]);
+  const legacySlideTitles = new Set([
+    "Beverages for every mood.",
+    "Biscuits, wafers, and banana chips.",
+    "Quick meals, ZUPPIO style."
+  ]);
+  item.suggestionSlides = (Array.isArray(item.suggestionSlides) ? item.suggestionSlides : [])
+    .filter((slide) => {
+      if (!slide || typeof slide !== "object") return false;
+      return !legacySlideIds.has(slide.id) && !legacySlideTitles.has(slide.title);
+    });
+  item.suggestionSlides = item.suggestionSlides.map((slide) => {
+    if (
+      slide &&
+      slide.id === "suggestion-beverages" &&
+      (!slide.mobileBackgroundImage || slide.backgroundImage === "/images/categories/beverages.svg")
+    ) {
+      return {
+        ...slide,
+        title: "Mast Masaledar ZUPPIO Banner",
+        label: "",
+        text: "",
+        buttonText: "",
+        buttonLink: "/product-categories/potato-chips",
+        backgroundImage: firstBanner.backgroundImage,
+        mobileBackgroundImage: firstBanner.mobileBackgroundImage,
+        overlayStrength: 0,
+        images: [...firstBanner.images]
+      };
+    }
+    if (
+      slide &&
+      slide.id === "suggestion-bakery" &&
+      (!slide.mobileBackgroundImage || slide.backgroundImage === "/images/categories/biscuit.svg")
+    ) {
+      return {
+        ...slide,
+        title: "Seedha Simple ZUPPIO Banner",
+        label: "",
+        text: "",
+        buttonText: "",
+        buttonLink: "/product-categories/potato-chips",
+        backgroundImage: secondBanner.backgroundImage,
+        mobileBackgroundImage: secondBanner.mobileBackgroundImage,
+        overlayStrength: 0,
+        images: [...secondBanner.images]
+      };
+    }
+    if (
+      slide &&
+      slide.id === "suggestion-ready-to-eat" &&
+      (!slide.mobileBackgroundImage || slide.backgroundImage === "/images/categories/ready-to-eat.svg")
+    ) {
+      return {
+        ...slide,
+        title: "Code Crunch Repeat ZUPPIO Banner",
+        label: "",
+        text: "",
+        buttonText: "",
+        buttonLink: "/product-categories/potato-chips",
+        backgroundImage: thirdBanner.backgroundImage,
+        mobileBackgroundImage: thirdBanner.mobileBackgroundImage,
+        overlayStrength: 0,
+        images: [...thirdBanner.images]
+      };
+    }
+    return slide;
+  });
+  const existingSlideIds = new Set(item.suggestionSlides.map((slide) => slide && slide.id));
+  defaultSlides.forEach((slide) => {
+    if (!existingSlideIds.has(slide.id)) {
+      if (!Array.isArray(item.suggestionSlides)) item.suggestionSlides = [];
+      item.suggestionSlides.push({ ...slide });
+    }
+  });
   item.suggestionSlides = (Array.isArray(item.suggestionSlides) ? item.suggestionSlides : [])
     .map(normalizeSuggestionSlide)
     .sort((a, b) => Number(a.order || 0) - Number(b.order || 0));
@@ -626,12 +754,48 @@ function defaultPolicies() {
   return {
     hero: { breadcrumbTitle: "Terms & Conditions", commandTitle: "LEGAL COMMAND CENTER", pageTitle: "TERMS & CONDITIONS" },
     items: [
-      { slug: "acceptance", title: "Accuracy & Acceptance of Terms", preview: "By using ZUPPIO, you agree to our digital snack universe rules.", detail: "Welcome to the official website of Zuppio Snacks Private Limited operating under the brand name Zuppio.\n\nBy accessing, browsing, or using this website, you agree to follow and be bound by these Terms & Conditions, Privacy Policy, Disclaimer, and all applicable laws and regulations.", highlights: ["Website use means acceptance of terms", "Information may change anytime", "Product details may vary"] },
-      { slug: "privacy", title: "Privacy & Policies", preview: "Your privacy is important to us. By using this website.", detail: "At Zuppio Snacks Private Limited, we respect your privacy and are committed to protecting the personal information shared through our website.", highlights: ["Basic user data may be collected", "Personal data is not sold", "Users may request data correction or deletion"] },
-      { slug: "disclaimer", title: "Disclaimer & Limitations or Uses of Site", preview: "All content is provided as available without guarantees.", detail: "The content available on this website is provided for general information, brand awareness, product information, business enquiries, and customer communication purposes only.", highlights: ["Content is for general information only", "Website may contain errors", "Website misuse is prohibited"] },
-      { slug: "Trademarks", title: "Trademarks", preview: "All trademarks, logos, and brand elements displayed on this website are the property of Zuppio Snacks Private Limited.", detail: "The name Zuppio, brand logo, product names, flavour names, packaging designs, taglines, graphics, icons, labels, slogans, and other brand elements displayed on this website are the property of Zuppio Snacks Private Limited.", highlights: ["Zuppio brand assets are protected", "Unauthorized use is prohibited", "Written permission is required"] },
-      { slug: "copyright", title: "Copyright", preview: "Original content belongs to the ZUPPIO brand and identity is officially protected.", detail: "All content on this website, including text, images, product photos, packaging designs, graphics, videos, illustrations, layouts, website design, written content, marketing material, and downloadable content, is owned by or licensed to Zuppio Snacks Private Limited.", highlights: ["Website content is company-owned", "Copying without permission is prohibited", "Commercial use is restricted"] },
-      { slug: "jurisdictions", title: "Jurisdictions", preview: "Legal matters follow applicable local laws.", detail: "These Terms & Conditions, Privacy Policy, Disclaimer, and other website-related matters shall be governed by the laws of India.", highlights: ["Governed by Indian laws", "Ghaziabad courts have jurisdiction", "Legal action may be taken for misuse"] }
+      {
+        slug: "acceptance",
+        title: "Accuracy & Acceptance of Terms",
+        preview: "By using the ZUPPIO website, you agree to these terms and all related policies.",
+        detail: "Welcome to the official website of Zuppio Snacks Private Limited operating under the brand name Zuppio.\n\nBy accessing, browsing, or using this website, you agree to follow and be bound by these Terms & Conditions, Privacy Policy, Disclaimer, and all applicable laws and regulations. If you do not agree with any part of these terms, you should not use this website.\n\nWe make reasonable efforts to keep the information on this website accurate, updated, and complete. However, product details, packaging, flavours, prices, availability, offers, images, and other information may change from time to time without prior notice.\n\nZuppio Snacks Private Limited reserves the right to update, modify, suspend, or remove any content from this website at any time. Continued use of the website after changes means you accept the updated terms.",
+        highlights: ["Website use means acceptance of all policies", "Do not use the website if you disagree", "Product and website information may change", "Content may be updated or removed without notice", "Continued use means acceptance of updated terms"]
+      },
+      {
+        slug: "privacy",
+        title: "Privacy & Policies",
+        preview: "Learn how Zuppio collects, uses, protects, and lawfully shares information submitted through the website.",
+        detail: "At Zuppio Snacks Private Limited, we respect your privacy and are committed to protecting the personal information shared by users, customers, distributors, retailers, vendors, and visitors through our website.\n\nWe may collect basic information such as your name, mobile number, email address, city, business details, enquiry details, feedback, and other information voluntarily submitted through forms, calls, emails, WhatsApp, or website interactions.\n\nThis information may be used for:\n\nCustomer support and enquiry response\nDistributor, retailer, or business communication\nProduct feedback and service improvement\nMarketing communication, only where legally permitted\nOrder, supply, or business-related coordination\nWebsite performance and user experience improvement\n\nWe do not sell your personal information to third parties. We may share information only with trusted service providers, business partners, legal authorities, or internal teams when required for lawful business purposes.\n\nUsers may contact us to request correction, update, or deletion of their personal information, subject to applicable law and business/legal record requirements. The DPDP framework emphasizes lawful purpose, consent, transparency, data minimization, and user rights such as correction and erasure.\n\nContact for privacy-related queries:\nEmail: zuppiosnacks.pvt.ltd@gmail.com\nAddress: A433, Sudamapuri, Vijay Nagar, Ghaziabad, Uttar Pradesh - 201001",
+        highlights: ["Voluntarily submitted personal data may be collected", "Information supports enquiries, business communication, and improvement", "Personal data is not sold", "Sharing is limited to lawful business or legal needs", "Users may request correction, updates, or deletion"]
+      },
+      {
+        slug: "disclaimer",
+        title: "Disclaimer & Limitations / Use of Site",
+        preview: "Website content is provided for general information, and users must use the platform lawfully and responsibly.",
+        detail: "The content available on this website is provided for general information, brand awareness, product information, business enquiries, and customer communication purposes only.\n\nWhile we try to provide accurate and updated information, Zuppio Snacks Private Limited does not guarantee that the website will always be error-free, uninterrupted, fully updated, or free from technical issues.\n\nProduct images shown on the website are for representation purposes only. Actual product packaging, colour, weight, appearance, design, or availability may vary due to printing, manufacturing, supply chain, or design updates.\n\nUsers agree not to misuse this website in any way, including but not limited to:\n\nCopying website content without permission\nUploading harmful code, spam, or malware\nMisrepresenting identity or business details\nUsing the website for illegal or fraudulent purposes\nDamaging, disabling, or interfering with website operations\nUsing brand assets, images, or product information without written approval\n\nZuppio Snacks Private Limited shall not be liable for any direct, indirect, incidental, consequential, or business loss arising from the use or inability to use this website, reliance on website content, technical errors, third-party links, or changes in product information.",
+        highlights: ["Content is for general information only", "Accuracy and uninterrupted access are not guaranteed", "Product images and details may vary", "Illegal, harmful, or unauthorized use is prohibited", "Company liability is limited for website-related losses"]
+      },
+      {
+        slug: "Trademarks",
+        title: "Trademarks",
+        preview: "All trademarks, logos, and brand elements displayed on this website are the property of Zuppio Snacks Private Limited.",
+        detail: "The name Zuppio, brand logo, product names, flavour names, packaging designs, taglines, graphics, icons, labels, slogans, and other brand elements displayed on this website are the property of Zuppio Snacks Private Limited, unless otherwise stated.\n\nNo visitor, retailer, distributor, agency, vendor, or third party is allowed to use, reproduce, copy, modify, publish, distribute, advertise, or commercially exploit any Zuppio trademark, brand name, design, or logo without prior written permission from the company.\n\nAny unauthorized use of our brand identity may lead to legal action under applicable trademark and intellectual property laws.",
+        highlights: ["Zuppio brand elements belong to the company", "Reproduction or commercial use requires written permission", "Restrictions apply to visitors and business partners", "Unauthorized brand use is prohibited", "Trademark misuse may result in legal action"]
+      },
+      {
+        slug: "copyright",
+        title: "Copyrights",
+        preview: "Zuppio website content is protected and may only be used for permitted personal or informational purposes.",
+        detail: "All content on this website, including text, images, product photos, packaging designs, graphics, videos, illustrations, layouts, website design, written content, marketing material, and downloadable content, is owned by or licensed to Zuppio Snacks Private Limited, unless mentioned otherwise.\n\nUsers may view website content for personal or informational purposes only. No content may be copied, reproduced, republished, uploaded, posted, transmitted, edited, sold, or used for commercial purposes without written consent from Zuppio Snacks Private Limited.\n\nIf any third-party content, image, or reference is used on the website, it remains the property of its respective owner.",
+        highlights: ["Website content is owned by or licensed to Zuppio", "Viewing is limited to personal or informational purposes", "Copying or republication requires written consent", "Commercial use requires written consent", "Third-party content remains with its owner"]
+      },
+      {
+        slug: "jurisdictions",
+        title: "Jurisdiction",
+        preview: "Website-related legal matters are governed by Indian law and the competent courts in Ghaziabad.",
+        detail: "These Terms & Conditions, Privacy Policy, Disclaimer, and other website-related matters shall be governed by the laws of India.\n\nAny dispute, claim, or legal matter arising out of the use of this website, brand communication, product information, or related business interaction shall be subject to the jurisdiction of the competent courts located in Ghaziabad, Uttar Pradesh, India, unless otherwise required by applicable law.\n\nZuppio Snacks Private Limited reserves the right to take appropriate legal action in case of misuse of website content, brand assets, trademarks, copyrighted material, misleading representation, fraud, or violation of these terms.",
+        highlights: ["Governed by Indian laws", "Ghaziabad courts have jurisdiction", "Applies to website, brand, product, and business interactions", "Legal action may be taken for content or intellectual-property misuse", "Fraud, misleading representation, and violations may be pursued"]
+      }
     ]
   };
 }
@@ -670,6 +834,7 @@ function normalizeState(state) {
   merged.analytics.dealerInquiries = merged.submissions.dealerInquiries.length;
   merged.analytics.wholesaleInquiries = merged.submissions.wholesaleInquiries.length;
   merged.analytics.newsletterSubscribers = merged.submissions.newsletter.length;
+  migrateDefaultBlogImages(merged.blogPosts);
   return merged;
 }
 

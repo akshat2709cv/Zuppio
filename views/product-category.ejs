@@ -1,8 +1,7 @@
 <%- include("partials/header") %>
 
 <%
-  const categoryProducts = Array.isArray(category.products) ? category.products : [];
-  const hasProducts = categoryProducts.length > 0;
+  const slug = category.slug || category.id || "product";
   const businessPanel = productCategoryPage && productCategoryPage.businessPanel ? productCategoryPage.businessPanel : {
     label: "Business Enquiries",
     title: "Want product, retail, or distributor details?",
@@ -10,81 +9,250 @@
     buttonText: "Contact Team",
     buttonLink: "/contact"
   };
-  const placeholders = [
-    { icon: "package", title: "New Packs", text: "Fresh product ideas are being prepared for this category." },
-    { icon: "sparkles", title: "Flavor Trials", text: "Taste, texture, and shelf appeal are being refined." },
-    { icon: "rocket", title: "Launch Shelf", text: "Updates will appear here when products are ready." }
-  ];
+
+  const categoryDesigns = {
+    "potato-chips": {
+      heroText: "Crispy, flavorful aloo snacks for every tea break, party, and everyday craving.",
+      heroLeftImage: "/images/realistic-ridged-potato-chip.png",
+      rangeLabel: "Our Range",
+      rangeTitle: "Explore Our Flavors",
+      rangeText: "Meet the ZUPPIO potato chips range crafted for snack-time cravings, tea breaks, and sharing moments.",
+      range: [
+        { title: "Seedha Simple", image: "/images/product-categories/seedha-simple-3d.png", theme: "seedha-simple", icon: "smile", text: "Classic salted chips with the perfect crunch.", tags: ["Classic Taste", "Crispy"] },
+        { title: "Italian Tadka", image: "/images/product-categories/italian-tadka-3d.png", theme: "italian-tadka", icon: "leaf", text: "Herby, zesty and full of Italian-inspired flavors.", tags: ["Creamy Herbs", "Onion Notes"] },
+        { title: "Mast Masaledar", image: "/images/product-categories/mast-masaledar-3d.png", theme: "mast-masaledar", icon: "flame", text: "Spicy, tangy and desi masala done right.", tags: ["Spicy", "Desi Masala"] }
+      ],
+      benefitsTitle: "Made For Every Crunch Moment",
+      benefits: [
+        { icon: "circle-dot", title: "Real Potato Taste", text: "Made from quality potatoes for that real, natural flavor." },
+        { icon: "waves", title: "Perfect Crunch", text: "Thin, crispy and perfectly cooked for every bite." },
+        { icon: "sparkles", title: "Bold Flavors", text: "Exciting flavors crafted to delight every mood." },
+        { icon: "users", title: "Made For Sharing", text: "Great taste meant for friends, family and every get-together." }
+      ],
+      momentLabel: "Snack Moments",
+      momentTitle: "Crunch For Every Moment",
+      momentText: "From tea breaks to parties, ZUPPIO brings flavor to every mood.",
+      momentButton: "Taste that brings smiles"
+    },
+    beverages: {
+      heroText: "Refreshing drinks made for chilled moments, bright flavors, and everyday Indian taste.",
+      rangeLabel: "Drink Range",
+      rangeTitle: "Explore Beverages",
+      rangeText: "A future-ready beverage shelf with cola drink, orange drink, energy drink, and lemon soda options.",
+      range: [
+        { title: "Cola Drink", image: "/images/product-categories/beverages-cola-card.png", theme: "cola-drink", text: "Classic cola refreshment with chilled sparkle and bold taste.", tags: ["Cola", "Classic"] },
+        { title: "Orange Drink", image: "/images/product-categories/beverages-orange-card.png", theme: "orange-drink", text: "Bright orange flavor planned for fruity refreshment moments.", tags: ["Orange", "Fruity"] },
+        { title: "Energy Drink", image: "/images/product-categories/beverages-energy-card.jpg", theme: "energy-drink", text: "Power-packed refreshment for active and high-energy occasions.", tags: ["Energy", "Bold"] },
+        { title: "Lemon Soda", image: "/images/product-categories/beverages-category-banner.png", theme: "lemon-soda", text: "Zesty lemon soda with a crisp, fizzy finish.", tags: ["Lemon", "Fizzy"] }
+      ],
+      benefitsTitle: "Made For Every Refresh Moment",
+      benefits: [
+        { icon: "zap", title: "Energy Ready", text: "Designed for active moments and quick refreshment." },
+        { icon: "leaf", title: "Indian Flavors", text: "Familiar taste cues like zeera, lemon, and mango." },
+        { icon: "droplets", title: "Served Chilled", text: "Built to feel bright, cool, and refreshing." },
+        { icon: "shopping-bag", title: "Shelf Friendly", text: "A clear future beverage range for retail displays." }
+      ],
+      momentLabel: "Refresh Moments",
+      momentTitle: "Sip For Every Occasion",
+      momentText: "From daily hydration to energy moments, ZUPPIO beverages are planned for modern routines.",
+      momentButton: "Refreshing taste ahead"
+    },
+    biscuit: {
+      heroText: "Chocolate, orange cream, digestive, elaichi, coconut, and cookie biscuit ideas planned for everyday snack shelves.",
+      rangeLabel: "Bakery Range",
+      rangeTitle: "Explore Biscuit Products",
+      rangeText: "Simple, reliable, and shelf-friendly biscuit products shaped for future ZUPPIO launches.",
+      range: [
+        { title: "Chocolate Cream Biscuit", image: "/images/product-categories/biscuit-chocolate-card.png", theme: "chocolate-biscuit", text: "Chocolate cream biscuit for rich, sweet snack cravings.", tags: ["Chocolate", "Cream"] },
+        { title: "Orange Cream Biscuit", image: "/images/product-categories/biscuit-orange-cream-card.png", theme: "orange-cream-biscuit", text: "Orange-flavored cream biscuit with a sweet citrus center.", tags: ["Orange", "Cream"] },
+        { title: "Digestive Biscuits", image: "/images/product-categories/biscuit-digestive-card.png", theme: "digestive-biscuit", text: "Everyday digestive biscuits for tea-time and light snacking.", tags: ["Digestive", "Tea Time"] },
+        { title: "Elaichi Cream Biscuit", image: "/images/product-categories/biscuit-elaichi-card.png", theme: "elaichi-biscuit", text: "Elaichi cream biscuit flavor planned around familiar Indian sweetness.", tags: ["Elaichi", "Cream"] },
+        { title: "Homemade Cookies", image: "/images/product-categories/biscuit-cookies-card.png", theme: "cookies", text: "Homemade-style cookies planned for warm, familiar snack shelves.", tags: ["Cookies", "Homestyle"] },
+        { title: "Coconut Biscuit", image: "/images/product-categories/biscuit-coconut-card.png", theme: "coconut-biscuit", text: "Coconut biscuit flavor for a simple bakery-style bite.", tags: ["Coconut", "Bakery"] }
+      ],
+      benefitsTitle: "Made For Every Tea-Time Moment",
+      benefits: [
+        { icon: "cookie", title: "Bakery Appeal", text: "Formats designed for simple snack routines." },
+        { icon: "coffee", title: "Tea Partner", text: "Made to sit naturally beside chai and coffee." },
+        { icon: "package", title: "Retail Ready", text: "Clear formats for future shelf expansion." },
+        { icon: "heart", title: "Family Friendly", text: "Easy snacks for homes, travel, and sharing." }
+      ],
+      momentLabel: "Bakery Moments",
+      momentTitle: "Snack Soft, Crunch Smart",
+      momentText: "Biscuit ideas planned for tea breaks, school tiffins, and daily homes.",
+      momentButton: "Bakery range coming soon"
+    },
+    "banana-chips": {
+      heroText: "Crunchy banana chips with classic salted and masala snack flavors.",
+      rangeLabel: "Banana Range",
+      rangeTitle: "Explore Banana Chips",
+      rangeText: "Crisp banana snack concepts with salted simplicity and masala-style flavor.",
+      range: [
+        { title: "Salted Banana Chips", image: "/images/product-categories/salted-banana-chips.png", theme: "salted-banana", icon: "banana", text: "Crispy banana chips with a lightly salted, clean classic taste.", tags: ["Lightly Salted", "Crispy"] },
+        { title: "Masala Banana Chips", image: "/images/product-categories/masala-banana-chips.png", theme: "masala-banana", icon: "flame", text: "Spicy masala banana chips with a bold, crunchy snack bite.", tags: ["Spicy Masala", "Crunchy"] }
+      ],
+      benefitsTitle: "Made For Every Light Crunch",
+      benefits: [
+        { icon: "banana", title: "Banana Crunch", text: "A familiar Indian snack with crisp texture." },
+        { icon: "salt", title: "Classic Taste", text: "Simple salted ideas planned for easy reach." },
+        { icon: "sparkles", title: "Flavor Twists", text: "Future variants can carry ZUPPIO taste energy." },
+        { icon: "users", title: "Easy Sharing", text: "Perfect for bowls, travel, and casual moments." }
+      ],
+      momentLabel: "Light Snack Moments",
+      momentTitle: "Crisp Banana Bites",
+      momentText: "A future banana chips range made for simple, crunchy everyday snacking.",
+      momentButton: "Banana chips coming soon"
+    },
+    wafers: {
+      heroText: "Light wafer snacks in chocolate, strawberry, pineapple, and orange flavors.",
+      rangeLabel: "Wafer Range",
+      rangeTitle: "Explore Wafer Snacks",
+      rangeText: "Thin, light, and playful wafer products for the future ZUPPIO product universe.",
+      range: [
+        { title: "Chocolate Wafers", image: "/images/product-categories/chocolate-wafer.png", theme: "chocolate-wafer", icon: "cookie", text: "Chocolate wafer flavor for sweet, crispy snack moments.", tags: ["Chocolate", "Creamy"] },
+        { title: "Strawberry Wafers", image: "/images/product-categories/strawberry-wafer.png", theme: "strawberry-wafer", icon: "heart", text: "Strawberry flavored wafers with a light fruity bite.", tags: ["Strawberry", "Fruity"] },
+        { title: "Pineapple Wafers", image: "/images/product-categories/pineapple-wafer.png", theme: "pineapple-wafer", icon: "sun", text: "Pineapple wafers planned for bright tropical sweetness.", tags: ["Pineapple", "Tropical"] },
+        { title: "Orange Wafers", image: "/images/product-categories/orange-wafer.png", theme: "orange-wafer", icon: "circle-dot", text: "Orange wafers with crisp layers and citrus flavor.", tags: ["Orange", "Citrus"] }
+      ],
+      benefitsTitle: "Made For Every Light Bite",
+      benefits: [
+        { icon: "layers", title: "Layered Crunch", text: "Wafer textures planned for a light crisp bite." },
+        { icon: "sparkle", title: "Playful Taste", text: "Flavor formats that can feel fun and modern." },
+        { icon: "package-open", title: "Easy Packs", text: "Simple formats for retail and sharing." },
+        { icon: "smile", title: "Snackable", text: "Made for quick cravings and light moments." }
+      ],
+      momentLabel: "Wafer Moments",
+      momentTitle: "Light Crunch, Big Mood",
+      momentText: "Future wafer formats made for casual bites, tiffins, and daily snack shelves.",
+      momentButton: "Wafer range coming soon"
+    },
+    "ready-to-eat": {
+      heroText: "Convenient rajma chawal, poha, and gulab jamun products planned for fast everyday consumption.",
+      rangeLabel: "Meal Range",
+      rangeTitle: "Explore Ready-To-Eat Products",
+      rangeText: "Quick food formats designed for busy days, travel moments, and convenient routines.",
+      range: [
+        { title: "Rajma Chawal", image: "/images/product-categories/ready-rajma-chawal.png", theme: "rajma-chawal", icon: "utensils", text: "Comfort meal format for simple everyday eating.", tags: ["Meal", "Comfort"] },
+        { title: "Poha", image: "/images/product-categories/ready-poha.png", theme: "poha", icon: "timer", text: "A quick Indian breakfast product for busy mornings.", tags: ["Quick", "Breakfast"] },
+        { title: "Gulab Jamun", image: "/images/product-categories/ready-gulab-jamun.png", theme: "gulab-jamun", icon: "sparkles", text: "Sweet ready-to-eat dessert product for celebration moments.", tags: ["Dessert", "Sweet"] }
+      ],
+      benefitsTitle: "Made For Every Quick Meal",
+      benefits: [
+        { icon: "timer", title: "Fast Ready", text: "Designed for quick preparation and busy routines." },
+        { icon: "utensils", title: "Meal Friendly", text: "Comforting food ideas for everyday moments." },
+        { icon: "briefcase", title: "Travel Useful", text: "Convenient formats for work, trips, and hostels." },
+        { icon: "cup-soda", title: "Everyday Fit", text: "Built around practical modern consumption." }
+      ],
+      momentLabel: "Meal Moments",
+      momentTitle: "Quick Food For Busy Days",
+      momentText: "From morning rush to late cravings, ZUPPIO ready-to-eat ideas are planned for speed and comfort.",
+      momentButton: "Ready-to-eat coming soon"
+    }
+  };
+
+  const design = categoryDesigns[slug] || categoryDesigns["potato-chips"];
+  const rangeCards = design.range;
+  const heroVisuals = rangeCards.slice(0, 3);
+  const heroLeftImage = design.heroLeftImage || (heroVisuals[0] && heroVisuals[0].image);
+  const heroText = category.description || design.heroText;
+  const momentImage = category.banner || category.image || (rangeCards[0] && rangeCards[0].image);
 %>
 
-<section class="command-page-hero category-command-hero">
-  <nav class="breadcrumb command-breadcrumb" aria-label="Breadcrumb">
-    <a href="/">Home</a>
-    <span>/</span>
-    <a href="/product-categories">Product Categories</a>
-    <span>/</span>
-    <span><%= category.title %></span>
-  </nav>
+<section class="category-showcase-page category-theme-<%= slug %>">
+  <section class="category-showcase-hero">
+    <div class="category-hero-chips left" aria-hidden="true">
+      <% if (heroLeftImage) { %>
+        <img src="<%= heroLeftImage %>" alt="" />
+      <% } %>
+    </div>
+    <div class="category-hero-copy">
+      <p class="eyebrow">Product Category</p>
+      <h1><%= category.title %></h1>
+      <p><%= heroText %></p>
+    </div>
+    <div class="category-hero-packs" aria-hidden="true">
+      <% heroVisuals.forEach(function(item) { %>
+        <img src="<%= item.image %>" alt="" />
+      <% }) %>
+    </div>
+  </section>
 
-  <p class="command-label">PRODUCT CATEGORY</p>
-  <h1><%= category.title %></h1>
-  <p class="category-hero-description"><%= category.description %></p>
-</section>
+  <section class="section category-range-section">
+    <div class="section-kicker">
+      <p class="eyebrow"><%= design.rangeLabel %></p>
+      <h2><%= design.rangeTitle %></h2>
+      <p><%= design.rangeText %></p>
+    </div>
 
-<section class="section category-products-section">
-  <div class="section-kicker">
-    <p class="eyebrow"><%= hasProducts ? "Product Listing" : "Coming Soon" %></p>
-    <h2><%= hasProducts ? "Explore Products" : "Products Coming Soon" %></h2>
-    <% if (!hasProducts) { %>
-      <p>New products are under development and will be available soon.</p>
-    <% } %>
-  </div>
-
-  <% if (hasProducts) { %>
-    <div class="category-product-grid">
-      <% categoryProducts.forEach(function(product, index) { %>
-        <article class="category-product-card scroll-reveal" style="--delay: <%= index * 80 %>ms">
-          <span class="category-live-badge <%= String(product.status || '').toLowerCase().includes('available') ? '' : 'coming-soon-badge' %>"><%= product.status || "Available" %></span>
-          <div class="category-product-art">
-            <% if (product.image) { %>
-              <img src="<%= product.image %>" alt="<%= product.name %> pack" />
-            <% } else { %>
-              <span class="product-dot" aria-hidden="true"></span>
-            <% } %>
+    <div class="category-range-grid">
+      <% rangeCards.forEach(function(item, index) { %>
+        <article class="category-range-card <%= item.theme ? 'category-range-card-' + item.theme : '' %> scroll-reveal" style="--delay: <%= index * 80 %>ms">
+          <div class="category-range-media">
+            <img src="<%= item.image %>" alt="<%= item.title %>" />
           </div>
-          <h3><%= product.name %></h3>
-          <p><%= product.description || category.description %></p>
+          <div class="category-range-info">
+            <span class="category-range-icon" aria-hidden="true"><i data-lucide="<%= item.icon || design.benefits[0].icon || 'sparkles' %>"></i></span>
+            <div class="category-range-copy">
+              <h3><%= item.title %></h3>
+              <p><%= item.text %></p>
+              <div class="category-range-tags">
+                <% item.tags.slice(0, 2).forEach(function(tag) { %>
+                  <span><%= tag %></span>
+                <% }) %>
+              </div>
+            </div>
+          </div>
         </article>
       <% }) %>
     </div>
-  <% } else { %>
-    <div class="category-placeholder-grid">
-      <% placeholders.forEach(function(item, index) { %>
-        <article class="category-placeholder-card scroll-reveal" style="--delay: <%= index * 80 %>ms">
-          <span class="category-placeholder-icon" aria-hidden="true">
-            <i data-lucide="<%= item.icon %>"></i>
-          </span>
-          <span class="category-live-badge coming-soon-badge">COMING SOON</span>
+  </section>
+
+  <section class="section category-love-section">
+    <div class="section-kicker compact">
+      <p class="eyebrow">Why You'll Love It</p>
+      <h2><%= design.benefitsTitle %></h2>
+    </div>
+    <div class="category-benefit-grid">
+      <% design.benefits.forEach(function(item, index) { %>
+        <article class="category-benefit-card scroll-reveal" style="--delay: <%= index * 70 %>ms">
+          <span><i data-lucide="<%= item.icon %>"></i></span>
           <h3><%= item.title %></h3>
           <p><%= item.text %></p>
         </article>
       <% }) %>
     </div>
-  <% } %>
-</section>
+  </section>
 
-<section class="section">
-  <div class="product-contact-panel scroll-reveal">
-    <div>
-      <p class="eyebrow"><%= businessPanel.label %></p>
-      <h2><%= businessPanel.title %></h2>
-      <p><%= businessPanel.text %></p>
+  <section class="section category-moment-section">
+    <div class="category-moment-panel scroll-reveal">
+      <div class="category-moment-image">
+        <img src="<%= momentImage %>" alt="<%= category.title %> snack moment" />
+      </div>
+      <div class="category-moment-copy">
+        <p class="eyebrow"><%= design.momentLabel %></p>
+        <h2><%= design.momentTitle %></h2>
+        <p><%= design.momentText %></p>
+        <span><i data-lucide="smile"></i> <%= design.momentButton %></span>
+      </div>
     </div>
-    <a class="button primary" href="<%= businessPanel.buttonLink %>">
-      <%= businessPanel.buttonText %>
-      <i data-lucide="message-circle"></i>
-    </a>
-  </div>
+  </section>
+
+  <section class="section">
+    <div class="product-contact-panel category-contact-panel scroll-reveal">
+      <div>
+        <p class="eyebrow"><%= businessPanel.label %></p>
+        <h2><%= businessPanel.title %></h2>
+        <p><%= businessPanel.text %></p>
+      </div>
+      <div class="category-contact-products" aria-hidden="true">
+        <img class="category-contact-mascot" src="/images/product-categories/zuppio-chips-cartoon-mascot.png" alt="" />
+      </div>
+      <a class="button primary" href="<%= businessPanel.buttonLink %>">
+        <%= businessPanel.buttonText %>
+        <i data-lucide="user"></i>
+      </a>
+    </div>
+  </section>
 </section>
 
 <%- include("partials/footer") %>

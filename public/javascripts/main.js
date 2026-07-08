@@ -94,8 +94,67 @@ if (window.lucide) {
 }
 
 if (window.Swiper) {
+  document.querySelectorAll(".home-category-swiper").forEach(function (slider) {
+    const slideCount = slider.querySelectorAll(".swiper-slide").length;
+    const hasMultipleSlides = slideCount > 1;
+
+    const homeCategorySwiper = new Swiper(slider, {
+      slidesPerView: 1,
+      slidesPerGroup: 1,
+      spaceBetween: 18,
+      speed: 1000,
+      loop: slideCount > 3,
+      loopAdditionalSlides: slideCount,
+      watchOverflow: true,
+      grabCursor: hasMultipleSlides,
+      autoplay: hasMultipleSlides
+        ? {
+            delay: 1,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true
+          }
+        : false,
+      pagination: hasMultipleSlides
+        ? {
+            el: slider.querySelector(".home-category-pagination"),
+            clickable: true
+          }
+        : false,
+      navigation: hasMultipleSlides
+        ? {
+            nextEl: slider.querySelector(".home-category-next"),
+            prevEl: slider.querySelector(".home-category-prev")
+          }
+        : false,
+      breakpoints: {
+        768: {
+          slidesPerView: 2,
+          slidesPerGroup: 1
+        },
+        992: {
+          slidesPerView: 3,
+          slidesPerGroup: 1
+        }
+      }
+    });
+
+    slider.homeCategorySwiper = homeCategorySwiper;
+
+    if (hasMultipleSlides && homeCategorySwiper.autoplay) {
+      window.setTimeout(function () {
+        homeCategorySwiper.autoplay.start();
+      }, 150);
+
+      slider.addEventListener("mouseleave", function () {
+        homeCategorySwiper.autoplay.start();
+      });
+    }
+  });
+
   document.querySelectorAll(".product-suggestion-swiper").forEach(function (slider) {
     const hasMultipleSlides = slider.querySelectorAll(".swiper-slide").length > 1;
+    const nextButton = slider.querySelector(".suggestion-next");
+    const prevButton = slider.querySelector(".suggestion-prev");
 
     new Swiper(slider, {
       slidesPerView: 1,
@@ -115,10 +174,10 @@ if (window.Swiper) {
             clickable: true
           }
         : false,
-      navigation: hasMultipleSlides
+      navigation: hasMultipleSlides && nextButton && prevButton
         ? {
-            nextEl: slider.querySelector(".suggestion-next"),
-            prevEl: slider.querySelector(".suggestion-prev")
+            nextEl: nextButton,
+            prevEl: prevButton
           }
         : false
     });

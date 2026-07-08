@@ -1,6 +1,22 @@
 <%- include("partials/header") %>
 
-<%- include("partials/page-hero", { pageHero: aboutPage.hero }) %>
+<div class="terms-page shared-snack-hero-wrap">
+  <%- include("partials/snack-page-hero", {
+    snackHero: {
+      id: "about-page-title",
+      breadcrumbTitle: aboutPage.hero.breadcrumbTitle,
+      commandTitle: aboutPage.hero.commandTitle,
+      pageTitle: aboutPage.hero.pageTitle,
+      intro: "Meet the modern Indian snack brand built around bold flavour, joyful crunch, and quality-first growth.",
+      badgesLabel: "About ZUPPIO highlights",
+      badges: [
+        { icon: "badge-check", label: "Quality\nFirst" },
+        { icon: "flame", label: "Bold\nFlavours" },
+        { icon: "rocket", label: "Growing\nVision" }
+      ]
+    }
+  }) %>
+</div>
 
 <section class="section about-intro">
   <div class="about-copy-card scroll-reveal">

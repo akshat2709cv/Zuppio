@@ -1,0 +1,51 @@
+<%
+  const heroConfig = snackHero || {};
+  const heroBreadcrumb = heroConfig.breadcrumbTitle || "ZUPPIO";
+  const heroCommand = heroConfig.commandTitle || "ZUPPIO COMMAND CENTER";
+  const heroTitle = heroConfig.pageTitle || "ZUPPIO";
+  const heroIntro = heroConfig.intro || "";
+  const heroId = heroConfig.id || "snack-page-title";
+  const heroBadges = Array.isArray(heroConfig.badges) ? heroConfig.badges : [];
+  const heroAmpersandIndex = heroTitle.indexOf("&");
+%>
+
+<section class="terms-premium-hero shared-snack-page-hero<%= heroTitle.length >= 15 ? " shared-snack-page-hero--long-title" : "" %>" aria-labelledby="<%= heroId %>">
+  <div class="terms-hero-inner">
+    <div class="terms-hero-copy">
+      <nav class="terms-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a>
+        <i data-lucide="chevron-right" aria-hidden="true"></i>
+        <span aria-current="page"><%= heroBreadcrumb %></span>
+      </nav>
+
+      <p class="terms-kicker"><%= heroCommand %></p>
+      <h1 id="<%= heroId %>"><% if (heroAmpersandIndex >= 0) { %><%= heroTitle.slice(0, heroAmpersandIndex + 1) %><br /><%= heroTitle.slice(heroAmpersandIndex + 1).trim() %><% } else { %><%= heroTitle %><% } %></h1>
+      <% if (heroIntro) { %><p class="terms-intro"><%= heroIntro %></p><% } %>
+
+      <% if (heroBadges.length) { %>
+        <div class="terms-trust-badges" aria-label="<%= heroConfig.badgesLabel || "Page highlights" %>">
+          <% heroBadges.forEach(function(badge) { %>
+            <div class="terms-trust-badge">
+              <span><i data-lucide="<%= badge.icon %>" aria-hidden="true"></i></span>
+              <p><%- String(badge.label || "").replace(/\n/g, "<br />") %></p>
+            </div>
+          <% }) %>
+        </div>
+      <% } %>
+    </div>
+
+    <div class="terms-hero-art" aria-hidden="true">
+      <span class="terms-art-glow"></span>
+      <img
+        class="terms-hero-showcase"
+        src="/images/zuppio-italian-tadka-cutout.png"
+        alt=""
+        width="1166"
+        height="1349"
+      />
+      <span class="terms-floating-chip chip-one"></span>
+      <span class="terms-floating-chip chip-two"></span>
+      <span class="terms-floating-chip chip-three"></span>
+    </div>
+  </div>
+</section>

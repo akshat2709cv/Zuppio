@@ -1,18 +1,145 @@
 <%- include("partials/header") %>
 
-<%- include("partials/page-hero", { pageHero: policiesConfig.hero }) %>
+<%
+  const managedHero = policiesConfig && policiesConfig.hero ? policiesConfig.hero : {};
+  const policyPresentation = {
+    acceptance: {
+      title: "Acceptance of Terms",
+      description: "By accessing ZUPPIO websites, products and services, you agree to comply with these terms.",
+      icon: "file-pen-line"
+    },
+    privacy: {
+      title: "Privacy Policy",
+      description: "Learn how your information is collected, protected and used when you use our website.",
+      icon: "shield-check"
+    },
+    disclaimer: {
+      title: "Disclaimer",
+      description: "Important information regarding website content, usage and limitation of liability.",
+      icon: "triangle-alert"
+    },
+    trademarks: {
+      title: "Trademarks",
+      description: "Protecting ZUPPIO's identity, logos and other intellectual property rights.",
+      icon: "badge"
+    },
+    copyright: {
+      title: "Copyright",
+      description: "Ownership of content, designs, text, images and other brand assets on this website.",
+      icon: "copyright"
+    },
+    jurisdictions: {
+      title: "Jurisdiction",
+      description: "Legal matters and disputes are governed by applicable Indian laws.",
+      icon: "globe-2"
+    }
+  };
+%>
 
-<section class="terms-section" aria-label="Terms policy categories">
-  <div class="policy-grid">
-    <% policies.forEach(function(policy, index) { %>
-      <a class="policy-card scroll-reveal" href="/terms/<%= policy.slug %>" style="--delay: <%= index * 60 %>ms">
-        
-        <h2><%= policy.title %></h2>
-        <p><%= policy.preview %></p>
-        <span class="policy-open">Open policy</span>
-      </a>
-  <% }) %>
-  </div>
-</section>
+<div class="terms-page">
+  <%- include("partials/snack-page-hero", {
+    snackHero: {
+      id: "terms-page-title",
+      breadcrumbTitle: managedHero.breadcrumbTitle || "Terms & Conditions",
+      commandTitle: managedHero.commandTitle || "LEGAL COMMAND CENTER",
+      pageTitle: managedHero.pageTitle || "TERMS & CONDITIONS",
+      intro: "Everything you need to know about using ZUPPIO. Simple. Transparent. Fair.",
+      badgesLabel: "Our policy commitments",
+      badges: [
+        { icon: "shield-check", label: "Transparent\nPolicies" },
+        { icon: "lock-keyhole", label: "Your Privacy\nMatters" },
+        { icon: "user-round-check", label: "Committed to\nFair Use" }
+      ]
+    }
+  }) %>
 
+  <section class="terms-legal-content" aria-label="Terms and conditions policies">
+    <div class="terms-content-shell">
+      <form class="terms-search" role="search" onsubmit="return false">
+        <i data-lucide="search" aria-hidden="true"></i>
+        <label class="terms-visually-hidden" for="legal-topic-search">Search legal topics</label>
+        <input
+          id="legal-topic-search"
+          type="search"
+          placeholder="Search legal topics, policies or terms..."
+          autocomplete="off"
+          data-legal-search
+        />
+      </form>
+
+      <div class="terms-policy-grid" data-policy-grid>
+        <% policies.forEach(function(policy, index) {
+          const key = String(policy.slug || "").toLowerCase();
+          const display = policyPresentation[key] || {
+            title: policy.title,
+            description: policy.preview,
+            icon: "file-text"
+          };
+        %>
+          <a
+            class="terms-policy-card"
+            href="/terms/<%= policy.slug %>"
+            aria-label="Read <%= display.title %>"
+            data-policy-card
+            data-search-text="<%= [display.title, display.description, policy.title, policy.preview].join(' ').toLowerCase() %>"
+          >
+            <span class="terms-policy-icon">
+              <i data-lucide="<%= display.icon %>" aria-hidden="true"></i>
+            </span>
+            <h2><%= display.title %></h2>
+            <p><%= display.description %></p>
+            <span class="terms-policy-link" aria-hidden="true">
+              Read Policy
+              <i data-lucide="arrow-right" aria-hidden="true"></i>
+            </span>
+          </a>
+        <% }) %>
+      </div>
+
+      <p class="terms-search-empty" data-search-empty hidden>No matching legal topics found. Try another search.</p>
+
+      <section class="terms-support-card" aria-labelledby="terms-support-title">
+        <div class="terms-mascot-wrap">
+          <img
+            class="terms-mascot-image"
+            src="/images/zuppio-mascot.png"
+            alt="Friendly ZUPPIO potato mascot waving"
+            width="440"
+            height="575"
+          />
+        </div>
+        <div class="terms-support-copy">
+          <p class="terms-support-label">Need Help?</p>
+          <h2 id="terms-support-title">Still have questions?</h2>
+          <p>Our support team is here to help you with anything you need.</p>
+        </div>
+        <a class="terms-contact-button" href="/contact">
+          Contact Us
+          <span><i data-lucide="arrow-right" aria-hidden="true"></i></span>
+        </a>
+      </section>
+
+      <div class="terms-quality-strip" aria-label="ZUPPIO trust commitments">
+        <div>
+          <i data-lucide="sprout" aria-hidden="true"></i>
+          <p>Made with<br /><strong>Quality Ingredients</strong></p>
+        </div>
+        <div>
+          <i data-lucide="smile" aria-hidden="true"></i>
+          <p>Loved by<br /><strong>Snack Lovers</strong></p>
+        </div>
+        <div>
+          <i data-lucide="badge-check" aria-hidden="true"></i>
+          <p>Trusted by<br /><strong>Millions</strong></p>
+        </div>
+        <div>
+          <i data-lucide="heart" aria-hidden="true"></i>
+          <p>Committed to<br /><strong>Better Snacking</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script src="/javascripts/terms.js"></script>
 <%- include("partials/footer") %>

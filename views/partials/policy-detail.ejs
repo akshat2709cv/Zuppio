@@ -4,12 +4,11 @@
   <nav class="breadcrumb" aria-label="Breadcrumb">
     <a href="/">Home</a>
     <span>/</span>
-    <a href="/terms">Terms & Conditions</a>
+    <a href="/terms">Terms &amp; Conditions</a>
     <span>/</span>
     <span><%= policy.title %></span>
   </nav>
 
-  
   <p class="eyebrow">Policy Protocol</p>
   <h1><%= policy.title %></h1>
   <p><%= policy.preview %></p>
@@ -19,9 +18,9 @@
   <article class="policy-detail-card">
     <div>
       <p class="eyebrow">Overview</p>
-      
+
       <div class="policy-copy">
-        <% policy.detail.split(/\n\s*\n/).forEach(function(paragraph) { %>
+        <% String(policy.detail || "").split(/\n\s*\n/).forEach(function(paragraph) { %>
           <p><%= paragraph.trim() %></p>
         <% }) %>
       </div>
@@ -30,7 +29,7 @@
     <div class="policy-highlight-panel">
       <h3>Key Signals</h3>
       <ul>
-        <% policy.highlights.forEach(function(item) { %>
+        <% (Array.isArray(policy.highlights) ? policy.highlights : []).forEach(function(item) { %>
           <li><%= item %></li>
         <% }) %>
       </ul>

@@ -14,6 +14,108 @@
 
 <%- include("partials/header") %>
 
+<%
+  const universeCategories = [
+    {
+      name: "Potato Chips",
+      image: "/images/product-categories/potato-chips-category-banner.png",
+      link: "/product-categories/potato-chips",
+      theme: "potato"
+    },
+    {
+      name: "Beverages",
+      image: "/images/product-categories/beverages-category-banner.png",
+      link: "/product-categories/beverages",
+      theme: "beverage"
+    },
+    {
+      name: "Biscuits",
+      image: "/images/product-categories/biscuit-category-lineup.png",
+      link: "/product-categories/biscuit",
+      theme: "biscuit"
+    },
+    {
+      name: "Banana Chips",
+      image: "/images/product-categories/banana-chips-category-card.png",
+      link: "/product-categories/banana-chips",
+      theme: "banana"
+    },
+    {
+      name: "Wafers",
+      image: "/images/product-categories/wafers-category-card.png",
+      link: "/product-categories/wafers",
+      theme: "wafer"
+    },
+    {
+      name: "Ready to Eat",
+      image: "/images/product-categories/ready-to-eat-category-card.png",
+      link: "/product-categories/ready-to-eat",
+      theme: "ready"
+    }
+  ];
+
+  const bestSellers = [
+    {
+      name: "ZUPtastic Salted Potato Chips",
+      image: "/images/product-categories/seedha-simple-3d.png",
+      price: "₹20.00",
+      comparePrice: "₹25.00"
+    },
+    {
+      name: "Mast Masaledar Potato Chips",
+      image: "/images/product-categories/mast-masaledar-3d.png",
+      price: "₹20.00",
+      comparePrice: "₹25.00"
+    },
+    {
+      name: "Italian Tadka Potato Chips",
+      image: "/images/product-categories/italian-tadka-3d.png",
+      price: "₹20.00",
+      comparePrice: "₹25.00"
+    },
+    {
+      name: "ZUPcereal Banana Chips (Thin)",
+      image: "/images/product-categories/salted-banana-chips.png",
+      price: "₹20.00",
+      comparePrice: "₹25.00"
+    },
+    {
+      name: "Zuberto Cookies (150g)",
+      image: "/images/product-categories/biscuit-cookies-card.png",
+      price: "₹20.00",
+      comparePrice: "₹25.00"
+    }
+  ];
+
+  const heroTrustItems = [
+    {
+      icon: "sprout",
+      title: "Premium Ingredients",
+      text: "Carefully sourced for perfect taste & quality."
+    },
+    {
+      icon: "package-check",
+      title: "Hygienic Packaging",
+      text: "Sealed for freshness and safety you can trust."
+    },
+    {
+      icon: "layout-grid",
+      title: "Wide Product Range",
+      text: "Something tasty for every mood."
+    },
+    {
+      icon: "heart-handshake",
+      title: "Loved Across India",
+      text: "Trusted by millions of happy snack lovers."
+    },
+    {
+      icon: "store",
+      title: "Retail Ready",
+      text: "Perfect for every shelf and every store."
+    }
+  ];
+%>
+
 <section class="hero home-hero" id="home" style="<%= heroStyle %>">
   <div class="hero-ambient" aria-hidden="true">
     <span></span>
@@ -39,54 +141,74 @@
 
 </section>
 
-<section class="section about-preview" id="about">
-  <div class="section-kicker">
-    <p class="eyebrow"><%= homepage.aboutPreview.label %></p>
-    <h2><%= homepage.aboutPreview.title %></h2>
-  </div>
-
-  <div class="about-mini-grid">
-    <% homepage.aboutPreview.cards.forEach(function(card, index) { %>
-      <article class="glass-card scroll-reveal" style="--delay: <%= index * 90 %>ms">
-        <i data-lucide="<%= card.icon %>"></i>
-        <h3><%= card.title %></h3>
-        <p><%= card.text %></p>
+<section class="hero-trust-strip" aria-label="ZUPPIO brand highlights">
+  <div class="hero-trust-panel">
+    <% heroTrustItems.forEach(function(item) { %>
+      <article class="hero-trust-item">
+        <span class="hero-trust-icon" aria-hidden="true">
+          <i data-lucide="<%= item.icon %>"></i>
+        </span>
+        <span class="hero-trust-copy">
+          <strong><%= item.title %></strong>
+          <small><%= item.text %></small>
+        </span>
       </article>
     <% }) %>
   </div>
 </section>
 
-<section class="section flavor-slider-section" id="flavors">
-  <div class="section-kicker">
-    <p class="eyebrow"><%= homepage.categoryShowcase.label %></p>
-    <h2><%= homepage.categoryShowcase.title %></h2>
-  </div>
+<section class="zuppio-universe" id="flavors" aria-labelledby="zuppioUniverseTitle">
+  <div class="zuppio-universe-inner">
+    <div class="universe-title-wrap">
+      <span class="universe-doodle universe-doodle-left" aria-hidden="true"></span>
+      <p>Our Product Universe</p>
+      <h2 id="zuppioUniverseTitle">Explore the <span>Zuppio</span> World of Crunch</h2>
+      <span class="universe-doodle universe-doodle-right" aria-hidden="true"></span>
+    </div>
 
-  <div class="product-marquee" aria-label="ZUPPIO product category showcase">
-    <div class="product-marquee-track">
-      <% [false, true].forEach(function(isDuplicate) { %>
-        <div class="product-marquee-set" <%= isDuplicate ? 'aria-hidden="true"' : "" %>>
-          <% homepage.categoryShowcase.cards.forEach(function(category) { %>
-            <article class="marquee-product-card category-marquee-card flavor-<%= category.color %>">
-              <% if (category.status && category.status.toLowerCase().includes("coming")) { %>
-                <span class="badge future-badge"><%= category.badge || "Future Expansion" %></span>
-              <% } else { %>
-                <span class="badge available-badge"><%= category.badge || category.status %></span>
-              <% } %>
-              <div class="chips-pattern" aria-hidden="true"></div>
-              <img class="marquee-category-icon" src="<%= category.image %>" alt="<%= isDuplicate ? "" : category.name + " category icon" %>" />
-              <div class="marquee-product-copy">
-                <p class="eyebrow"><%= category.status %></p>
-                <h3><%= category.name %></h3>
-                <p><%= category.description %></p>
-                <a class="button secondary" href="<%= category.id ? ('/product-categories/' + category.id) : (category.link || '/product-categories') %>">
-                  Explore Category
-                  <i data-lucide="arrow-right"></i>
-                </a>
-              </div>
-            </article>
-          <% }) %>
-        </div>
+    <div class="universe-carousel-shell">
+      <button class="universe-arrow universe-arrow-left" type="button" aria-label="Previous category">
+        <i data-lucide="chevron-left"></i>
+      </button>
+      <div class="universe-category-grid">
+        <% universeCategories.forEach(function(category) { %>
+          <a class="universe-category-card universe-category-<%= category.theme %>" href="<%= category.link %>" aria-label="Explore <%= category.name %>">
+            <img src="<%= category.image %>" alt="<%= category.name %>" loading="lazy" />
+            <strong><%= category.name %></strong>
+            <span class="universe-category-cta" aria-hidden="true">
+              <i data-lucide="chevron-right"></i>
+            </span>
+          </a>
+        <% }) %>
+      </div>
+      <button class="universe-arrow universe-arrow-right" type="button" aria-label="Next category">
+        <i data-lucide="chevron-right"></i>
+      </button>
+    </div>
+
+    <div class="bestseller-heading">
+      <h3><i data-lucide="flame"></i> Best Sellers</h3>
+      <a href="/product-categories">View All Products <i data-lucide="arrow-right"></i></a>
+    </div>
+
+    <div class="bestseller-grid">
+      <% bestSellers.forEach(function(product) { %>
+        <article class="bestseller-card">
+          <span class="bestseller-badge">Best Seller</span>
+          <a class="bestseller-image" href="/product-categories" aria-label="<%= product.name %>">
+            <img src="<%= product.image %>" alt="<%= product.name %>" loading="lazy" />
+          </a>
+          <div class="bestseller-card-footer">
+            <h4><%= product.name %></h4>
+            <div class="bestseller-price-row">
+              <span><%= product.price %></span>
+              <s><%= product.comparePrice %></s>
+            </div>
+          </div>
+          <button class="bestseller-cart" type="button" aria-label="Add <%= product.name %> to cart">
+            <i data-lucide="shopping-cart"></i>
+          </button>
+        </article>
       <% }) %>
     </div>
   </div>

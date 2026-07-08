@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
+const fs = require("fs");
 const multer = require("multer");
 const path = require("path");
 const {
@@ -23,19 +24,30 @@ const {
 } = require("../middleware/adminAuth");
 
 const router = express.Router();
-const mediaDir = path.join(__dirname, "..", "public", "images", "admin-media");
+const mediaDir = path.join(__dirname, "..", "public", "uploads", "cms");
+const uploadPublicBase = "/uploads/cms";
+const allowedImageExtensions = new Set([".jpg", ".jpeg", ".png", ".webp", ".svg"]);
+const allowedImageMimeTypes = new Set(["image/jpeg", "image/png", "image/webp", "image/svg+xml"]);
+
+fs.mkdirSync(mediaDir, { recursive: true });
 
 const upload = multer({
   storage: multer.diskStorage({
     destination: mediaDir,
     filename: function (_req, file, cb) {
-      cb(null, `${Date.now()}-${file.originalname.replace(/[^a-z0-9. -]/gi, "").replace(/\s+/g, "-").toLowerCase()}`);
+      const extension = path.extname(file.originalname).toLowerCase();
+      const basename = path.basename(file.originalname, extension)
+        .replace(/[^a-z0-9-]+/gi, "-")
+        .replace(/^-+|-+$/g, "")
+        .toLowerCase() || "cms-image";
+      cb(null, `${Date.now()}-${id("image").replace(/^image_/, "")}-${basename}${extension}`);
     }
   }),
-  limits: { fileSize: 4 * 1024 * 1024 },
+  limits: { fileSize: 200 * 1024 * 1024 },
   fileFilter: function (_req, file, cb) {
-    if (/^image\/(png|jpe?g|webp|gif|svg\+xml)$/.test(file.mimetype)) return cb(null, true);
-    return cb(new Error("Only image uploads are allowed."));
+    const extension = path.extname(file.originalname).toLowerCase();
+    if (allowedImageExtensions.has(extension) && allowedImageMimeTypes.has(file.mimetype)) return cb(null, true);
+    return cb(new Error("Only jpg, jpeg, png, webp, and svg image uploads are allowed."));
   }
 });
 
@@ -49,6 +61,7 @@ const sections = [
   { permission: "content", id: "how-to-buy", label: "How To Buy / Store Locator", href: "/admin/how-to-buy-page" },
   { permission: "content", id: "about", label: "About Page", href: "/admin/about-page" },
   { permission: "content", id: "contact", label: "Contact Page", href: "/admin/contact-page" },
+  { permission: "blog", id: "blog-page", label: "Blog Page Header", href: "/admin/blog-page" },
   { permission: "blog", id: "blogs", label: "Blogs", href: "/admin/blog" },
   { permission: "faqs", id: "faqs", label: "FAQ Manager", href: "/admin/faqs" },
   { permission: "content", id: "policies", label: "Policies / Terms", href: "/admin/policies-manager" },
@@ -136,7 +149,51 @@ function csv(value) {
 
 function imageUrl(value) {
   const url = text(value).slice(0, 1000);
-  return /^(\/images\/|https?:\/\/)/i.test(url) ? url : "";
+  return /^(\/images\/|\/uploads\/cms\/|https?:\/\/)/i.test(url) ? url : "";
+}
+
+function filesFromRequest(req) {
+  if (Array.isArray(req.files)) return req.files;
+  if (req.file) return [req.file];
+  return [];
+}
+
+function firstFile(req, fieldName) {
+  return filesFromRequest(req).find((file) => file.fieldname === fieldName);
+}
+
+function uploadedPublicPath(file) {
+  return file ? `${uploadPublicBase}/${file.filename}` : "";
+}
+
+function uploadedPublicPaths(files) {
+  return (Array.isArray(files) ? files : []).map(uploadedPublicPath).filter(Boolean);
+}
+
+function assignJsonPath(root, pathValue, value) {
+  const parts = String(pathValue || "").split(".").filter(Boolean);
+  if (!parts.length) return;
+
+  let cursor = root;
+  parts.forEach((part, index) => {
+    const key = /^\d+$/.test(part) ? Number(part) : part;
+    const nextPart = parts[index + 1];
+    if (index === parts.length - 1) {
+      cursor[key] = value;
+      return;
+    }
+    if (cursor[key] === undefined || cursor[key] === null) {
+      cursor[key] = /^\d+$/.test(nextPart) ? [] : {};
+    }
+    cursor = cursor[key];
+  });
+}
+
+function uploadFieldMap(req) {
+  return new Map(asArray(req.body.cmsImageUpload).map((item) => {
+    const [fieldName, pathValue] = String(item || "").split("|");
+    return [fieldName, pathValue];
+  }).filter(([fieldName, pathValue]) => fieldName && pathValue));
 }
 
 function slidePayload(req, existing = {}, uploadedPath = "") {
@@ -150,6 +207,7 @@ function slidePayload(req, existing = {}, uploadedPath = "") {
     buttonText: text(req.body.buttonText) || "Explore",
     buttonLink: text(req.body.buttonLink) || "/product-categories",
     backgroundImage,
+    mobileBackgroundImage: imageUrl(req.body.mobileBackgroundImage) || existing.mobileBackgroundImage || existing.mobileImage || "",
     overlayStrength: clamp(req.body.overlayStrength, existing.overlayStrength || 0.58, 0.18, 0.85),
     order: number(req.body.order, existing.order || 1),
     status: text(req.body.status) || "Active",
@@ -159,14 +217,15 @@ function slidePayload(req, existing = {}, uploadedPath = "") {
   };
 }
 
-function recordUploadedMedia(state, req, publicPath) {
-  if (!publicPath) return;
+function recordUploadedMedia(state, req, publicPath, file, name) {
+  const uploadFile = file || req.file;
+  if (!publicPath || !uploadFile) return;
   state.media.unshift({
     id: id("media"),
-    name: text(req.body.mediaName || req.body.title || req.file.originalname) || req.file.originalname,
+    name: text(name || req.body.mediaName || req.body.name || req.body.title || uploadFile.originalname) || uploadFile.originalname,
     url: publicPath,
-    type: req.file.mimetype,
-    size: req.file.size,
+    type: uploadFile.mimetype,
+    size: uploadFile.size,
     createdAt: now()
   });
 }
@@ -191,6 +250,7 @@ function activeForJsonKey(key) {
     productCategoryPage: "product-category-pages",
     contactPage: "contact",
     aboutPage: "about",
+    blogPage: "blog-page",
     howToBuy: "how-to-buy",
     howToBuyPage: "how-to-buy",
     policies: "policies",
@@ -205,6 +265,7 @@ function routeForJsonKey(key) {
     productCategoryPage: "/admin/product-category-page",
     contactPage: "/admin/contact-page",
     aboutPage: "/admin/about-page",
+    blogPage: "/admin/blog-page",
     howToBuy: "/admin/how-to-buy-page",
     howToBuyPage: "/admin/how-to-buy-page",
     policies: "/admin/policies-manager",
@@ -229,12 +290,21 @@ async function renderJsonManager(res, title, active, key, help) {
 function saveJsonManager(key, action) {
   return async function (req, res) {
     let saved = true;
+    const cmsUploads = uploadFieldMap(req);
+    const files = filesFromRequest(req);
     await mutate((state) => {
       const parsed = parseJson(req.body.value, null);
       if (!parsed) {
         saved = false;
         return;
       }
+      files.forEach((file) => {
+        const pathValue = cmsUploads.get(file.fieldname);
+        if (!pathValue) return;
+        const publicPath = uploadedPublicPath(file);
+        assignJsonPath(parsed, pathValue, publicPath);
+        recordUploadedMedia(state, req, publicPath, file, `${key} ${pathValue}`);
+      });
       state[key] = parsed;
     });
     if (saved) await addAudit(req.session.adminUser.email, action, key, req);
@@ -253,16 +323,16 @@ function saveJsonManager(key, action) {
 }
 
 router.get("/homepage", requirePermission("content"), async function (_req, res) {
-  await renderJsonManager(res, "Homepage Manager | ZUPPIO Admin", "homepage", "homepage", "Controls home hero, responsive hero background image paths, feature cards, category marquee, testimonials, FAQ, and newsletter text. Upload background images in Media Manager, then paste the generated image path into the hero background fields.");
+  await renderJsonManager(res, "Homepage Manager | ZUPPIO Admin", "homepage", "homepage", "Controls home hero, responsive hero backgrounds, feature cards, product category slider cards, testimonials, FAQ, and newsletter text. For Product Categories card images, upload 1200 x 800 px WebP/JPG for best quality.");
 });
 
-router.post("/homepage", requirePermission("content"), saveJsonManager("homepage", "homepage_update"));
+router.post("/homepage", requirePermission("content"), upload.any(), multipartCsrfProtection, saveJsonManager("homepage", "homepage_update"));
 
 router.get("/product-categories-content", requirePermission("categories"), async function (_req, res) {
   await renderJsonManager(res, "Product Categories Page Content | ZUPPIO Admin", "product-categories", "productCategories", "Controls live category cards, category icons, summaries, statuses, and products inside each category.");
 });
 
-router.post("/product-categories-content", requirePermission("categories"), saveJsonManager("productCategories", "product_categories_content_update"));
+router.post("/product-categories-content", requirePermission("categories"), upload.any(), multipartCsrfProtection, saveJsonManager("productCategories", "product_categories_content_update"));
 
 router.get("/product-category-page", requirePermission("categories"), async function (_req, res) {
   res.render("admin/manage", { title: "Product Slider | ZUPPIO Admin", active: "product-category-pages", state: await readState(), kind: "product-category-page" });
@@ -287,7 +357,7 @@ router.post("/product-category-page", requirePermission("categories"), async fun
 });
 
 router.post("/product-category-page/slides", requirePermission("categories"), upload.single("backgroundUpload"), multipartCsrfProtection, async function (req, res) {
-  const uploadedPath = req.file ? `/images/admin-media/${req.file.filename}` : "";
+  const uploadedPath = uploadedPublicPath(req.file);
   await mutate((state) => {
     if (!state.productCategoryPage.suggestionSlides) state.productCategoryPage.suggestionSlides = [];
     const slide = {
@@ -302,7 +372,7 @@ router.post("/product-category-page/slides", requirePermission("categories"), up
 });
 
 router.post("/product-category-page/slides/:id", requirePermission("categories"), upload.single("backgroundUpload"), multipartCsrfProtection, async function (req, res) {
-  const uploadedPath = req.file ? `/images/admin-media/${req.file.filename}` : "";
+  const uploadedPath = uploadedPublicPath(req.file);
   await mutate((state) => {
     const slides = state.productCategoryPage.suggestionSlides || [];
     const item = slides.find((entry) => entry.id === req.params.id);
@@ -331,16 +401,22 @@ router.get("/layout", requirePermission("content"), async function (_req, res) {
   });
 });
 
-router.post("/layout", requirePermission("content"), async function (req, res) {
+router.post("/layout", requirePermission("content"), upload.any(), multipartCsrfProtection, async function (req, res) {
+  const logoFile = firstFile(req, "logoUpload");
+  const backgroundFile = firstFile(req, "backgroundUpload");
+  const logoPath = uploadedPublicPath(logoFile) || imageUrl(req.body.logo);
+  const backgroundPath = uploadedPublicPath(backgroundFile) || imageUrl(req.body.backgroundImage);
   await mutate((state) => {
-    state.header.logo = text(req.body.logo);
+    state.header.logo = logoPath;
     state.footer.brandName = text(req.body.brandName) || state.footer.brandName || state.settings.brandName;
     state.footer.brandText = text(req.body.brandText);
     state.footer.phone = text(req.body.phone);
     state.footer.email = text(req.body.email);
     state.footer.whatsappLink = text(req.body.whatsappLink);
     state.footer.copyrightText = text(req.body.copyrightText);
-    state.footer.backgroundImage = text(req.body.backgroundImage);
+    state.footer.backgroundImage = backgroundPath;
+    recordUploadedMedia(state, req, logoPath, logoFile, "Header logo");
+    recordUploadedMedia(state, req, backgroundPath, backgroundFile, "Footer background");
 
     const navLabels = asArray(req.body.navLabel);
     state.header.navItems = navLabels.map((label, index) => ({
@@ -362,9 +438,12 @@ router.post("/layout", requirePermission("content"), async function (req, res) {
     state.footer.socialLinks = socialLabels.map((label, index) => ({
       label: text(label),
       url: text(asArray(req.body.socialUrl)[index]),
-      icon: text(asArray(req.body.socialIcon)[index]),
+      icon: uploadedPublicPath(firstFile(req, `socialIconUpload${index}`)) || imageUrl(asArray(req.body.socialIcon)[index]),
       visible: req.body[`socialVisible${index}`] === "on"
     })).filter((item) => item.label || item.url || item.icon);
+    state.footer.socialLinks.forEach((item, index) => {
+      recordUploadedMedia(state, req, item.icon, firstFile(req, `socialIconUpload${index}`), `${item.label || "Social"} icon`);
+    });
   });
   await addAudit(req.session.adminUser.email, "layout_update", "header_footer", req);
   const state = await readState();
@@ -375,31 +454,37 @@ router.get("/contact-page", requirePermission("content"), async function (_req, 
   await renderJsonManager(res, "Contact Page Manager | ZUPPIO Admin", "contact", "contactPage", "Controls contact hero, company details, social cards, QR cards, and form heading.");
 });
 
-router.post("/contact-page", requirePermission("content"), saveJsonManager("contactPage", "contact_page_update"));
+router.post("/contact-page", requirePermission("content"), upload.any(), multipartCsrfProtection, saveJsonManager("contactPage", "contact_page_update"));
 
 router.get("/about-page", requirePermission("content"), async function (_req, res) {
   await renderJsonManager(res, "About Page Manager | ZUPPIO Admin", "about", "aboutPage", "Controls About intro, Who We Are, feature cards, story, mission, vision, and values.");
 });
 
-router.post("/about-page", requirePermission("content"), saveJsonManager("aboutPage", "about_page_update"));
+router.post("/about-page", requirePermission("content"), upload.any(), multipartCsrfProtection, saveJsonManager("aboutPage", "about_page_update"));
 
 router.get("/how-to-buy-page", requirePermission("content"), async function (_req, res) {
   await renderJsonManager(res, "How To Buy Manager | ZUPPIO Admin", "how-to-buy", "howToBuy", "Controls finder filters, map details, buying options, tabs, and dealer inquiry content.");
 });
 
-router.post("/how-to-buy-page", requirePermission("content"), saveJsonManager("howToBuy", "how_to_buy_update"));
+router.post("/how-to-buy-page", requirePermission("content"), upload.any(), multipartCsrfProtection, saveJsonManager("howToBuy", "how_to_buy_update"));
 
 router.get("/policies-manager", requirePermission("content"), async function (_req, res) {
   await renderJsonManager(res, "Policies Manager | ZUPPIO Admin", "policies", "policies", "Controls terms cards and policy detail pages.");
 });
 
-router.post("/policies-manager", requirePermission("content"), saveJsonManager("policies", "policies_update"));
+router.post("/policies-manager", requirePermission("content"), upload.any(), multipartCsrfProtection, saveJsonManager("policies", "policies_update"));
+
+router.get("/blog-page", requirePermission("blog"), async function (_req, res) {
+  await renderJsonManager(res, "Blog Page Header | ZUPPIO Admin", "blog-page", "blogPage", "Controls only the blog hero text. The hero artwork stays fixed to the ZUPPIO packet and chips-bowl image used on the website.");
+});
+
+router.post("/blog-page", requirePermission("blog"), upload.any(), multipartCsrfProtection, saveJsonManager("blogPage", "blog_page_update"));
 
 router.get("/seo", requirePermission("settings"), async function (_req, res) {
   await renderJsonManager(res, "SEO Manager | ZUPPIO Admin", "seo", "seo", "Controls meta title, description, OG image, canonical URL, and noindex per page.");
 });
 
-router.post("/seo", requirePermission("settings"), saveJsonManager("seo", "seo_update"));
+router.post("/seo", requirePermission("settings"), upload.any(), multipartCsrfProtection, saveJsonManager("seo", "seo_update"));
 
 router.get("/backup", requirePermission("settings"), async function (_req, res) {
   res.render("admin/backup", {
@@ -497,7 +582,8 @@ router.get("/products", requirePermission("products"), async function (_req, res
   res.render("admin/manage", { title: "Products | ZUPPIO Admin", active: "products", state: await readState(), kind: "products" });
 });
 
-router.post("/products", requirePermission("products"), async function (req, res) {
+router.post("/products", requirePermission("products"), upload.array("productImages", 12), multipartCsrfProtection, async function (req, res) {
+  const productImages = uploadedPublicPaths(req.files);
   await mutate((state) => {
     state.products.unshift({
       id: id("product"),
@@ -509,18 +595,22 @@ router.post("/products", requirePermission("products"), async function (req, res
       weight: text(req.body.weight) || text(req.body.packetSize),
       category: text(req.body.category),
       description: text(req.body.description),
-      images: csv(req.body.images),
+      images: productImages.length ? productImages : csv(req.body.images),
       availability: text(req.body.availability) || "Available",
       offers: text(req.body.offers),
       featured: req.body.featured === "on",
       status: text(req.body.status) || "Active"
+    });
+    productImages.forEach((publicPath, index) => {
+      recordUploadedMedia(state, req, publicPath, req.files[index], `${text(req.body.name) || "Product"} image`);
     });
   });
   await addAudit(req.session.adminUser.email, "product_create", req.body.name, req);
   res.redirect("/admin/products");
 });
 
-router.post("/products/:id", requirePermission("products"), async function (req, res) {
+router.post("/products/:id", requirePermission("products"), upload.array("productImages", 12), multipartCsrfProtection, async function (req, res) {
+  const productImages = uploadedPublicPaths(req.files);
   await mutate((state) => {
     const item = state.products.find((entry) => entry.id === req.params.id);
     if (item) Object.assign(item, {
@@ -532,11 +622,14 @@ router.post("/products/:id", requirePermission("products"), async function (req,
       weight: text(req.body.weight) || text(req.body.packetSize),
       category: text(req.body.category),
       description: text(req.body.description),
-      images: csv(req.body.images),
+      images: productImages.length ? productImages : csv(req.body.images),
       availability: text(req.body.availability),
       offers: text(req.body.offers),
       featured: req.body.featured === "on",
       status: text(req.body.status)
+    });
+    productImages.forEach((publicPath, index) => {
+      recordUploadedMedia(state, req, publicPath, req.files[index], `${text(req.body.name) || "Product"} image`);
     });
   });
   await addAudit(req.session.adminUser.email, "product_update", req.params.id, req);
@@ -578,7 +671,7 @@ router.get("/media", requirePermission("media"), async function (_req, res) {
 
 router.post("/media", requirePermission("media"), upload.single("media"), multipartCsrfProtection, async function (req, res) {
   if (!req.file) return res.redirect("/admin/media");
-  const publicPath = `/images/admin-media/${req.file.filename}`;
+  const publicPath = uploadedPublicPath(req.file);
   await mutate((state) => {
     state.media.unshift({ id: id("media"), name: text(req.body.name) || req.file.originalname, url: publicPath, type: req.file.mimetype, size: req.file.size, createdAt: now() });
   });
@@ -598,10 +691,16 @@ router.get("/swiper", requirePermission("swiper"), async function (_req, res) {
   res.render("admin/manage", { title: "Swiper Images | ZUPPIO Admin", active: "media", state: await readState(), kind: "swiper" });
 });
 
-router.post("/swiper/:id", requirePermission("swiper"), async function (req, res) {
+router.post("/swiper/:id", requirePermission("swiper"), upload.any(), multipartCsrfProtection, async function (req, res) {
+  const desktopImage = uploadedPublicPath(firstFile(req, "desktopUpload")) || imageUrl(req.body.desktopImage);
+  const tabletImage = uploadedPublicPath(firstFile(req, "tabletUpload")) || imageUrl(req.body.tabletImage);
+  const mobileImage = uploadedPublicPath(firstFile(req, "mobileUpload")) || imageUrl(req.body.mobileImage);
   await mutate((state) => {
     const item = state.swiperSlides.find((entry) => entry.id === req.params.id);
-    if (item) Object.assign(item, { title: text(req.body.title), desktopImage: text(req.body.desktopImage), tabletImage: text(req.body.tabletImage), mobileImage: text(req.body.mobileImage), alt: text(req.body.alt), status: text(req.body.status) || "Active" });
+    if (item) Object.assign(item, { title: text(req.body.title), desktopImage, tabletImage, mobileImage, alt: text(req.body.alt), status: text(req.body.status) || "Active" });
+    recordUploadedMedia(state, req, desktopImage, firstFile(req, "desktopUpload"), `${text(req.body.title) || "Swiper"} desktop image`);
+    recordUploadedMedia(state, req, tabletImage, firstFile(req, "tabletUpload"), `${text(req.body.title) || "Swiper"} tablet image`);
+    recordUploadedMedia(state, req, mobileImage, firstFile(req, "mobileUpload"), `${text(req.body.title) || "Swiper"} mobile image`);
   });
   await addAudit(req.session.adminUser.email, "swiper_update", req.params.id, req);
   res.redirect("/admin/swiper");
@@ -701,18 +800,22 @@ router.get("/blog", requirePermission("blog"), async function (_req, res) {
   res.render("admin/manage", { title: "Blogs | ZUPPIO Admin", active: "blogs", state: await readState(), kind: "blog" });
 });
 
-router.post("/blog", requirePermission("blog"), async function (req, res) {
+router.post("/blog", requirePermission("blog"), upload.single("blogImage"), multipartCsrfProtection, async function (req, res) {
+  const blogImage = uploadedPublicPath(req.file) || imageUrl(req.body.image);
   await mutate((state) => {
-    state.blogPosts.unshift({ id: id("blog"), title: text(req.body.title), slug: text(req.body.slug), description: text(req.body.description), content: text(req.body.content), category: text(req.body.category), tags: csv(req.body.tags), image: text(req.body.image), status: text(req.body.status) || "Draft", seoTitle: text(req.body.seoTitle), seoDescription: text(req.body.seoDescription) });
+    state.blogPosts.unshift({ id: id("blog"), title: text(req.body.title), slug: text(req.body.slug), description: text(req.body.description), content: text(req.body.content), category: text(req.body.category), tags: csv(req.body.tags), image: blogImage, status: text(req.body.status) || "Draft", seoTitle: text(req.body.seoTitle), seoDescription: text(req.body.seoDescription) });
+    recordUploadedMedia(state, req, blogImage, req.file, `${text(req.body.title) || "Blog"} image`);
   });
   await addAudit(req.session.adminUser.email, "blog_create", req.body.title, req);
   res.redirect("/admin/blog");
 });
 
-router.post("/blog/:id", requirePermission("blog"), async function (req, res) {
+router.post("/blog/:id", requirePermission("blog"), upload.single("blogImage"), multipartCsrfProtection, async function (req, res) {
+  const blogImage = uploadedPublicPath(req.file) || imageUrl(req.body.image);
   await mutate((state) => {
     const item = state.blogPosts.find((entry) => entry.id === req.params.id);
-    if (item) Object.assign(item, { title: text(req.body.title), slug: text(req.body.slug), description: text(req.body.description), content: text(req.body.content), category: text(req.body.category), tags: csv(req.body.tags), image: text(req.body.image), status: text(req.body.status), seoTitle: text(req.body.seoTitle), seoDescription: text(req.body.seoDescription) });
+    if (item) Object.assign(item, { title: text(req.body.title), slug: text(req.body.slug), description: text(req.body.description), content: text(req.body.content), category: text(req.body.category), tags: csv(req.body.tags), image: blogImage, status: text(req.body.status), seoTitle: text(req.body.seoTitle), seoDescription: text(req.body.seoDescription) });
+    recordUploadedMedia(state, req, blogImage, req.file, `${text(req.body.title) || "Blog"} image`);
   });
   await addAudit(req.session.adminUser.email, "blog_update", req.params.id, req);
   res.redirect("/admin/blog");
