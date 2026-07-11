@@ -1548,6 +1548,17 @@
     padding: 20px 16px;
   }
 
+  .home-choice-section {
+    padding: 0;
+  }
+
+  .home-choice-cta {
+    right: 24.7%;
+    bottom: 10.8%;
+    min-width: 86px;
+    min-height: 7.2%;
+  }
+
   .home-choice-stats {
     grid-template-columns: 1fr;
   }
