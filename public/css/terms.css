@@ -44,7 +44,8 @@
   object-position: left center;
 }
 
-.contact-banner-hero img {
+.contact-banner-hero img,
+.about-banner-hero img {
   object-position: center center;
 }
 

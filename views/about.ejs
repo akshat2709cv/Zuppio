@@ -1,21 +1,15 @@
 <%- include("partials/header") %>
 
 <div class="terms-page shared-snack-hero-wrap">
-  <%- include("partials/snack-page-hero", {
-    snackHero: {
-      id: "about-page-title",
-      breadcrumbTitle: aboutPage.hero.breadcrumbTitle,
-      commandTitle: aboutPage.hero.commandTitle,
-      pageTitle: aboutPage.hero.pageTitle,
-      intro: "Meet the modern Indian snack brand built around bold flavour, joyful crunch, and quality-first growth.",
-      badgesLabel: "About ZUPPIO highlights",
-      badges: [
-        { icon: "badge-check", label: "Quality\nFirst" },
-        { icon: "flame", label: "Bold\nFlavours" },
-        { icon: "rocket", label: "Growing\nVision" }
-      ]
-    }
-  }) %>
+  <section class="terms-banner-hero about-banner-hero" aria-labelledby="about-page-title">
+    <img
+      src="/images/about-banner.png"
+      alt="About ZUPPIO command center with ZUPPIO snacks, biscuits, and drinks"
+      width="2844"
+      height="553"
+    />
+    <h1 id="about-page-title" class="terms-visually-hidden">About ZUPPIO</h1>
+  </section>
 </div>
 
 <section class="section about-intro">
