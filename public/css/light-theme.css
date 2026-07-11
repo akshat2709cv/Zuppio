@@ -513,6 +513,12 @@ p,
     linear-gradient(105deg, #fff4e6 0%, #fffaf4 54%, #fff0dc 100%);
 }
 
+.section .category-contact-panel {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(255, 105, 0, 0.16) 0 2px, transparent 2.5px) 0 0 / 18px 18px,
+    linear-gradient(105deg, #fff4e6 0%, #fffaf4 54%, #fff0dc 100%);
+}
+
 .faq-item button {
   color: var(--text-primary);
 }

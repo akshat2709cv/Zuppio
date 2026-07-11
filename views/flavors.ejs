@@ -32,65 +32,67 @@
   }
 %>
 
-<section class="product-suggestion-section">
-  <div class="swiper product-suggestion-swiper">
-    <div class="swiper-wrapper">
-      <% suggestionSlides.forEach(function(slide) { %>
-        <% const backgroundImage = safeImageUrl(slide.backgroundImage); %>
-        <% const mobileBackgroundImage = safeImageUrl(slide.mobileBackgroundImage || slide.mobileImage); %>
-        <article class="swiper-slide product-suggestion-slide product-banner-slide <%= slide.className || '' %> <%= backgroundImage ? 'has-background' : '' %> <%= mobileBackgroundImage ? 'has-mobile-background' : '' %>" style="<%- backgroundImage ? "--slide-bg-image: url('" + backgroundImage + "');" : "" %> <%- mobileBackgroundImage ? "--slide-mobile-bg-image: url('" + mobileBackgroundImage + "');" : "" %> --slide-overlay: <%= overlayStrength(slide.overlayStrength) %>;" aria-label="<%= slide.title || 'Product banner' %>">
-          <span class="sr-only"><%= slide.title || "Product banner" %></span>
-        </article>
+<div class="product-categories-page-bg">
+  <section class="product-suggestion-section">
+    <div class="swiper product-suggestion-swiper">
+      <div class="swiper-wrapper">
+        <% suggestionSlides.forEach(function(slide) { %>
+          <% const backgroundImage = safeImageUrl(slide.backgroundImage); %>
+          <% const mobileBackgroundImage = safeImageUrl(slide.mobileBackgroundImage || slide.mobileImage); %>
+          <article class="swiper-slide product-suggestion-slide product-banner-slide <%= slide.className || '' %> <%= backgroundImage ? 'has-background' : '' %> <%= mobileBackgroundImage ? 'has-mobile-background' : '' %>" style="<%- backgroundImage ? "--slide-bg-image: url('" + backgroundImage + "');" : "" %> <%- mobileBackgroundImage ? "--slide-mobile-bg-image: url('" + mobileBackgroundImage + "');" : "" %> --slide-overlay: <%= overlayStrength(slide.overlayStrength) %>;" aria-label="<%= slide.title || 'Product banner' %>">
+            <span class="sr-only"><%= slide.title || "Product banner" %></span>
+          </article>
+        <% }) %>
+      </div>
+      <div class="swiper-pagination suggestion-pagination"></div>
+    </div>
+  </section>
+
+  <section class="section category-overview-section">
+    <div class="section-kicker">
+      <p class="eyebrow"><%= overview.label %></p>
+      <h2 id="product-categories"><%= overview.title %></h2>
+    </div>
+
+    <div class="category-grid">
+      <% productCategories.forEach(function(category, index) { %>
+        <% const categoryLink = "/product-categories/" + (category.slug || category.id); %>
+        <a class="category-card category-card-<%= category.slug || category.id %> scroll-reveal" id="<%= category.id %>" href="<%= categoryLink %>" aria-label="View <%= category.name %> category" style="--delay: <%= index * 70 %>ms">
+          <span class="category-status <%= category.status === 'Available' ? 'available' : '' %>"><%= category.status %></span>
+          <div class="category-image-panel">
+            <img class="category-image" src="<%= category.image %>" alt="<%= category.name %> category" />
+          </div>
+          <div>
+            <h2><%= category.name %></h2>
+            <p><%= category.summary %></p>
+          </div>
+          <div class="category-card-actions">
+            <span class="category-view-link">
+              <span>View Category</span>
+              <i data-lucide="arrow-right"></i>
+            </span>
+          </div>
+        </a>
       <% }) %>
     </div>
-    <div class="swiper-pagination suggestion-pagination"></div>
-  </div>
-</section>
+  </section>
 
-<section class="section category-overview-section">
-  <div class="section-kicker">
-    <p class="eyebrow"><%= overview.label %></p>
-    <h2 id="product-categories"><%= overview.title %></h2>
-  </div>
-
-  <div class="category-grid">
-    <% productCategories.forEach(function(category, index) { %>
-      <% const categoryLink = "/product-categories/" + (category.slug || category.id); %>
-      <a class="category-card category-card-<%= category.slug || category.id %> scroll-reveal" id="<%= category.id %>" href="<%= categoryLink %>" aria-label="View <%= category.name %> category" style="--delay: <%= index * 70 %>ms">
-        <span class="category-status <%= category.status === 'Available' ? 'available' : '' %>"><%= category.status %></span>
-        <div class="category-image-panel">
-          <img class="category-image" src="<%= category.image %>" alt="<%= category.name %> category" />
-        </div>
-        <div>
-          <h2><%= category.name %></h2>
-          <p><%= category.summary %></p>
-        </div>
-        <div class="category-card-actions">
-          <span class="category-view-link">
-            <span>View Category</span>
-            <i data-lucide="arrow-right"></i>
-          </span>
-        </div>
+  <section class="section">
+    <div class="product-contact-panel category-contact-panel scroll-reveal">
+      <div>
+        <p class="eyebrow"><%= businessPanel.label %></p>
+        <h2><%= businessPanel.title %></h2>
+        <p><%= businessPanel.text %></p>
+      </div>
+      <div class="category-contact-products" aria-hidden="true">
+        <img class="category-contact-mascot" src="/images/product-categories/zuppio-chips-cartoon-mascot-complete.png" alt="" />
+      </div>
+      <a class="button primary" href="<%= businessPanel.buttonLink %>">
+        <%= businessPanel.buttonText %>
+        <i data-lucide="message-circle"></i>
       </a>
-    <% }) %>
-  </div>
-</section>
-
-<section class="section">
-  <div class="product-contact-panel category-contact-panel scroll-reveal">
-    <div>
-      <p class="eyebrow"><%= businessPanel.label %></p>
-      <h2><%= businessPanel.title %></h2>
-      <p><%= businessPanel.text %></p>
     </div>
-    <div class="category-contact-products" aria-hidden="true">
-      <img class="category-contact-mascot" src="/images/product-categories/zuppio-chips-cartoon-mascot.png" alt="" />
-    </div>
-    <a class="button primary" href="<%= businessPanel.buttonLink %>">
-      <%= businessPanel.buttonText %>
-      <i data-lucide="message-circle"></i>
-    </a>
-  </div>
-</section>
+  </section>
+</div>
 
 <%- include("partials/footer") %>

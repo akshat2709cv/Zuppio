@@ -380,7 +380,7 @@ document.querySelectorAll(".faq-item button").forEach(function (button) {
     const item = button.closest(".faq-item");
     const isOpen = item.classList.toggle("open");
     button.setAttribute("aria-expanded", String(isOpen));
-    setChevronIcon(button, isOpen ? "chevron-up" : "chevron-down");
+    setChevronIcon(button, isOpen ? "minus" : "plus");
   });
 });
 
@@ -402,7 +402,7 @@ document.querySelectorAll("[data-faq-show-more]").forEach(function (button) {
         const faqButton = item.querySelector("button");
         if (faqButton) {
           faqButton.setAttribute("aria-expanded", "false");
-          setChevronIcon(faqButton, "chevron-down");
+          setChevronIcon(faqButton, "plus");
         }
       }
     });

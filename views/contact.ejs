@@ -1,21 +1,15 @@
 <%- include("partials/header") %>
 
 <div class="terms-page shared-snack-hero-wrap">
-  <%- include("partials/snack-page-hero", {
-    snackHero: {
-      id: "contact-page-title",
-      breadcrumbTitle: contactPage.hero.breadcrumbTitle,
-      commandTitle: contactPage.hero.commandTitle,
-      pageTitle: contactPage.hero.pageTitle,
-      intro: "Connect with the ZUPPIO team for customer support, products, retail, distribution, and business enquiries.",
-      badgesLabel: "Contact options",
-      badges: [
-        { icon: "headphones", label: "Helpful\nSupport" },
-        { icon: "message-circle", label: "WhatsApp\nReady" },
-        { icon: "handshake", label: "Business\nEnquiries" }
-      ]
-    }
-  }) %>
+  <section class="terms-banner-hero contact-banner-hero" aria-labelledby="contact-page-title">
+    <img
+      src="/images/contact-banner.png"
+      alt="Contact command center for ZUPPIO with support options and ZUPPIO Italian Tadka snack pack"
+      width="2844"
+      height="553"
+    />
+    <h1 id="contact-page-title" class="terms-visually-hidden">Contact</h1>
+  </section>
 </div>
 
 <section class="section contact-details-section">
