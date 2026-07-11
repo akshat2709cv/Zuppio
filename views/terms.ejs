@@ -37,21 +37,15 @@
 %>
 
 <div class="terms-page">
-  <%- include("partials/snack-page-hero", {
-    snackHero: {
-      id: "terms-page-title",
-      breadcrumbTitle: managedHero.breadcrumbTitle || "Terms & Conditions",
-      commandTitle: managedHero.commandTitle || "LEGAL COMMAND CENTER",
-      pageTitle: managedHero.pageTitle || "TERMS & CONDITIONS",
-      intro: "Everything you need to know about using ZUPPIO. Simple. Transparent. Fair.",
-      badgesLabel: "Our policy commitments",
-      badges: [
-        { icon: "shield-check", label: "Transparent\nPolicies" },
-        { icon: "lock-keyhole", label: "Your Privacy\nMatters" },
-        { icon: "user-round-check", label: "Committed to\nFair Use" }
-      ]
-    }
-  }) %>
+  <section class="terms-banner-hero" aria-labelledby="terms-page-title">
+    <img
+      src="/images/terms-conditions-banner.png"
+      alt="Terms and Conditions for ZUPPIO with policy icons and ZUPPIO snack packs"
+      width="2844"
+      height="553"
+    />
+    <h1 id="terms-page-title" class="terms-visually-hidden">Terms &amp; Conditions</h1>
+  </section>
 
   <section class="terms-legal-content" aria-label="Terms and conditions policies">
     <div class="terms-content-shell">

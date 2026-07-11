@@ -509,6 +509,14 @@
     margin-top: 28px;
   }
 
+  .product-categories-page-bg {
+    padding-top: 14px;
+  }
+
+  .product-categories-page-bg::before {
+    background-size: 190% auto;
+  }
+
   .product-suggestion-slide {
     min-height: 0;
     aspect-ratio: 1200 / 430;
@@ -1412,6 +1420,212 @@
   }
 }
 
+@media (max-width: 1100px) {
+  .home-moments-section {
+    grid-template-columns: 1fr;
+  }
+
+  .home-moments-intro {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 4px 18px;
+  }
+
+  .home-moments-intro span {
+    grid-column: 1;
+  }
+
+  .home-moments-intro a {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin-top: 0;
+  }
+
+  .home-choice-section {
+    grid-template-columns: minmax(300px, 0.95fr) minmax(300px, 1.05fr);
+  }
+
+  .home-choice-visual {
+    min-height: 300px;
+  }
+
+  .home-choice-pack {
+    bottom: 30px;
+  }
+
+  .home-choice-stats {
+    grid-column: 1 / -1;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .home-choice-stats div {
+    min-height: 82px;
+    border-right: 1px solid rgba(59, 42, 26, 0.09);
+    border-bottom: 0;
+    padding: 0 12px 0 0;
+  }
+
+  .home-choice-stats div:last-child {
+    border-right: 0;
+  }
+}
+
+@media (max-width: 820px) {
+  .home-story-sections {
+    width: min(100% - 32px, 1320px);
+  }
+
+  .home-moment-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .home-moment-card {
+    min-height: 160px;
+  }
+
+  .home-moment-card:last-child {
+    grid-column: 1 / -1;
+  }
+
+  .home-choice-section,
+  .home-connect-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-choice-section {
+    min-height: 0;
+  }
+
+  .home-choice-visual {
+    min-height: 320px;
+    transform: none;
+  }
+
+  .home-review-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-review-card {
+    min-height: 150px;
+  }
+
+  .home-newsletter-panel {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 560px) {
+  .home-story-sections {
+    width: min(100% - 24px, 1320px);
+    gap: 14px;
+  }
+
+  .home-moments-intro {
+    display: block;
+    padding: 14px 10px 18px;
+  }
+
+  .home-moments-intro a {
+    margin-top: 14px;
+  }
+
+  .home-moment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-moment-card,
+  .home-moment-card:last-child {
+    min-height: 180px;
+    grid-column: auto;
+  }
+
+  .home-choice-section,
+  .home-reviews-section,
+  .home-faq-panel,
+  .home-newsletter-panel {
+    border-radius: 22px;
+    padding: 20px 16px;
+  }
+
+  .home-choice-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .home-choice-stats div {
+    border-right: 0;
+    border-bottom: 1px solid rgba(59, 42, 26, 0.09);
+    padding: 10px 0;
+  }
+
+  .home-choice-copy h2 {
+    font-size: clamp(2.25rem, 14vw, 3.25rem);
+  }
+
+  .home-choice-feature-grid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .home-choice-visual {
+    min-height: 280px;
+  }
+
+  .home-choice-pack {
+    bottom: 30px;
+    width: 31%;
+  }
+
+  .home-choice-pack-green {
+    width: 36%;
+  }
+
+  .home-choice-quality {
+    right: 2%;
+    bottom: 32px;
+    width: 84px;
+    height: 84px;
+    font-size: 0.72rem;
+  }
+
+  .home-newsletter-panel {
+    min-height: 400px;
+    align-content: start;
+  }
+
+  .home-newsletter-panel .newsletter-card > div {
+    min-height: 0;
+    flex-wrap: wrap;
+    border-radius: 22px;
+    padding: 10px;
+  }
+
+  .home-newsletter-panel .newsletter-card > div > svg {
+    margin-left: 8px;
+  }
+
+  .home-newsletter-panel .newsletter-card input {
+    flex-basis: calc(100% - 48px);
+    min-height: 42px;
+  }
+
+  .home-newsletter-panel .newsletter-card button {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .home-newsletter-perks {
+    display: grid;
+    gap: 8px;
+  }
+
+  .home-newsletter-perks span {
+    min-height: 34px;
+    padding: 0;
+    border-right: 0;
+    font-size: 0.86rem;
+  }
+}
+
 @media (max-width: 360px) {
   .about-preview .about-mini-grid,
   .about-feature-grid,
@@ -1517,6 +1731,7 @@
 
   .category-contact-products {
     width: 100%;
+    height: 150px;
   }
 
   .category-overview-section .category-grid {
@@ -1672,6 +1887,7 @@
   .category-contact-products {
     display: grid;
     width: min(170px, 46vw);
+    height: 150px;
     margin: 6px auto 0;
   }
 

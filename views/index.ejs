@@ -56,32 +56,41 @@
 
   const bestSellers = [
     {
-      name: "ZUPtastic Salted Potato Chips",
-      image: "/images/product-categories/seedha-simple-3d.png",
+      name: "Aloo Snack Italian Tadka Chips",
+      image: "/images/home/bestsellers/italian-tadka-cutout.png",
       price: "₹20.00",
       comparePrice: "₹25.00"
     },
     {
-      name: "Mast Masaledar Potato Chips",
-      image: "/images/product-categories/mast-masaledar-3d.png",
+      name: "Aloo Snack Mast Masaledar Chips",
+      image: "/images/home/bestsellers/mast-masaledar-cutout.png",
       price: "₹20.00",
       comparePrice: "₹25.00"
     },
     {
-      name: "Italian Tadka Potato Chips",
-      image: "/images/product-categories/italian-tadka-3d.png",
+      name: "Aloo Snack Seeda Simple Chips",
+      image: "/images/home/bestsellers/seedha-simple-cutout.png",
       price: "₹20.00",
       comparePrice: "₹25.00"
     },
     {
-      name: "ZUPcereal Banana Chips (Thin)",
-      image: "/images/product-categories/salted-banana-chips.png",
+      name: "Orange Cream Biscuit",
+      image: "/images/home/bestsellers/orange-creme-cutout.png",
+      shape: "biscuit",
       price: "₹20.00",
       comparePrice: "₹25.00"
     },
     {
-      name: "Zuberto Cookies (150g)",
-      image: "/images/product-categories/biscuit-cookies-card.png",
+      name: "Elaichi Cream Biscuit",
+      image: "/images/home/bestsellers/elaichi-creme-cutout.png",
+      shape: "biscuit",
+      price: "₹20.00",
+      comparePrice: "₹25.00"
+    },
+    {
+      name: "Chocolate Cream Biscuit",
+      image: "/images/home/bestsellers/chocolate-creme-cutout.png",
+      shape: "biscuit",
       price: "₹20.00",
       comparePrice: "₹25.00"
     }
@@ -193,8 +202,7 @@
 
     <div class="bestseller-grid">
       <% bestSellers.forEach(function(product) { %>
-        <article class="bestseller-card">
-          <span class="bestseller-badge">Best Seller</span>
+        <article class="bestseller-card bestseller-card-<%= product.shape || 'chips' %>">
           <a class="bestseller-image" href="/product-categories" aria-label="<%= product.name %>">
             <img src="<%= product.image %>" alt="<%= product.name %>" loading="lazy" />
           </a>
@@ -214,70 +222,162 @@
   </div>
 </section>
 
-<section class="section testimonials-section">
-  <div class="section-kicker">
-    <p class="eyebrow"><%= homepage.testimonials.label %></p>
-    <h2><%= homepage.testimonials.title %></h2>
-  </div>
-  <div class="swiper testimonial-swiper">
-    <div class="swiper-wrapper">
-      <% homepage.testimonials.items.forEach(function(item) { %>
-        <article class="swiper-slide testimonial-card">
-          <p><%= item.quote %></p>
-          <span><%= item.author %></span>
+<%
+  const snackMoments = [
+    { title: "Movie Night", image: "/images/home/movie-night-zuppio.png" },
+    { title: "Tea Time", image: "/images/home/tea-time-zuppio.png" },
+    { title: "Travel Buddy", image: "/images/home/travel-buddy-zuppio.png" },
+    { title: "Party Time", image: "/images/home/party-time-zuppio.png" },
+    { title: "Post Workout", image: "/images/home/post-workout-zuppio.png" }
+  ];
+  const faqItems = homepage.faqs.items || [];
+  const faqPreviewLimit = 4;
+%>
+
+<div class="home-story-sections">
+  <section class="home-moments-section" aria-labelledby="snackMomentsTitle">
+    <div class="home-moments-intro">
+      <p>Snack moments,</p>
+      <h2 id="snackMomentsTitle">made better.</h2>
+      <span>Perfect crunch for every mood and moment.</span>
+      <a href="/blogs">Explore Moments <i data-lucide="arrow-right"></i></a>
+    </div>
+    <div class="home-moment-grid">
+      <% snackMoments.forEach(function(moment) { %>
+        <a class="home-moment-card" href="/blogs">
+          <img src="<%= moment.image %>" alt="<%= moment.title %> snack moment" loading="lazy" />
+          <strong><%= moment.title %></strong>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="home-choice-section" aria-labelledby="whyZuppioTitle">
+    <div class="home-choice-copy">
+      <p><i data-lucide="star"></i> Why choose ZUPPIO?</p>
+      <h2 id="whyZuppioTitle">Made with Care. <em>Loved</em> by All.</h2>
+      <span class="home-choice-subcopy">From real ingredients to irresistible flavors, every bite is crafted for your perfect snack time.</span>
+      <div class="home-choice-feature-grid" aria-label="ZUPPIO quality promises">
+        <article>
+          <i data-lucide="leaf"></i>
+          <strong>Premium Ingredients</strong>
+          <span>Selected with care</span>
+        </article>
+        <article>
+          <i data-lucide="shield-check"></i>
+          <strong>Hygienic &amp; Safe</strong>
+          <span>Quality you trust</span>
+        </article>
+        <article>
+          <i data-lucide="smile"></i>
+          <strong>Irresistible Flavors</strong>
+          <span>For every mood</span>
+        </article>
+        <article>
+          <i data-lucide="heart"></i>
+          <strong>Made for Every Moment</strong>
+          <span>Anytime, anywhere</span>
+        </article>
+      </div>
+      <a class="home-choice-cta" href="/about">Discover Zuppio <i data-lucide="arrow-right"></i></a>
+    </div>
+
+    <div class="home-choice-visual">
+      <img class="home-choice-pack home-choice-pack-yellow" src="/images/yellow.png" alt="ZUPPIO Seedha Simple Aloo Snack pack" loading="lazy" />
+      <img class="home-choice-pack home-choice-pack-green" src="/images/green.png" alt="ZUPPIO Italian Tadka Aloo Snack pack" loading="lazy" />
+      <img class="home-choice-pack home-choice-pack-purple" src="/images/purple.png" alt="ZUPPIO Mast Masaledar Aloo Snack pack" loading="lazy" />
+      <span class="home-choice-quality">Quality<br />You Can<br />Trust</span>
+    </div>
+
+    <div class="home-choice-stats" aria-label="ZUPPIO highlights">
+      <div>
+        <i data-lucide="star"></i>
+        <strong>25+</strong>
+        <span>Types of Products</span>
+        <small>And growing</small>
+      </div>
+      <div>
+        <i data-lucide="users-round"></i>
+        <strong>100+</strong>
+        <span>Retail Partners</span>
+        <small>Across India</small>
+      </div>
+      <div>
+        <i data-lucide="heart"></i>
+        <strong>10K+</strong>
+        <span>Happy Customers</span>
+        <small>And counting</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="home-reviews-section" aria-labelledby="reviewsTitle">
+    <div class="home-reviews-heading">
+      <p>What snack lovers say</p>
+      <h2 id="reviewsTitle">Crunch reviews</h2>
+    </div>
+    <div class="home-review-grid">
+      <% homepage.testimonials.items.forEach(function(item, index) { %>
+        <article class="home-review-card">
+          <div class="home-review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+          <p>“<%= item.quote %>”</p>
+          <div>
+            <span class="home-review-avatar"><%= item.author.trim().charAt(0) %></span>
+            <strong><%= item.author %></strong>
+          </div>
         </article>
       <% }) %>
     </div>
-  </div>
-</section>
+  </section>
 
-<section class="section faq-section">
-  <%
-    const faqItems = homepage.faqs.items || [];
-    const faqPreviewLimit = 3;
-    const hasMoreFaqs = faqItems.length > faqPreviewLimit;
-  %>
-  <div class="section-kicker">
-    <p class="eyebrow"><%= homepage.faqs.label %></p>
-    <h2><%= homepage.faqs.title %></h2>
-  </div>
-  <div class="faq-list">
-    <% faqItems.forEach(function(item, index) { %>
-      <article class="faq-item <%= index >= faqPreviewLimit ? 'faq-item-extra' : '' %>" <%= index >= faqPreviewLimit ? "hidden" : "" %>>
-        <button type="button" aria-expanded="false">
-          <span><%= item.question %></span>
+  <section class="home-connect-grid">
+    <div class="home-faq-panel faq-section">
+      <div class="home-panel-heading">
+        <p><%= homepage.faqs.label %></p>
+        <h2><%= homepage.faqs.title %></h2>
+      </div>
+      <div class="faq-list">
+        <% faqItems.forEach(function(item, index) { %>
+          <article class="faq-item <%= index >= faqPreviewLimit ? 'faq-item-extra' : '' %>" <%= index >= faqPreviewLimit ? "hidden" : "" %>>
+            <button type="button" aria-expanded="false">
+              <span><%= item.question %></span>
+              <i data-lucide="plus"></i>
+            </button>
+            <div class="faq-panel"><p><%= item.answer %></p></div>
+          </article>
+        <% }) %>
+      </div>
+      <% if (faqItems.length > faqPreviewLimit) { %>
+        <button class="faq-show-more" type="button" data-faq-show-more aria-label="Show more FAQs" aria-expanded="false">
+          <span>View All FAQs</span>
           <i data-lucide="chevron-down"></i>
         </button>
-        <div class="faq-panel">
-          <p><%= item.answer %></p>
-        </div>
-      </article>
-    <% }) %>
-  </div>
-  <% if (hasMoreFaqs) { %>
-    <button class="faq-show-more" type="button" data-faq-show-more aria-label="Show more FAQs" aria-expanded="false">
-      <i data-lucide="chevron-down"></i>
-    </button>
-  <% } %>
-</section>
-
-<section class="section newsletter-section">
-  <div class="newsletter-panel">
-    <div>
-      <p class="eyebrow"><%= homepage.newsletter.label %></p>
-      <h2><%= homepage.newsletter.title %></h2>
+      <% } %>
     </div>
-    <form class="newsletter-card snack-drop-form" action="/snack-drop-alerts" method="POST">
-      <label for="home-email"><%= homepage.newsletter.fieldLabel %></label>
+
+    <div class="home-newsletter-panel">
       <div>
-        <input id="home-email" name="email" type="email" placeholder="<%= homepage.newsletter.placeholder %>" autocomplete="email" required />
-        <button type="submit" aria-label="Subscribe">
-          <i data-lucide="arrow-right"></i>
-        </button>
+        <p>Stay in the crunch loop</p>
+        <h2>Get the latest launches, offers &amp; snack stories straight to your inbox.</h2>
       </div>
-      <p class="newsletter-status" aria-live="polite"></p>
-    </form>
-  </div>
-</section>
+      <form class="newsletter-card snack-drop-form" action="/snack-drop-alerts" method="POST">
+        <label class="sr-only" for="home-email"><%= homepage.newsletter.fieldLabel %></label>
+        <div>
+          <i data-lucide="mail"></i>
+          <input id="home-email" name="email" type="email" placeholder="Enter your email address" autocomplete="email" required />
+          <button type="submit">
+            Subscribe Now <i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+        <p class="newsletter-status" aria-live="polite"></p>
+      </form>
+      <div class="home-newsletter-perks" aria-label="Newsletter benefits">
+        <span><i data-lucide="badge-percent"></i> Exciting Offers</span>
+        <span><i data-lucide="bell"></i> New Launch Alerts</span>
+        <span><i data-lucide="book-open"></i> Crunchy Stories</span>
+      </div>
+    </div>
+  </section>
+</div>
 
 <%- include("partials/footer") %>
