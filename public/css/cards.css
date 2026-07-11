@@ -4406,19 +4406,45 @@
 .contact-message-form {
   position: relative;
   overflow: hidden;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+    url("/images/contact-message-bg.png") center / cover no-repeat;
+  background-color: #ff7500;
 }
 
 .contact-message-form::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(120deg, rgba(255, 204, 0, 0.1), transparent 38%, rgba(123, 47, 247, 0.12));
+  background: linear-gradient(120deg, rgba(255, 122, 0, 0.04), transparent 44%, rgba(255, 122, 0, 0.08));
   pointer-events: none;
 }
 
 .contact-message-form > * {
   position: relative;
   z-index: 1;
+}
+
+.contact-message-form .button.primary {
+  background: #111111;
+  color: #ffffff;
+  box-shadow: 0 14px 26px rgba(0, 0, 0, 0.22);
+}
+
+.contact-message-form .button.primary:hover {
+  background: #000000;
+}
+
+.contact-message-form input,
+.contact-message-form textarea {
+  border-color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.96);
+  color: #1d1d1d;
+}
+
+.contact-message-form input::placeholder,
+.contact-message-form textarea::placeholder {
+  color: #777777;
 }
 
 .terms-section {
@@ -4562,7 +4588,7 @@
   position: relative;
   display: grid;
   min-height: 330px;
-  grid-template-columns: minmax(260px, 1.25fr) minmax(210px, 0.85fr) minmax(210px, 0.72fr) minmax(270px, 0.9fr);
+  grid-template-columns: minmax(260px, 1.12fr) minmax(200px, 0.68fr) minmax(190px, 0.58fr) minmax(390px, 1fr);
   gap: clamp(18px, 2vw, 36px);
   align-items: center;
   overflow: hidden;
@@ -4680,6 +4706,11 @@
   font-weight: 800;
   overflow-wrap: anywhere;
   transition: color 0.24s ease, transform 0.24s ease;
+}
+
+.footer-contact a:not(.button) {
+  white-space: nowrap;
+  overflow-wrap: normal;
 }
 
 .footer-links a:hover,

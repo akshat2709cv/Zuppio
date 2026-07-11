@@ -245,7 +245,7 @@
   }
 
   .footer {
-    grid-template-columns: minmax(260px, 0.95fr) minmax(0, 1fr);
+    grid-template-columns: minmax(250px, 0.82fr) minmax(430px, 1.18fr);
   }
 
   .footer-contact {
@@ -563,7 +563,7 @@
   }
 
   .footer {
-    grid-template-columns: minmax(240px, 0.9fr) 1fr;
+    grid-template-columns: minmax(220px, 0.78fr) minmax(430px, 1.22fr);
   }
 
   .contact-social-links {
@@ -1200,6 +1200,7 @@
     gap: 9px;
     font-size: 0.74rem;
     line-height: 1.25;
+    white-space: normal;
     overflow-wrap: anywhere;
   }
 

@@ -312,6 +312,13 @@ p,
   box-shadow: var(--shadow);
 }
 
+.contact-message-form {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.04)),
+    url("/images/contact-message-bg.png") center / cover no-repeat;
+  background-color: #ff7500;
+}
+
 .glass-card:hover,
 .simple-card:hover,
 .category-card:hover,
@@ -580,6 +587,18 @@ textarea::placeholder {
   border-color: rgba(255, 122, 0, 0.58);
   background: #ffffff;
   box-shadow: 0 0 0 4px rgba(255, 122, 0, 0.1);
+}
+
+.contact-message-form input,
+.contact-message-form textarea {
+  border-color: rgba(255, 255, 255, 0.82);
+  background: rgba(255, 255, 255, 0.96);
+  color: #1d1d1d;
+}
+
+.contact-message-form input::placeholder,
+.contact-message-form textarea::placeholder {
+  color: #777777;
 }
 
 .form-field label,
